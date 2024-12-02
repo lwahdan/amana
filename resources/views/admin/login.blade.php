@@ -18,9 +18,9 @@
         {{ session('success') }}
     </div>
     @endif
-
-@if (Session::has('error'))
-<li>{{ Session::get('error') }}</li>
+    
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
 @endif
 
     <form method="POST" action="{{ route('admin_login_submit') }}">

@@ -1,0 +1,26 @@
+.users_index{
+    margin-left: 30px;
+
+}
+.custom-select {
+    background-color: #f8f9fa; /* Light gray background */
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 8px; /* Rounded corners */
+    color: #343a40; /* Dark text color */
+    font-weight: 600; /* Semi-bold text */
+    padding: 3px 16px; /* Padding for better spacing */
+    font-size: 1rem; /* Slightly larger font size */
+    outline: none; /* Remove outline on focus */
+    transition: border-color 0.3s ease; /* Smooth border transition */
+    width: 101px;
+
+}
+
+.custom-select:focus {
+    border-color: #0056b3; /* Darker blue on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add subtle shadow */
+}
+
+.custom-select option {
+    padding: 8px; /* Additional padding for dropdown options */
+}
