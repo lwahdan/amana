@@ -9,7 +9,11 @@
         </tr>
         <tr>
             <th>User:</th>
-            <td>{{ $review->user->name }} ({{ $review->user->email }})</td>
+            <td>{{ $review->user->name}}</td>
+        </tr>
+        <tr>
+            <th>User Email:</th>
+            <td>{{ $review->user->email}}</td>
         </tr>
         <tr>
             <th>Service:</th>
@@ -17,7 +21,7 @@
         </tr>
         <tr>
             <th>Service Provider:</th>
-            <td>{{ $review->serviceProvider->user->name ?? 'Not Assigned' }}</td>
+            <td>{{ $review->provider->name ?? 'Not Assigned' }}</td>
         </tr>
         <tr>
             <th>Rating:</th>
@@ -35,6 +39,12 @@
             <th>Submitted At:</th>
             <td>{{ $review->created_at->format('d-m-Y H:i') }}</td>
         </tr>
+        @isset($review->deleted_at)
+        <tr>
+            <th>Dissapproved At:</th>
+            <td>{{ $review->deleted_at->format('d-m-Y H:i') }}</td>
+        </tr>
+        @endisset
     </table>
     <a href="{{ route('reviews.index') }}" class="btn btn-primary">Back to Reviews</a>
 @endsection

@@ -25,7 +25,7 @@
             @foreach ($bookings as $booking)
                 <tr>
                     <td>{{ $booking->id }}</td>
-                    <td>{{ $booking->user->name }}</td>
+                    <td>{{ $booking->user->name ?? 'N/A'}}</td>
                     <td>{{ $booking->service->name }}</td>
                     <td>{{ ucfirst($booking->status) }}</td>
                     <td>{{ $booking->booking_date->format('d-m-Y H:i') }}</td>

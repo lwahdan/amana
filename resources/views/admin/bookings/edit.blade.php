@@ -34,9 +34,9 @@
             <label for="service_provider_id">Service Provider</label>
             <select name="service_provider_id" id="service_provider_id" class="form-control">
                 <option value="">Not Assigned</option>
-                @foreach ($serviceProviders as $provider)
-                    <option value="{{ $provider->id }}" {{ $booking->service_provider_id == $provider->id ? 'selected' : '' }}>
-                        {{ $provider->user->name }}
+                @foreach ($providers as $provider)
+                    <option value="{{ $provider->id }}" {{ $booking->provider_id == $provider->id ? 'selected' : '' }}>
+                        {{ $provider->name }}
                     </option>
                 @endforeach
             </select>

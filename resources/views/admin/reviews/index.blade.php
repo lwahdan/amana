@@ -9,6 +9,8 @@
             <option value="">All</option>
             <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
             <option value="disapproved" {{ request('status') == 'disapproved' ? 'selected' : '' }}>Disapproved</option>
+            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>pending</option>
+
         </select>
     </form>
 
@@ -18,6 +20,7 @@
             <tr>
                 <th>ID</th>
                 <th>User</th>
+                <th>Provider</th>
                 <th>Service</th>
                 <th>Rating</th>
                 <th>Review</th>
@@ -29,8 +32,9 @@
             @foreach ($reviews as $review)
                 <tr>
                     <td>{{ $review->id }}</td>
-                    <td>{{ $review->user->name }}</td>
-                    <td>{{ $review->service->name }}</td>
+                    <td>{{ $review->user->name ?? 'N/A'}}</td>
+                    <td>{{ $review->provider->name ?? 'N/A'}}</td>
+                    <td>{{ $review->service->name ?? 'N/A'}}</td>
                     <td>{{ $review->rating }}</td>
                     <td>{{ $review->review}}</td>
                     <td>{{ ucfirst($review->status) }}</td>

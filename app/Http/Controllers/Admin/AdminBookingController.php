@@ -25,7 +25,7 @@ class AdminBookingController extends Controller
         $query->where('status', $status);
         }
 
-        $bookings = $query->with(['user', 'service'])->paginate(10);
+        $bookings = $query->with(['user', 'service'])->paginate(100);
 
         return view('admin.bookings.index', compact('bookings', 'status'));
     }
@@ -62,7 +62,7 @@ class AdminBookingController extends Controller
      */
     public function show(string $id)
     {
-        $booking = Booking::with(['user', 'service', 'serviceProvider', 'city'])->findOrFail($id);
+        $booking = Booking::with(['user', 'service', 'provider', 'city'])->findOrFail($id);
 
         return view('admin.bookings.show', compact('booking'));
     }
@@ -72,13 +72,13 @@ class AdminBookingController extends Controller
      */
     public function edit(string $id)
     {
-        $booking = Booking::with(['user', 'service', 'serviceProvider', 'city'])->findOrFail($id);
+        $booking = Booking::with(['user', 'service', 'provider', 'city'])->findOrFail($id);
         $users = User::all();
         $services = Service::all();
-        $serviceProviders = Provider::all();
+        $providers = Provider::all();
         $cities = DB::table('cities')->get();
     
-        return view('admin.bookings.edit', compact('booking', 'users', 'services', 'serviceProviders', 'cities'));
+        return view('admin.bookings.edit', compact('booking', 'users', 'services', 'providers', 'cities'));
     }
 
     /**

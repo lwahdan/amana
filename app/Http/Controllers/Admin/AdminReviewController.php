@@ -13,13 +13,24 @@ class AdminReviewController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Review::with(['user', 'service']);
-    
-        if ($request->has('status') && in_array($request->status, ['approved', 'disapproved'])) {
+        //$query = Review::with(['user', 'service', 'provider']);
+        $query = Review::with([
+            'user' => function ($q) {
+                $q->withTrashed();
+            },
+            'provider' => function ($q) {
+                $q->withTrashed();
+            },
+            'service' => function ($q) {
+                $q->withTrashed();
+            },
+        ])->withTrashed();
+
+        if ($request->has('status') && in_array($request->status, ['approved', 'disapproved', 'pending'])) {
             $query->where('status', $request->status);
         }
         
-        $reviews = $query->paginate(10);
+        $reviews = $query->paginate(100);
     
         return view('admin.reviews.index', compact('reviews'));
     }
@@ -55,7 +66,7 @@ class AdminReviewController extends Controller
      */
     public function show(string $id)
     {
-        $review = Review::with(['user', 'service', 'serviceProvider'])->findOrFail($id);
+        $review = Review::with(['user', 'service', 'provider'])->findOrFail($id);
 
         return view('admin.reviews.show', compact('review'));
     }

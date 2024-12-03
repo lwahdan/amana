@@ -11,7 +11,7 @@ class Meeting extends Model
 
     protected $fillable = [
         'user_id',
-        'service_provider_id',
+        'provider_id',
         'meeting_date',
         'meeting_link',
         'status',

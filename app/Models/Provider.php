@@ -40,7 +40,7 @@ class Provider extends Authenticatable
     public function services()
     {
         return $this->belongsToMany(Service::class, 'provider_service', 'provider_id', 'service_id')
-        ->withPivot('rating', 'rate') // Include extra columns from the pivot table
+        ->withPivot('rating') // Include extra columns from the pivot table
         ->withTimestamps(); // Include timestamps from the pivot table
 
     }

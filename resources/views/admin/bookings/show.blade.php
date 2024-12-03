@@ -9,15 +9,15 @@
         </tr>
         <tr>
             <th>User:</th>
-            <td>{{ $booking->user->name }}</td>
+            <td>{{ $booking->user->name ?? 'N/A'}}</td>
         </tr>
         <tr>
             <th>Service:</th>
-            <td>{{ $booking->service->name }}</td>
+            <td>{{ $booking->service->name ?? 'N/A'}}</td>
         </tr>
         <tr>
             <th>Service Provider:</th>
-            <td>{{ $booking->serviceProvider->user->name ?? 'Not Assigned' }}</td>
+            <td>{{ $booking->provider->name ?? 'Not Assigned' }}</td>
         </tr>
         <tr>
             <th>City:</th>
