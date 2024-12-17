@@ -1,45 +1,70 @@
-{{-- @extends('layouts.app')
+@extends('layouts.app')
+@section('title', 'provider login')
+@section('breadcrumb-title', 'provider login')
+@section('breadcrumb-subtitle', 'provider login')
+@section('content')
 
-@section('title', 'Admin Login')
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-provider text-white text-center">
+                        <h3>Provider Login</h3>
+                    </div>
+                    <div class="card-body">
 
-@section('content') --}}
+                        <!-- Session Status -->
+                        <x-auth-session-status class="mb-4" :status="session('status')" />
 
-<div class="login-container">
-    <h1>provider Loginn</h1>
+                        <form method="POST" action="{{ route('provider_login_submit') }}">
+                            @csrf
+                            <!-- Email Address -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">{{ __('Email Address') }}</label>
+                                <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                                    autofocus class="form-control @error('email') is-invalid @enderror">
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-    @if($errors->any())
-    @foreach ($errors->all() as $error)
-    <li>{{$error}}</li>
-    @endforeach
-    @endif
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">{{ __('Password') }}</label>
+                                <input id="password" type="password" name="password" required
+                                    class="form-control @error('password') is-invalid @enderror">
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+                            <!-- Actions -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                @if (Route::has('password.request'))
+                                    <a href="{{ route('password.request') }}" class="text-decoration-none text-provider">
+                                        {{ __('Forgot your password?') }}
+                                    </a>
+                                @endif
+                                <button type="submit" class="btn btn-provider">
+                                    {{ __('Log in') }}
+                                </button>
+                            </div>
+
+                            <!-- Register Option -->
+                            <div class="text-center mt-4">
+                                <p>Don't have an account?
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('provider_register') }}" class="text-decoration-none text-provider">
+                                            Register here
+                                        </a>
+                                    @endif
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    @endif
-    
-@if(session('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
-@endif
+@endsection
 
-    <form method="POST" action="{{ route('provider_login_submit') }}">
-        @csrf
-        <div>
-            <label>Email</label>
-            <input type="email" name="email" required autofocus>
-        </div>
-        <div>
-            <label>Password</label>
-            <input type="password" name="password" required>
-        </div>
-        <div>
-            <label>
-                <input type="checkbox" name="remember"> Remember Me
-            </label>
-        </div>
-        <button type="submit">Login</button>
-    </form>
-</div>
-
-{{-- @endsection --}}

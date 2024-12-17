@@ -74,6 +74,13 @@
                     </div>
                 </div> --}}
             </li>
+            <li class="nav-item">
+                <a  href="{{ route('users.index') }}"  class="nav-link collapsed" 
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Providers</span>
+                </a>
+            </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">

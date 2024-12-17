@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'User Registration')
-@section('breadcrumb-title', 'User Registration')
+@section('title', 'Provider Registration')
+@section('breadcrumb-title', 'Provider Registration')
 @section('breadcrumb-subtitle', 'Create Your Account')
 
 @section('content')
@@ -9,11 +9,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white text-center">
-                    <h3>User Registration</h3>
+                <div class="card-header bg-provider text-white text-center">
+                    <h3>Provider Registration</h3>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('provider_register_submit') }}">
                         @csrf
 
                         <!-- Name -->
@@ -58,11 +58,11 @@
 
                         <!-- Already Registered? -->
                         <div class="d-flex justify-content-between align-items-center mt-4">
-                            <a href="{{ route('login') }}" class="text-decoration-none text-primary">
+                            <a href="{{ route('provider_login') }}" class="text-decoration-none text-provider">
                                 {{ __('Already registered? Log in') }}
                             </a>
 
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-provider">
                                 {{ __('Register') }}
                             </button>
                         </div>

@@ -2,14 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminServiceController;
-use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Providers\ProviderController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminProviderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,9 @@ use App\Http\Controllers\Providers\ProviderController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -38,8 +39,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// website template (shred views)
-Route::get('/home', function () {
+// website template (shared views)
+Route::get('/', function () {
     return view('index');
 });
 
@@ -73,6 +74,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::resource('/users', AdminUserController::class);
     Route::put('/users/{id}/restore', [AdminUserController::class, 'restore'])->name('users.restore');
+    Route::resource('/providers', AdminProviderController::class);
+    Route::put('/providers/{id}/restore', [AdminProviderController::class, 'restore'])->name('providers.restore');
     Route::get('/users/search', [AdminUserController::class, 'search'])->name('users.search');
     Route::resource('/categories', AdminCategoryController::class);
     Route::resource('/services', AdminServiceController::class);
@@ -101,6 +104,8 @@ Route::prefix('provider')->group(function () {
     Route::get('/login', [ProviderController::class, 'login'])->name('provider_login');
     Route::post('/login_submit', [ProviderController::class, 'login_submit'])->name('provider_login_submit');
     Route::get('/logout', [ProviderController::class, 'logout'])->name('provider_logout');
+    Route::get('/register', [ProviderController::class, 'register'])->name('provider_register');
+    Route::post('/register_submit', [ProviderController::class, 'register_submit'])->name('provider_register_submit');
 });
 
 

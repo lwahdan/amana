@@ -6,9 +6,6 @@
 @section('breadcrumb-subtitle','about us')
 @section('content')
 
-   
-
-
     <!-- welcome_docmed_area_start -->
     <div class="welcome_docmed_area">
         <div class="container">
