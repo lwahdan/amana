@@ -273,6 +273,35 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    //services validation
+    const servicesContainer = document.getElementById('services-container');
+    const servicescheckboxes = servicesContainer.querySelectorAll('input[name="services[]"]');
+    const serviceserrorDiv = document.getElementById('services-error');
+
+    // Validate checkboxes on change
+    function validateServices() {
+        const anyChecked = Array.from(servicescheckboxes).some(checkbox => checkbox.checked);
+        if (!anyChecked) {
+            serviceserrorDiv.style.display = 'block';
+        } else {
+            serviceserrorDiv.style.display = 'none';
+        }
+        return anyChecked;
+    }
+
+    // Add change event listeners to all checkboxes
+    servicescheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', validateServices);
+    });
+
+    // Validate on form submission
+    form.addEventListener('submit', function (e) {
+        if (!validateServices()) {
+            e.preventDefault(); // Prevent form submission if validation fails
+            serviceserrorDiv.style.display = 'block';
+        }
+    });
+
     //provider form timeline
     const sections = document.querySelectorAll(".form-section");
     const steps = document.querySelectorAll(".step");

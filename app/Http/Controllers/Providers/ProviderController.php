@@ -109,6 +109,8 @@ class ProviderController extends Controller
             'background_checked' => ['required', 'in:1'],
             'languages_spoken' => ['required', 'array', 'min:1'],
             'languages_spoken.*' => ['string', 'max:50'],
+            'services' => ['required', 'array', 'min:1'], // Validate as an array with at least one service
+            'services.*' => ['integer', 'exists:services,id'], // Ensure each service ID exists in the `services` table
         ]);
 
         // Check if validation fails
@@ -147,6 +149,9 @@ class ProviderController extends Controller
                 'languages_spoken' => json_encode($request->languages_spoken),
 
             ]);
+
+            // Attach selected services to the provider
+            $provider->services()->attach($request->services);
 
             // Log the provider in
             Auth::guard('provider')->login($provider);

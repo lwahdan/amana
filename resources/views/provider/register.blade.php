@@ -280,7 +280,7 @@
                                         <label for="availability" class="form-label">Availability</label>
                                         <textarea id="availability" name="availability" rows="3"
                                             class="form-control @error('availability') is-invalid @enderror" required
-                                            placeholder="Specify days you are available (e.g., Mon-Fri).">
+                                            placeholder="Specify days you are available separated by commas (e.g., Mon-Fri).">
                                             {{ is_array(old('availability')) ? implode(', ', old('availability')) : old('availability') }}</textarea>
                                         @error('availability')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -305,6 +305,63 @@
                                     </div>
                                 </div>
 
+                                <div class="row mb-3">
+
+                                    <!-- Services Provided -->
+                                    <div class="col-md-6" id="services-container">
+                                        <label class="form-label d-block">Services You Provide</label>
+
+                                        <!-- Babysitting -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="service-babysitting"
+                                                name="services[]" value="1"
+                                                {{ in_array('1', old('services', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="service-babysitting">
+                                                Babysitting
+                                            </label>
+                                        </div>
+
+                                        <!-- Nursing -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="service-nursing"
+                                                name="services[]" value="2"
+                                                {{ in_array('2', old('services', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="service-nursing">
+                                                Nursing
+                                            </label>
+                                        </div>
+
+                                        <!-- Elderly Care -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="service-elderlycare"
+                                                name="services[]" value="3"
+                                                {{ in_array('3', old('services', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="service-elderlycare">
+                                                Elderly Care
+                                            </label>
+                                        </div>
+
+                                        @error('services')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
+                                        <!-- Error message container -->
+                                        <div id="services-error" class="text-danger mt-2" style="display: none;">
+                                            Please select at least one service.
+                                        </div>
+                                    </div>
+
+                                    <!-- Languages Spoken -->
+                                    <div class="col-md-6">
+                                        <label for="languages_spoken" class="form-label">Languages Spoken</label>
+                                        <textarea id="languages_spoken" name="languages_spoken" rows="3"
+                                            class="form-control @error('languages_spoken') is-invalid @enderror" required
+                                            placeholder="Enter languages separated by commas (e.g., English, Arabic, French).">{{ is_array(old('languages_spoken')) ? implode(', ', old('languages_spoken')) : old('languages_spoken') }}</textarea>
+                                        @error('languages_spoken')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
                                 <!-- Background Check -->
                                 <div class="row mb-3">
                                     <div class="col-md-12">
@@ -319,17 +376,6 @@
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-
-                                <!-- Languages Spoken -->
-                                <div class="col-md-6">
-                                    <label for="languages_spoken" class="form-label">Languages Spoken</label>
-                                    <textarea id="languages_spoken" name="languages_spoken" rows="3"
-                                        class="form-control @error('languages_spoken') is-invalid @enderror" required
-                                        placeholder="Enter languages separated by commas (e.g., English, Arabic, French).">{{ is_array(old('languages_spoken')) ? implode(', ', old('languages_spoken')) : old('languages_spoken') }}</textarea>
-                                    @error('languages_spoken')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
 
                             </div>
