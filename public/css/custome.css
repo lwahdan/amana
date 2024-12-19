@@ -1,3 +1,4 @@
+/* provider registeration form */
 .btn-provider{
     background-color: #118B50 !important;
     color: white !important;
@@ -16,3 +17,50 @@
     padding: 10px;
     margin-bottom: 15px;
 }
+/* provider Progress Bar Container */
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
+    margin-top: 40px;
+}
+
+/* Steps */
+.step {
+    text-align: center;
+    flex: 1;
+    position: relative;
+}
+
+.step-number {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #ddd;
+    color: #fff;
+    line-height: 30px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.step-title {
+    font-size: 14px;
+}
+
+.step.active .step-number {
+    background-color: #118B50; 
+}
+.form-navigation{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+#next-btn{
+    /* padding: 0px 30px; */
+    margin-left: 20px;
+}
+#submit-btn{
+    margin-left: 20px;
+}
+

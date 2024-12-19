@@ -13,7 +13,27 @@ class Provider extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     protected $guard = 'provider';
-    protected $fillable = ['name', 'email', 'password', 'bio', 'certifications'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'gender',
+        'date_of_birth',
+        'phone',
+        'address',
+        'profile_picture',
+        'years_of_experience',
+        'education',
+        'certifications',
+        'skills',
+        'hourly_rate',
+        'work_shifts',
+        'work_locations',
+        'availability',
+        'bio',
+        'background_checked',
+        'languages_spoken',
+    ];    
     protected $hidden = ['password', 'remember_token'];
     protected $casts = [
         'email_verified_at' => 'datetime',
