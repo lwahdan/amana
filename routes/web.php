@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminServiceController;
 use App\Http\Controllers\Providers\ProviderController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminProviderController;
+use App\Http\Controllers\Providers\ProviderDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,7 +98,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 // Provider Routes
 Route::middleware('provider')->prefix('provider')->group(function () {
-    Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider_dashboard');
+    // Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider_dashboard');
+    Route::get('/profile', [ProviderDashboardController::class, 'profile'])->name('provider.info');
+    Route::get('/bookings', [ProviderDashboardController::class, 'bookings'])->name('provider.bookings');
+    Route::get('/meetings', [ProviderDashboardController::class, 'meetings'])->name('provider.meetings');
+    Route::get('/reviews', [ProviderDashboardController::class, 'reviews'])->name('provider.reviews');
 });
 
 Route::prefix('provider')->group(function () {

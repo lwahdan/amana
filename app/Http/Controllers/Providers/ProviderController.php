@@ -15,15 +15,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProviderController extends Controller
 {
-    public function dashboard()
-    {
-        return view('provider.dashboard');
-    }
+    // public function dashboard()
+    // {
+    //     return view('provider.dashboard');
+    // }
 
     public function login()
     {
         if (Auth::guard('provider')->check()) {
-            return redirect()->route('provider_dashboard');
+            return redirect()->route('provider.info');
         }
         return view('provider.login');
     }
@@ -50,7 +50,7 @@ class ProviderController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ])) {
-            return redirect()->intended(route('provider_dashboard'))->with('success', 'Login successful');
+            return redirect()->intended(route('provider.info'))->with('success', 'Login successful');
         } else {
             return redirect()->route('provider_login')->withErrors([
                 'email' => 'The provided credentials are incorrect.',
@@ -168,7 +168,7 @@ class ProviderController extends Controller
             Auth::guard('provider')->login($provider);
 
             // Redirect to the provider dashboard with a success message
-            return redirect()->route('provider_dashboard')->with('success', 'Registration successful! Welcome to your dashboard.');
+            return redirect()->route('provider.info')->with('success', 'Registration successful! Welcome to your dashboard.');
         } catch (\Exception $e) {
             // Handle unexpected errors (e.g., database issues)
             return redirect()->route('provider_register')->with('error', 'Registration failed! Please try again.');
