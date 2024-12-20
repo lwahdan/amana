@@ -13,7 +13,7 @@
                     <h3>User Registration</h3>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" novalidate>
                         @csrf
 
                         <!-- Name -->
@@ -32,6 +32,20 @@
                             <input id="email" type="email" name="email" class="form-control @error('email') is-invalid @enderror" 
                                    value="{{ old('email') }}" required autocomplete="username">
                             @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input id="phone" type="text" name="phone"
+                                class="form-control @error('phone') is-invalid @enderror"
+                                pattern="^[0-9\s\-\+\(\)]*$"
+                                title="Phone number can only contain numbers, spaces, +, -, and ()"
+                                value="{{ old('phone') }}" required>
+                            <div id="phone-error" class="text-danger"></div>
+                            @error('phone')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

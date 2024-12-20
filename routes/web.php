@@ -91,7 +91,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
  });
  Route::prefix('admin')->group(function () {
     Route::get('/login' ,[ AdminController::class , 'login'])->name('admin_login');
-    Route::post('/login_submit' ,[ AdminController::class , 'login_submit'])->name('admin_login_submit');
+    Route::post('/login_submit' ,[ AdminController::class , 'login_submit'])->middleware('throttle:5,1')->name('admin_login_submit');
     Route::get('/logout' ,[ AdminController::class , 'logout'])->name('admin_logout');
 });
 
@@ -102,7 +102,7 @@ Route::middleware('provider')->prefix('provider')->group(function () {
 
 Route::prefix('provider')->group(function () {
     Route::get('/login', [ProviderController::class, 'login'])->name('provider_login');
-    Route::post('/login_submit', [ProviderController::class, 'login_submit'])->name('provider_login_submit');
+    Route::post('/login_submit', [ProviderController::class, 'login_submit'])->middleware('throttle:5,1')->name('provider_login_submit');
     Route::get('/logout', [ProviderController::class, 'logout'])->name('provider_logout');
     Route::get('/register', [ProviderController::class, 'register'])->name('provider_register');
     Route::post('/register_submit', [ProviderController::class, 'register_submit'])->name('provider_register_submit');

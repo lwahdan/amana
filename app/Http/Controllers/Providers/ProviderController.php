@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class ProviderController extends Controller
@@ -30,20 +31,30 @@ class ProviderController extends Controller
     public function login_submit(request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'required|email|max:255|exists:providers,email',
+            'password' => 'required|min:8',
         ]);
 
-        $check = $request->all();
-        $data = [
-            'email' => $check['email'],
-            'password' => $check['password'],
-        ];
+        // Retrieve the provider based on email
+        $provider = Provider::withTrashed()->where('email', $request->email)->first();
 
-        if (Auth::guard('provider')->attempt($data)) {
-            return redirect()->route('provider_dashboard')->with('success', 'login successfull');
+        // Check if the provider is deactivated (soft deleted)
+        if ($provider && $provider->trashed()) {
+            return redirect()->route('provider_login')->withErrors([
+                'email' => 'Your account has been deactivated. Please contact support.',
+            ]);
+        }
+
+        // Attempt login
+        if (Auth::guard('provider')->attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+        ])) {
+            return redirect()->intended(route('provider_dashboard'))->with('success', 'Login successful');
         } else {
-            return redirect()->route('provider_login')->with('error', 'invalid credentials');
+            return redirect()->route('provider_login')->withErrors([
+                'email' => 'The provided credentials are incorrect.',
+            ]);
         }
     }
 

@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
             /(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}/;
         if (!pattern.test(value)) {
             passwordError.textContent =
-                "Password must be at least 8 characters long, include a letter, a number, and a special character.";
+                "Password must be at least 8 characters long, include an uppercase letter, lowercase letter, a number, and a special character.";
             passwordInput.classList.add("is-invalid");
         } else {
             passwordError.textContent = "";

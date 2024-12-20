@@ -16,7 +16,7 @@
                         <!-- Session Status -->
                         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-                        <form method="POST" action="{{ route('provider_login_submit') }}">
+                        <form method="POST" action="{{ route('provider_login_submit') }}" id="login-form" novalidate>
                             @csrf
                             <!-- Email Address -->
                             <div class="mb-3">
@@ -26,6 +26,8 @@
                                 @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                                <div id="email-error" class="text-danger mt-2" style="display: none;">Please enter a valid
+                                    email address.</div>
                             </div>
 
                             <!-- Password -->
@@ -54,7 +56,8 @@
                             <div class="text-center mt-4">
                                 <p>Don't have an account?
                                     @if (Route::has('register'))
-                                        <a href="{{ route('provider_register') }}" class="text-decoration-none text-provider">
+                                        <a href="{{ route('provider_register') }}"
+                                            class="text-decoration-none text-provider">
                                             Register here
                                         </a>
                                     @endif
@@ -66,5 +69,21 @@
             </div>
         </div>
     </div>
-@endsection
+    <script>
+        //provider login validation
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('email-error');
+        const loginform = document.getElementById('login-form');
 
+        function isValidEmail(email) {
+            return /\S+@\S+\.\S+/.test(email);
+        }
+
+        loginform.addEventListener('submit', function(e) {
+            if (!isValidEmail(emailInput.value.trim())) {
+                e.preventDefault();
+                emailError.style.display = 'block';
+            }
+        });
+    </script>
+@endsection

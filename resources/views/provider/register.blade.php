@@ -25,6 +25,7 @@
         </div>
     </div>
     {{-- progress Timeline end --}}
+    
     <!-- Registration Form start -->
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -35,7 +36,7 @@
                     </div>
                     <div class="card-body">
                         <form id="registration-form" method="POST" action="{{ route('provider_register_submit') }}"
-                            enctype="multipart/form-data">
+                            enctype="multipart/form-data" novalidate>
                             @csrf
 
                             <!-- Section 1: Personal Information -->
@@ -268,8 +269,7 @@
                                         <label for="work_locations" class="form-label">Work Locations</label>
                                         <textarea id="work_locations" name="work_locations" rows="3"
                                             class="form-control @error('work_locations') is-invalid @enderror" required
-                                            placeholder="Enter locations separated by commas (e.g., Amman, Irbid, Aqaba).">
-                                            {{ is_array(old('work_locations')) ? implode(', ', old('work_locations')) : old('work_locations') }}</textarea>
+                                            placeholder="Enter locations separated by commas (e.g., Amman, Irbid, Aqaba).">{{ is_array(old('work_locations')) ? implode(', ', old('work_locations')) : old('work_locations') }}</textarea>
                                         @error('work_locations')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -280,8 +280,7 @@
                                         <label for="availability" class="form-label">Availability</label>
                                         <textarea id="availability" name="availability" rows="3"
                                             class="form-control @error('availability') is-invalid @enderror" required
-                                            placeholder="Specify days you are available separated by commas (e.g., Mon-Fri).">
-                                            {{ is_array(old('availability')) ? implode(', ', old('availability')) : old('availability') }}</textarea>
+                                            placeholder="Specify days you are available separated by commas (e.g., Mon-Fri).">{{ is_array(old('availability')) ? implode(', ', old('availability')) : old('availability') }}</textarea>
                                         @error('availability')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -369,7 +368,7 @@
                                             <input type="checkbox" class="form-check-input" id="background_checked"
                                                 name="background_checked" value="1" required>
                                             <label class="form-check-label" for="background_checked">
-                                                I confirm I agree on a background check.
+                                                I agree on a background check.
                                             </label>
                                         </div>
                                         @error('background_checked')
