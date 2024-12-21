@@ -39,4 +39,9 @@ class Service extends Model
         ->withTimestamps();
     } 
 
+    public function meetings()
+    {
+    return $this->hasMany(Meeting::class);
+    }
+
 }

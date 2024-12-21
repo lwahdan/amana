@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // website template (shared views)
 Route::get('/', function () {
@@ -88,23 +88,27 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 // admin routes
 Route::middleware('admin')->prefix('admin')->group(function () {
-    Route::get('/dashboard' ,[ AdminController::class , 'dashboard'])->name('admin_dashboard');
- });
- Route::prefix('admin')->group(function () {
-    Route::get('/login' ,[ AdminController::class , 'login'])->name('admin_login');
-    Route::post('/login_submit' ,[ AdminController::class , 'login_submit'])->middleware('throttle:5,1')->name('admin_login_submit');
-    Route::get('/logout' ,[ AdminController::class , 'logout'])->name('admin_logout');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
+});
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminController::class, 'login'])->name('admin_login');
+    Route::post('/login_submit', [AdminController::class, 'login_submit'])->middleware('throttle:5,1')->name('admin_login_submit');
+    Route::get('/logout', [AdminController::class, 'logout'])->name('admin_logout');
 });
 
-// Provider Routes
+// Provider protected Routes
 Route::middleware('provider')->prefix('provider')->group(function () {
     // Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider_dashboard');
-    Route::get('/profile', [ProviderDashboardController::class, 'profile'])->name('provider.info');
-    Route::get('/bookings', [ProviderDashboardController::class, 'bookings'])->name('provider.bookings');
-    Route::get('/meetings', [ProviderDashboardController::class, 'meetings'])->name('provider.meetings');
+    Route::get('/profile', [ProviderDashboardController::class, 'showInfo'])->name('provider.info');
+    Route::put('/profile', [ProviderDashboardController::class, 'updateInfo'])->name('provider.info.update');
+    Route::get('/bookings', [ProviderDashboardController::class, 'showbookings'])->name('provider.bookings');
+    Route::put('/provider/bookings/{id}/complete', [ProviderDashboardController::class, 'completebooking'])->name('provider.bookings.complete');
+    Route::get('/meetings', [ProviderDashboardController::class, 'showmeetings'])->name('provider.meetings');
+    Route::put('/provider/meetings/{id}/complete', [ProviderDashboardController::class, 'completemeeting'])->name('provider.meetings.complete');
     Route::get('/reviews', [ProviderDashboardController::class, 'reviews'])->name('provider.reviews');
+    //Route::get('/provider/bookings/{id}', [BookingController::class, 'show'])->name('provider.bookings.show');
 });
-
+//provider routes
 Route::prefix('provider')->group(function () {
     Route::get('/login', [ProviderController::class, 'login'])->name('provider_login');
     Route::post('/login_submit', [ProviderController::class, 'login_submit'])->middleware('throttle:5,1')->name('provider_login_submit');
@@ -112,6 +116,3 @@ Route::prefix('provider')->group(function () {
     Route::get('/register', [ProviderController::class, 'register'])->name('provider_register');
     Route::post('/register_submit', [ProviderController::class, 'register_submit'])->name('provider_register_submit');
 });
-
-
-

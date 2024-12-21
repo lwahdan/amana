@@ -30,4 +30,9 @@ class Meeting extends Model
     {
         return $this->belongsTo(Provider::class);
     }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }
