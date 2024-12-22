@@ -253,4 +253,8 @@
         <!-- Submit Button -->
         <button type="submit" class="btn btn-provider">Update Info</button>
     </form>
+    <form id="logout-form" action="{{ route('provider_logout') }}" method="GET">
+        @csrf
+        <button type="submit">Provider Logout</button>
+    </form> 
 @endsection

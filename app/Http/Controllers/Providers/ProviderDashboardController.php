@@ -38,7 +38,7 @@ class ProviderDashboardController extends Controller
             'bio' => 'nullable|string|max:500',
             'certifications' => 'nullable|string',
             'current_password' => 'nullable|string|current_password:provider',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'gender' => 'required|in:male,female',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'date_of_birth' => 'required|date|before:today',
@@ -70,7 +70,8 @@ class ProviderDashboardController extends Controller
             'work_locations' => json_encode($worklocations),
             'languages_spoken' => json_encode($languagesSpoken),
             'work_shifts' => $workShifts,
-            'password' => bcrypt($validatedData['password']),
+            //'password' => bcrypt($validatedData['password']),
+            'password' => $validatedData['password'] ? bcrypt($validatedData['password']) : $provider->password,
         ]));
         // Sync the services in the pivot table
         $provider->services()->sync($request->services);

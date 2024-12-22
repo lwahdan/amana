@@ -110,3 +110,50 @@
     color: #fff; /* White text */
     font-weight: bold; /* Slight emphasis */
 }
+/* user sidebar  */
+.user-sidebar {
+    /* width: 25%;  */
+    background-color: #f9f9f9; /* Light background */
+    border-right: 1px solid #ddd; /* Subtle divider */
+    /* height: 100vh;  */
+    /* position: fixed;  */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+.user-sidebar-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.user-sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-sidebar-item {
+    margin-bottom: 10px;
+}
+
+.user-sidebar-item a {
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 4px;
+    color: #555;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+
+.user-sidebar-item a:hover {
+    background-color: #5db2fe; /* Hover color */
+    color: #fff; /* White text on hover */
+}
+
+.user-sidebar-item.active a {
+    background-color: #5db2fe; /* Highlight active item */
+    color: #fff; /* White text */
+    font-weight: bold; /* Slight emphasis */
+}

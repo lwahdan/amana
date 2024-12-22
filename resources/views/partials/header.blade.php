@@ -30,7 +30,7 @@
                             <div class="book_btn d-none d-lg-block">
                                 @if (Route::has('login'))
                                     @auth
-                                        <a class="text-decoration-none" href="{{ url('/dashboard') }}">Dashboard</a>
+                                        <a class="text-decoration-none" href="{{ route('user.info') }}">Dashboard</a>
                                     @else
                                         <!-- Trigger Modal -->
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"

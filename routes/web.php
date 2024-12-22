@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminServiceController;
+use App\Http\Controllers\Auth\UserDashboardController;
 use App\Http\Controllers\Providers\ProviderController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminProviderController;
@@ -28,9 +29,23 @@ use App\Http\Controllers\Providers\ProviderDashboardController;
 //     return view('welcome');
 // });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//breeze routes
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+// user protected Routes
+// Route::get('/dashboard', [UserDashboardController::class, 'showInfo'])->middleware('auth')->name('user.info');
+Route::middleware('auth')->prefix('user')->group(function () {
+    Route::get('/profile', [UserDashboardController::class, 'showInfo'])->name('user.info');
+    Route::put('/profile', [UserDashboardController::class, 'updateInfo'])->name('user.info.update');
+    Route::get('/bookings', [UserDashboardController::class, 'showbookings'])->name('user.bookings');
+    // Route::put('/provider/bookings/{id}/complete', [ProviderDashboardController::class, 'completebooking'])->name('provider.bookings.complete');
+    Route::get('/meetings', [UserDashboardController::class, 'showmeetings'])->name('user.meetings');
+    // Route::put('/provider/meetings/{id}/complete', [ProviderDashboardController::class, 'completemeeting'])->name('provider.meetings.complete');
+    Route::get('/reviews', [UserDashboardController::class, 'reviews'])->name('user.reviews');
+    //Route::get('/provider/bookings/{id}', [BookingController::class, 'show'])->name('provider.bookings.show');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
