@@ -58,31 +58,31 @@ require __DIR__ . '/auth.php';
 // website template (shared views)
 Route::get('/', function () {
     return view('index');
-});
+})->name('home');
 
 Route::get('/about', function () {
     return view('about');
-});
+})->name('about');
 
 Route::get('/blog', function () {
     return view('blog');
-});
+})->name('blog');
 
 Route::get('/contact', function () {
     return view('contact');
-});
+})->name('contact');
 
 Route::get('/Department', function () {
     return view('Department');
-});
+})->name('department');
 
 Route::get('/doctors', function () {
     return view('doctors');
-});
+})->name('doctors');
 
 Route::get('/single-blog', function () {
     return view('single-blog');
-});
+})->name('single-blog');
 
 // project routes
 Route::middleware('admin')->prefix('admin')->group(function () {

@@ -1,7 +1,7 @@
 @extends('dashboard')
 
 @section('user-dashboard-content')
-<h1>Bookings</h1>
+<h1 class="user-secondary">Bookings</h1>
 
 <div class="table-responsive">
     <table class="table table-striped">

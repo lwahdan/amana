@@ -6,6 +6,7 @@
                     <div class="col-xl-3 col-lg-2">
                         <div class="logo">
                             <a href="index.html">
+                                {{-- <img src="img/logo.png" alt=""> --}}
                                 <img src="img/logo.png" alt="">
                             </a>
                         </div>
@@ -14,12 +15,12 @@
                         <div class="main-menu  d-none d-lg-block">
                             <nav>
                                 <ul id="navigation" class="nav">
-                                    <li><a class="text-decoration-none" href="/">home</a></li>
-                                    <li><a class="text-decoration-none" href="/Department">Department</a></li>
-                                    <li><a class="text-decoration-none" href="/blog">Blog</a></li>
-                                    <li><a class="text-decoration-none" href="/about">About</a></li>
-                                    <li><a class="text-decoration-none" href="/doctors">Doctors</a></li>
-                                    <li><a class="text-decoration-none" href="/contact">Contact</a></li>
+                                    <li><a class="text-decoration-none" href="{{route('home')}}">home</a></li>
+                                    <li><a class="text-decoration-none" href="{{route('department')}}">Department</a></li>
+                                    <li><a class="text-decoration-none" href="{{route('blog')}}">Blog</a></li>
+                                    <li><a class="text-decoration-none" href="{{route('about')}}">About</a></li>
+                                    <li><a class="text-decoration-none" href="{{route('doctors')}}">Doctors</a></li>
+                                    <li><a class="text-decoration-none" href="{{route('contact')}}">Contact</a></li>
                                 </ul>
                             </nav>
                         </div>

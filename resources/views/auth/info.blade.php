@@ -5,7 +5,7 @@
     @csrf
     @method('PUT')
     <div class="container section-1">
-        <h4 class="text-primary">Personal Information</h4>
+        <h4 class="user-primary">Personal Information</h4>
         <div class="row">
             <!-- Name -->
             <div class="form-group col-md-6">
@@ -86,10 +86,10 @@
         
     </div>
     <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary">Update Info</button>
+    <button type="submit" class="btn-user">Update Info</button>
 </form>
 <form id="logout-form" action="{{ route('logout') }}" method="POST">
     @csrf
-    <button type="submit">Test Logout</button>
+    <button type="submit">user Logout</button>
 </form> 
 @endsection
