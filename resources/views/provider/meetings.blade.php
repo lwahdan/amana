@@ -4,7 +4,7 @@
 <h1>Meetings</h1>
 
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table table-striped table-provider">
         <thead>
             <tr>
                 <th>ID</th>

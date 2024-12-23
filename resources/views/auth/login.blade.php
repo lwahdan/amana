@@ -8,7 +8,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow-sm border-0">
-                    <div class="card-header bg-primary text-white text-center">
+                    <div class="card-header bg-user text-white text-center">
                         <h3>User Login</h3>
                     </div>
                     <div class="card-body">
@@ -43,11 +43,11 @@
                             <!-- Actions -->
                             <div class="d-flex justify-content-between align-items-center">
                                 @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}" class="text-decoration-none">
+                                    <a href="{{ route('password.request') }}" class="text-decoration-none user-primary">
                                         {{ __('Forgot your password?') }}
                                     </a>
                                 @endif
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn my-btn-user">
                                     {{ __('Log in') }}
                                 </button>
                             </div>
@@ -56,7 +56,7 @@
                             <div class="text-center mt-4">
                                 <p>Don't have an account?
                                     @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" class="text-decoration-none text-primary">
+                                        <a href="{{ route('register') }}" class="text-decoration-none user-primary">
                                             Register here
                                         </a>
                                     @endif

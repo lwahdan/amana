@@ -35,8 +35,8 @@
                                 <p>At Amanah, we provide trusted babysitting, nursing, and eldercare services <br>
                                     to ensure your loved ones receive the care they deserve.</p>
                                 <div class="my_slider_btn">
-                                    <a href="#" class="boxed-btn3">JOIN US</a>
-                                    <a href="#" class="boxed-btn3">BOOK NOW</a>
+                                    <a href="{{route('provider_register')}}" class="boxed-btn3">JOIN US</a>
+                                    <a href="{{route('book')}}" class="boxed-btn3">BOOK NOW</a>
                                 </div>
                             </div>
                         </div>
@@ -53,8 +53,8 @@
                                 <p>Whether it’s babysitting, nursing, or eldercare, our skilled team ensures <br>
                                     a safe and nurturing environment for your loved ones.</p>
                                 <div class="my_slider_btn">
-                                    <a href="#" class="boxed-btn3">JOIN US</a>
-                                    <a href="#" class="boxed-btn3">BOOK NOW</a>
+                                    <a href="{{route('provider_register')}}" class="boxed-btn3">JOIN US</a>
+                                    <a href="{{route('book')}}" class="boxed-btn3">BOOK NOW</a>
                                 </div>
                             </div>
                         </div>
@@ -71,8 +71,8 @@
                                 <p>Experience professional care with a personal touch, <br>
                                     tailored to meet your family’s unique needs.</p>
                                 <div class="my_slider_btn">
-                                    <a href="#" class="boxed-btn3">JOIN US</a>
-                                    <a href="#" class="boxed-btn3">BOOK NOW</a>
+                                    <a href="{{route('provider_register')}}" class="boxed-btn3">JOIN US</a>
+                                    <a href="{{route('book')}}" class="boxed-btn3">BOOK NOW</a>
                                 </div>
                             </div>
                         </div>

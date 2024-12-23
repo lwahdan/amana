@@ -57,7 +57,7 @@
                                     <p>Please select how you want to log in:</p>
                                     <div class="d-flex justify-content-center gap-3">
                                         <!-- Button: As a User -->
-                                        <a href="{{ route('login') }}" class="btn btn-primary">As a User</a>
+                                        <a href="{{ route('login') }}" class="btn my-btn-user">As a User</a>
 
                                         <!-- Button: As a Provider -->
                                         <a href="{{ route('provider_login') }}" class="btn btn-provider">As a

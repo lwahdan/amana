@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 use App\Models\ContactMessage;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -80,5 +83,60 @@ class HomeController extends Controller
         return redirect()->route('contact')->with('success', 'Your message has been sent successfully.');
     }
 
+    //view book page
+    public function book()
+    {
+        $services = Service::where('status', true)->get(); // Active services
+        $cities = City::all(); // All cities
+        $providers = Provider::all(); // All providers (filter dynamically based on service if needed)
 
+        return view('book', compact('services', 'cities', 'providers'));
+    }
+
+    public function book_submit(Request $request)
+    {
+        // Check if the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You need to log in to make a booking.');
+        }
+        $request->validate([
+            'service_id' => 'required|exists:services,id',
+            'city_id' => 'required|exists:cities,id',
+            'provider_id' => 'required|exists:providers,id',
+            'booking_date' => 'required|date',
+            'shift' => 'required|in:morning,night,stayin',
+        ]);
+
+        Booking::create([
+            'user_id' => auth()->id(),
+            'service_id' => $request->service_id,
+            'provider_id' => $request->provider_id,
+            'city_id' => $request->city_id,
+            'booking_date' => $request->booking_date,
+            'shift' => $request->shift,
+            'total_price' => $this->calculatePrice($request->provider_id, $request->shift),
+        ]);
+
+        return redirect()->route('book')->with('success', 'Your booking has been successfully submitted.');
+    }
+
+    private function calculatePrice($provider_id, $shift)
+    {
+        // Fetch the provider by ID
+        $provider = Provider::findOrFail($provider_id);
+
+        // Base hourly rate
+        $hourly_rate = $provider->hourly_rate;
+
+        // Calculate total price based on the shift
+        switch ($shift) {
+            case 'morning':
+            case 'night':
+                return $hourly_rate * 12; // 12-hour shift
+            case 'stayin':
+                return $hourly_rate * 24; // 24-hour shift
+            default:
+                throw new \InvalidArgumentException("Invalid shift value: $shift");
+        }
+    }
 }

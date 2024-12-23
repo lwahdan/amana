@@ -5,7 +5,7 @@
         @csrf
         @method('PUT')
         <div class="container section-1">
-            <h4 class="text-provider">Personal Information</h4>
+            <h4 class="provider-primary">Personal Information</h4>
             <div class="row">
                 <!-- Name -->
                 <div class="form-group col-md-4">
@@ -91,7 +91,7 @@
         </div>
 
         <div class="container section-2">
-            <h4 class="text-provider">Professional Information</h4>
+            <h4 class="provider-primary">Professional Information</h4>
             <div class="row">
                 <!-- Years of Experience -->
                 <div class="col-md-6">
@@ -134,7 +134,7 @@
         </div>
 
         <div class="container section-3">
-            <h4 class="text-provider">Work Details</h4>
+            <h4 class="provider-primary">Work Details</h4>
             <div class="row">
                 <!-- Work Shifts -->
                 <div class="col-md-6" id="work-shifts-container">
@@ -206,7 +206,7 @@
         </div>
 
         <div class="container section-4">
-            <h4 class="text-provider">Verification Details</h4>
+            <h4 class="provider-primary mt-3">Verification Details</h4>
             <div class="row">
                 <!-- Bio -->
                 <div class="form-group col-md-12">

@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/book_submit', [HomeController::class, 'book_submit'])->name('book_submit');
 });
 
 require __DIR__ . '/auth.php';
@@ -61,10 +62,13 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/Department', [HomeController::class, 'department'])->name('department');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
-Route::get('/single-blog', [HomeController::class, 'single-blog'])->name('single-blog');
+Route::get('/single-blog', [HomeController::class, 'single_blog'])->name('single-blog');
 Route::get('/team', [HomeController::class, 'team'])->name('team');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact_submit', [HomeController::class, 'contact_submit'])->name('contact_submit');
+Route::get('/book', [HomeController::class, 'book'])->name('book');
+
+
 
 // admin protected routes
 Route::middleware('admin')->prefix('admin')->group(function () {

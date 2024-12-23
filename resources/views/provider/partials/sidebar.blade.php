@@ -1,16 +1,16 @@
 <div class="sidebar">
     <ul class="sidebar-menu">
         <li class="sidebar-item {{ request()->routeIs('provider.info') ? 'active' : '' }}">
-            <a href="{{ route('provider.info') }}">Provider Info</a>
+            <a href="{{ route('provider.info') }}"><i class="fa-solid fa-user"></i>Provider Info</a>
         </li>
         <li class="sidebar-item {{ request()->routeIs('provider.bookings') ? 'active' : '' }}">
-            <a href="{{ route('provider.bookings') }}">Bookings</a>
+            <a href="{{ route('provider.bookings') }}"> <i class="fa-solid fa-calendar-check"></i>Bookings</a>
         </li>
         <li class="sidebar-item {{ request()->routeIs('provider.meetings') ? 'active' : '' }}">
-            <a href="{{ route('provider.meetings') }}">Meetings</a>
+            <a href="{{ route('provider.meetings') }}"><i class="fa-solid fa-video"></i>Meetings</a>
         </li>
         <li class="sidebar-item {{ request()->routeIs('provider.reviews') ? 'active' : '' }}">
-            <a href="{{ route('provider.reviews') }}">Reviews</a>
+            <a href="{{ route('provider.reviews') }}"><i class="fa-solid fa-star"></i>Reviews</a>
         </li>
     </ul>
 </div>
