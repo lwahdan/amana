@@ -15,6 +15,8 @@ class Service extends Model
         'name',
         'description', 
         'price', 
+        'status',
+        'image',
     ];
 
     public function bookings()

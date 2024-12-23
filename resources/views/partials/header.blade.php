@@ -5,10 +5,10 @@
                 <div class="row align-items-center">
                     <div class="col-xl-3 col-lg-2">
                         <div class="logo">
-                            <a href="index.html">
-                                {{-- <img src="img/logo.png" alt=""> --}}
-                                <img src="img/logo.png" alt="">
-                            </a>
+                            {{-- <a href="{{route('home')}}"> --}}
+                                <img class="my-logo-img" src="{{asset('img/amanah/logo2.png')}}"alt="">
+                                <p class="my-logo-text">AMANAH</p>
+                            {{-- </a> --}}
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-7">

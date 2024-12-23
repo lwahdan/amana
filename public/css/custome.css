@@ -360,3 +360,36 @@
     border-color: var(--user-primary-hover);
     transform: translateY(-1px);
 }
+.my-logo-img{
+    width: 55px;
+    height: 40px;
+}
+.logo{
+    display: flex;
+    margin-bottom: -10px;
+}
+.my-logo-text{
+    margin-top: 5px;
+    font-size: 18px;
+}
+.my_slider_btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 30%;
+}
+.my_slider_btn a{
+    text-decoration: none;
+    padding: 15px 35px;
+}
+nav svg {
+    width: 16px; /* Reduce the width */
+    height: 16px; /* Reduce the height */
+}
+.my-logo-text-2{
+    margin-top: 6px;
+    font-size: 23px;
+    /* font-weight: bold; */
+    color: white;
+
+}

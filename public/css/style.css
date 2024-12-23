@@ -1240,6 +1240,9 @@ h3 {
 .slider_bg_2 {
   background-image: url(../img/banner/banner2.png);
 }
+.slider_bg_3 {
+  background-image: url(../img/banner/banner3.png);
+}
 
 /* line 8, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_slider.scss */
 .slider_area .single_slider {
@@ -1262,13 +1265,12 @@ h3 {
   font-family: "Poppins", sans-serif;
   font-size: 70px;
   text-transform: capitalize;
-  letter-spacing: 2px;
   font-weight: 300;
 }
 
 /* line 24, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_slider.scss */
 .slider_area .single_slider .slider_text h3 span {
-  font-weight: 700;
+  font-weight: 500;
 }
 
 @media (max-width: 767px) {
@@ -2230,8 +2232,8 @@ h3 {
 
 /* line 6, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_footer.scss */
 .footer .footer_top {
-  padding-top: 145px;
-  padding-bottom: 129px;
+  padding-top: 60px;
+  padding-bottom: 25px;
   background: #1F1F1F;
 }
 
@@ -2677,8 +2679,8 @@ h3 {
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_department.scss */
 .our_department_area {
   background: #F5FBFF;
-  padding-top: 120px;
-  padding-bottom: 90px;
+  padding-top: 70px;
+  padding-bottom: 80px;
 }
 
 /* line 5, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_department.scss */
@@ -2763,7 +2765,7 @@ h3 {
 
 /* line 2, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_tesmonial.scss */
 .testmonial_area .single-testmonial {
-  padding: 180px 0;
+  padding: 100px 0;
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
@@ -2838,6 +2840,9 @@ h3 {
 .testmonial_bg_2 {
   background-image: url(../img/testmonial/2.png);
 }
+.testmonial_bg_3 {
+  background-image: url(../img/testmonial/3.png);
+}
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_service.scss */
 .service_area {
@@ -2905,8 +2910,8 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_experts.scss */
 .expert_doctors_area {
-  padding-top: 120px;
-  padding-bottom: 120px;
+  padding-top: 85px;
+  padding-bottom: 70px;
 }
 
 /* line 4, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_experts.scss */
