@@ -19,7 +19,7 @@
                                     <li><a class="text-decoration-none" href="{{route('department')}}">Department</a></li>
                                     <li><a class="text-decoration-none" href="{{route('blog')}}">Blog</a></li>
                                     <li><a class="text-decoration-none" href="{{route('about')}}">About</a></li>
-                                    <li><a class="text-decoration-none" href="{{route('doctors')}}">Doctors</a></li>
+                                    <li><a class="text-decoration-none" href="{{route('team')}}">Our Team</a></li>
                                     <li><a class="text-decoration-none" href="{{route('contact')}}">Contact</a></li>
                                 </ul>
                             </nav>

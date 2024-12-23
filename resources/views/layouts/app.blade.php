@@ -46,13 +46,13 @@
     @include('partials.header')
     <!-- Breadcrumb Section -->
     @if (!Request::is('/'))
-        <div class="bradcam_area breadcam_bg bradcam_overlay">
+        <div class="bradcam_area bradcam_overlay">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-12">
-                        <div class="bradcam_text">
+                        <div class="bradcam_text text-center">
                             <h3>@yield('breadcrumb-title', 'Default Title')</h3>
-                            <p><a class="text-decoration-none" href="{{ url('/') }}">Home /</a> @yield('breadcrumb-subtitle', 'Default Subtitle')
+                            <p><a class="text-decoration-none" href="{{ url('/') }}">Home ></a> @yield('breadcrumb-subtitle', 'Default Subtitle')
                             </p>
                         </div>
                     </div>

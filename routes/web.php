@@ -56,34 +56,17 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-// website template (shared views)
+// public site routes(shared views)
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/Department', [HomeController::class, 'department'])->name('department');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('/single-blog', [HomeController::class, 'single-blog'])->name('single-blog');
+Route::get('/team', [HomeController::class, 'team'])->name('team');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::post('/contact_submit', [HomeController::class, 'contact_submit'])->name('contact_submit');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
-Route::get('/Department', function () {
-    return view('Department');
-})->name('department');
-
-Route::get('/doctors', function () {
-    return view('doctors');
-})->name('doctors');
-
-Route::get('/single-blog', function () {
-    return view('single-blog');
-})->name('single-blog');
-
-// project routes
+// admin protected routes
 Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
