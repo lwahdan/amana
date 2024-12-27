@@ -33,7 +33,7 @@ class Provider extends Authenticatable
         'bio',
         'background_checked',
         'languages_spoken',
-    ];    
+    ];
     protected $hidden = ['password', 'remember_token'];
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -47,36 +47,41 @@ class Provider extends Authenticatable
 
     public function users()
     {
-    return $this->hasManyThrough(
-        User::class,
-        Booking::class,
-        'provider_id',    // Foreign key on bookings table
-        'id',             // Foreign key on users table
-        'id',             // Local key on providers table
-        'user_id'         // Local key on bookings table
-    );
+        return $this->hasManyThrough(
+            User::class,
+            Booking::class,
+            'provider_id',    // Foreign key on bookings table
+            'id',             // Foreign key on users table
+            'id',             // Local key on providers table
+            'user_id'         // Local key on bookings table
+        );
     }
 
     public function services()
     {
         return $this->belongsToMany(Service::class, 'provider_service', 'provider_id', 'service_id')
-        ->withPivot('rating') // Include extra columns from the pivot table
-        ->withTimestamps(); // Include timestamps from the pivot table
+            ->withPivot('rating') // Include extra columns from the pivot table
+            ->withTimestamps(); // Include timestamps from the pivot table
 
     }
 
     public function bookings()
     {
-    return $this->hasMany(Booking::class);
+        return $this->hasMany(Booking::class);
     }
 
     public function reviews()
     {
-    return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class);
     }
 
     public function meetings()
     {
-    return $this->hasMany(Meeting::class);
+        return $this->hasMany(Meeting::class);
+    }
+
+    public function cities()
+    {
+        return $this->belongsToMany(City::class, 'city_provider', 'provider_id', 'city_id');
     }
 }

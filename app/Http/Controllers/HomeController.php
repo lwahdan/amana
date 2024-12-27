@@ -103,7 +103,7 @@ class HomeController extends Controller
             'service_id' => 'required|exists:services,id',
             'city_id' => 'required|exists:cities,id',
             'provider_id' => 'required|exists:providers,id',
-            'booking_date' => 'required|date',
+            'booking_date' => 'required|date|after:today',
             'shift' => 'required|in:morning,night,stayin',
         ]);
 
@@ -139,4 +139,25 @@ class HomeController extends Controller
                 throw new \InvalidArgumentException("Invalid shift value: $shift");
         }
     }
+
+    public function getProviders(Request $request)
+    {
+        $service_id = $request->service_id;
+        $city_id = $request->city_id;
+        $shift = $request->shift;
+    
+        // Fetch providers based on the selected criteria
+        $providers = Provider::whereHas('services', function ($query) use ($service_id) {
+                $query->where('services.id', $service_id);
+            })
+            ->whereHas('cities', function ($query) use ($city_id) {
+                $query->where('cities.id', $city_id);
+            })
+            ->whereJsonContains('work_shifts', $shift) // Ensure providers support the selected shift
+            ->get(['id', 'name']); // Fetch only id and name
+    
+        return response()->json($providers);
+    }
+    
+
 }

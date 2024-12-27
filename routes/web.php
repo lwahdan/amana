@@ -67,6 +67,8 @@ Route::get('/team', [HomeController::class, 'team'])->name('team');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact_submit', [HomeController::class, 'contact_submit'])->name('contact_submit');
 Route::get('/book', [HomeController::class, 'book'])->name('book');
+Route::get('/get-providers', [HomeController::class, 'getProviders'])->name('get.providers');
+
 
 
 

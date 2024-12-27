@@ -17,4 +17,14 @@ class City extends Model
     {
     return $this->hasMany(Booking::class);
     }
+
+    public function services()
+    {
+    return $this->hasMany(Service::class);
+    }
+
+    public function providers()
+    {
+        return $this->belongsToMany(Provider::class, 'city_provider', 'city_id', 'provider_id');
+    }
 }
