@@ -56,7 +56,7 @@
                         </h3>
                         <ul>
                             <li><a href="{{route('about')}}" class="text-decoration-none">About</a></li>
-                            <li><a href="{{route('blog')}}" class="text-decoration-none">Blog</a></li>
+                            <li><a href="{{route('blogs.index')}}" class="text-decoration-none">Blogs</a></li>
                             <li><a href="{{route('contact')}}" class="text-decoration-none"> Contact</a></li>
                             <li><a href="#" class="text-decoration-none">Appointment</a></li>
                         </ul>

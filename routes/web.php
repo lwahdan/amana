@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\BlogController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Auth\BlogCommentController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminBookingController;
@@ -26,17 +28,20 @@ use App\Http\Controllers\Providers\ProviderDashboardController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 //breeze routes
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/book_submit', [HomeController::class, 'book_submit'])->name('book_submit');
+});
+
+require __DIR__ . '/auth.php';
 
 // user protected Routes
-// Route::get('/dashboard', [UserDashboardController::class, 'showInfo'])->middleware('auth')->name('user.info');
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/profile', [UserDashboardController::class, 'showInfo'])->name('user.info');
     Route::put('/profile', [UserDashboardController::class, 'updateInfo'])->name('user.info.update');
@@ -48,29 +53,31 @@ Route::middleware('auth')->prefix('user')->group(function () {
     //Route::get('/provider/bookings/{id}', [BookingController::class, 'show'])->name('provider.bookings.show');
 });
 
+//blog routes
+// Public routes
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
+// Authenticated routes
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post('/book_submit', [HomeController::class, 'book_submit'])->name('book_submit');
+    Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create');
+    Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
+    Route::post('/blogs/{blog}/comment', [BlogCommentController::class, 'store'])->name('blogs.comment');
+    Route::post('/blogs/{blog}/like', [BlogController::class, 'like'])->name('blogs.like');
+    Route::post('/blogs/{blog}/favorite', [BlogController::class, 'favorite'])->name('blogs.favorite');
 });
 
-require __DIR__ . '/auth.php';
 
 // public site routes(shared views)
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/Department', [HomeController::class, 'department'])->name('department');
+Route::get('/services', [HomeController::class, 'service'])->name('services');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+// Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/single-blog', [HomeController::class, 'single_blog'])->name('single-blog');
 Route::get('/team', [HomeController::class, 'team'])->name('team');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact_submit', [HomeController::class, 'contact_submit'])->name('contact_submit');
 Route::get('/book', [HomeController::class, 'book'])->name('book');
 Route::get('/get-providers', [HomeController::class, 'getProviders'])->name('get.providers');
-
-
-
 
 // admin protected routes
 Route::middleware('admin')->prefix('admin')->group(function () {

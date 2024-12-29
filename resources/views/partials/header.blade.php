@@ -6,8 +6,8 @@
                     <div class="col-xl-3 col-lg-2">
                         <div class="logo">
                             {{-- <a href="{{route('home')}}"> --}}
-                                <img class="my-logo-img" src="{{asset('img/amanah/logo2.png')}}"alt="">
-                                <p class="my-logo-text">AMANAH</p>
+                            <img class="my-logo-img" src="{{ asset('img/amanah/logo2.png') }}"alt="">
+                            <p class="my-logo-text">AMANAH</p>
                             {{-- </a> --}}
                         </div>
                     </div>
@@ -15,12 +15,12 @@
                         <div class="main-menu  d-none d-lg-block">
                             <nav>
                                 <ul id="navigation" class="nav">
-                                    <li><a class="text-decoration-none" href="{{route('home')}}">home</a></li>
-                                    <li><a class="text-decoration-none" href="{{route('department')}}">Department</a></li>
-                                    <li><a class="text-decoration-none" href="{{route('blog')}}">Blog</a></li>
-                                    <li><a class="text-decoration-none" href="{{route('about')}}">About</a></li>
-                                    <li><a class="text-decoration-none" href="{{route('team')}}">Our Team</a></li>
-                                    <li><a class="text-decoration-none" href="{{route('contact')}}">Contact</a></li>
+                                    <li><a class="text-decoration-none" href="{{ route('home') }}">home</a></li>
+                                    <li><a class="text-decoration-none" href="{{ route('services') }}">Services</a></li>
+                                    <li><a class="text-decoration-none" href="{{ route('blogs.index') }}">Blogs</a></li>
+                                    <li><a class="text-decoration-none" href="{{ route('about') }}">About</a></li>
+                                    <li><a class="text-decoration-none" href="{{ route('team') }}">Our Team</a></li>
+                                    <li><a class="text-decoration-none" href="{{ route('contact') }}">Contact</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -41,6 +41,7 @@
                                 @endif
                             </div>
                         </div>
+                    </div>
                     </div>
 
                     <!-- Modal -->

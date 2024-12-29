@@ -487,8 +487,8 @@
 .my_slider_btn{
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    width: 30%;
+    justify-content: space-evenly;
+    width: 27%;
 }
 .my_slider_btn a{
     text-decoration: none;
@@ -503,4 +503,16 @@ nav svg {
     font-size: 23px;
     /* font-weight: bold; */
     color: white;
+}
+/* forms heads */
+.card-header{
+    padding: 16px !important;
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+input{
+    border-radius: 4px !important;
+}
+.slider_text{
+    padding: 0px 50px;
 }

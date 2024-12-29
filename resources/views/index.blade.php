@@ -235,7 +235,7 @@
                 @foreach ($providers as $provider)
                     <div class="single_expert col-xl-3 col-lg-3 col-md-6 mb-30">
                         <div class="expert_thumb">
-                            <img src="img/experts/1.png" alt="">
+                            <img src="{{ asset($provider->profile_picture) }}" alt="{{ $provider->name }}">
                         </div>
                         <div class="experts_name text-center">
                             <h3>{{ $provider->name }}</h3>
@@ -264,7 +264,7 @@
                             <p>Have questions? Need help with our services? <br> We’re here to assist you 24/7.</p>
                         </div>
                         <div class="info_button">
-                            <a href="tel:+96212345678" class="boxed-btn3-white text-decoration-none">+962 1234 5678</a>
+                            <a href="tel:+96212345678" class="boxed-btn3-white emergency_button">+962 1234 5678</a>
                         </div>
                     </div>
                 </div>
@@ -277,7 +277,7 @@
                             <p>Schedule caregiving services with ease. <br> Call us or book online today.</p>
                         </div>
                         <div class="info_button">
-                            <a href="/reservation" class="boxed-btn3-white text-decoration-none">Make an Appointment</a>
+                            <a href="/reservation" class="boxed-btn3-white emergency_button">Make an Appointment</a>
                         </div>
                     </div>
                 </div>

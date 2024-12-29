@@ -26,6 +26,29 @@ body {
   font-style: normal;
   overflow-x: hidden;
 }
+/* Reset padding, margin, and box-sizing for all elements */
+/* for consistent style accross different browsers start */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3, p, ul {
+  margin: 0;
+  padding: 0;
+}
+/* for consistent style accross different browsers end */
+
 
 /* line 12, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/theme-default.scss */
 .img {
@@ -483,6 +506,8 @@ h3 {
   -o-transition: 0.5s;
   transition: 0.5s;
   cursor: pointer;
+  text-decoration: none;
+  background-color: var(--user-primary-hover);
 }
 
 /* line 80, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_btn.scss */
@@ -837,7 +862,7 @@ h3 {
 
 /* line 15, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
 .header-area .main-header-area {
-  padding: 18px 0;
+  padding: 18px 40px;
   background: #fff;
 }
 
@@ -1322,6 +1347,8 @@ h3 {
 .welcome_docmed_area {
   padding-top: 120px;
   padding-bottom: 220px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 @media (max-width: 767px) {
@@ -2678,8 +2705,7 @@ h3 {
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_department.scss */
 .our_department_area {
   background: #F5FBFF;
-  padding-top: 70px;
-  padding-bottom: 80px;
+  padding: 60px 50px; 
 }
 
 /* line 5, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_department.scss */
@@ -2909,8 +2935,7 @@ h3 {
 
 /* line 1, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_experts.scss */
 .expert_doctors_area {
-  padding-top: 85px;
-  padding-bottom: 70px;
+  padding: 50px 50px;
 }
 
 /* line 4, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_experts.scss */

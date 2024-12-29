@@ -21,11 +21,11 @@ class HomeController extends Controller
     }
 
     //view department page
-    public function department()
+    public function service()
     {
         $services = Service::where('status', 1)->get();
         $providers = Provider::with('services')->paginate(8);
-        return view('Department', compact(['services', 'providers']));
+        return view('services', compact(['services', 'providers']));
     }
 
     //view about page
@@ -35,10 +35,10 @@ class HomeController extends Controller
     }
 
     //view blog page
-    public function blog()
-    {
-        return view('blog');
-    }
+    // public function blog()
+    // {
+    //     return view('blog');
+    // }
 
     //view single blog page
     public function single_blog()

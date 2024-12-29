@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white text-center">
+                <div class="card-header bg-user text-white text-center">
                     <h3>User Registration</h3>
                 </div>
                 <div class="card-body">
@@ -72,11 +72,11 @@
 
                         <!-- Already Registered? -->
                         <div class="d-flex justify-content-between align-items-center mt-4">
-                            <a href="{{ route('login') }}" class="text-decoration-none text-primary">
+                            <a href="{{ route('login') }}" class="text-decoration-none user-primary">
                                 {{ __('Already registered? Log in') }}
                             </a>
 
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn-user">
                                 {{ __('Register') }}
                             </button>
                         </div>
