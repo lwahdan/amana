@@ -22,7 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phone', 
+        'phone',
         'address',
     ];
 
@@ -48,32 +48,36 @@ class User extends Authenticatable
 
     public function bookings()
     {
-    return $this->hasMany(Booking::class);
+        return $this->hasMany(Booking::class);
     }
     public function reviews()
     {
-    return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class);
     }
 
     public function contactMessages()
     {
-    return $this->hasMany(ContactMessage::class);
+        return $this->hasMany(ContactMessage::class);
     }
 
     public function meetings()
     {
-    return $this->hasMany(Meeting::class);
+        return $this->hasMany(Meeting::class);
     }
 
     public function providers()
-{
-    return $this->hasManyThrough(
-        Provider::class,  // Final target model
-        Booking::class,   // Intermediate model
-        'user_id',        // Foreign key on bookings table
-        'id',             // Foreign key on providers table
-        'id',             // Local key on users table
-        'provider_id'     // Local key on bookings table
-    );
-}
+    {
+        return $this->hasManyThrough(
+            Provider::class,  // Final target model
+            Booking::class,   // Intermediate model
+            'user_id',        // Foreign key on bookings table
+            'id',             // Foreign key on providers table
+            'id',             // Local key on users table
+            'provider_id'     // Local key on bookings table
+        );
+    }
+
+    public function blog(){
+        return $this->hasMany(Blog::class , 'writer_id');
+    }
 }

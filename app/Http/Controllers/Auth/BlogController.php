@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\Blog;
 use App\Models\BlogFavorite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class BlogController extends Controller
@@ -14,7 +15,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::where('status', 'approved')->paginate(10);
+        $blogs = Blog::withCount('comments')->where('status', 'approved')->paginate(10);
         return view('blogs.index', compact('blogs'));
     }
 
@@ -54,8 +55,16 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
+        // Increment views
         $blog->increment('views');
-        return view('blogs.show', compact('blog'));
+        // Reload with counts
+        $blog = $blog->loadCount(['comments', 'favorites']);
+        // Check the user's like and favorite state
+        $user = auth()->user();
+        $hasLiked = $user ? $blog->likes()->where('user_id', $user->id)->exists() : false;
+        $isFavorited = $user ? $blog->favorites()->where('user_id', $user->id)->exists() : false;
+
+        return view('blogs.show', compact('blog', 'hasLiked', 'isFavorited'));
     }
 
     /**
@@ -82,15 +91,57 @@ class BlogController extends Controller
         //
     }
 
-    public function like(Blog $blog)
+    public function like(Request $request, Blog $blog)
     {
-        $blog->increment('likes');
-        return back()->with('success', 'You liked the blog.');
+        if (!auth()->check()) {
+            // Log::info('Unauthorized user attempted to favorite a blog.');
+            return response()->json(['error' => 'You must log in to like a blog.'], 403);
+        }
+
+        $user = auth()->user();
+        $alreadyLiked = $blog->likes()->where('user_id', $user->id)->exists();
+
+        if ($alreadyLiked) {
+            // If already liked, remove the like
+            $blog->likes()->where('user_id', $user->id)->delete();
+            $message = 'You unliked the blog.';
+        } else {
+            // Otherwise, add a like
+            $blog->likes()->create(['user_id' => $user->id]);
+            $message = 'You liked the blog';
+        }
+
+        // Update the likes count in the blogs table
+        $likesCount = $blog->likes()->count();
+        $blog->update(['likes' => $likesCount]);
+
+        return response()->json([
+            'likes' => $likesCount,
+            'message' => $message,
+        ]);
     }
 
-    public function favorite(Blog $blog)
+    public function toggleFavorite(Request $request, Blog $blog)
     {
-        BlogFavorite::firstOrCreate(['user_id' => auth()->id(), 'blog_id' => $blog->id]);
-        return back()->with('success', 'Blog added to favorites.');
+        if (!auth()->check()) {
+            // Log::info('Unauthorized user attempted to favorite a blog.');
+            return response()->json(['error' => 'You must log in to favorite a blog.'], 403);
+        }
+
+        $user = auth()->user();
+        $favorite = $blog->favorites()->where('user_id', $user->id)->first();
+
+        if ($favorite) {
+            $favorite->delete(); // Remove from favorites
+            $message = 'Removed from favorites';
+        } else {
+            $blog->favorites()->create(['user_id' => $user->id]); // Add to favorites
+            $message = 'Added to favorites';
+        }
+
+        return response()->json([
+            'favorites_count' => $blog->favorites()->count(),
+            'message' => $message,
+        ]);
     }
 }

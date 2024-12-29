@@ -516,3 +516,21 @@ input{
 .slider_text{
     padding: 0px 50px;
 }
+/* blog */
+.blog-card-title{
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--user-primary);
+    margin-bottom: 10px;
+}
+.blog-card-title:hover{
+    color: var(--user-primary-hover);
+}
+.btn-blog{
+    background-color: var(--user-primary) !important;
+    border-color: var(--user-primary) !important;
+    color: white !important;
+}
+#favorites-count{
+    font-size: 14px !important;
+}

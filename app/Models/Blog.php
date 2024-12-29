@@ -26,4 +26,13 @@ class Blog extends Model
         return $this->hasMany(BlogFavorite::class);
     }
 
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+    public function likes(){
+        return $this->hasMany(BlogLike::class);
+    }
+
 }

@@ -9,7 +9,7 @@
    <section class="blog_area single-post-area section-padding">
       <div class="container">
          <div class="row">
-            <div class="col-lg-8 posts-list">
+            <div class="col-lg-12 posts-list">
                <div class="single-post">
                   <div class="feature-img">
                      <img class="img-fluid" src="img/blog/single_blog_1.png" alt="">
@@ -33,14 +33,14 @@
                         fraction of the camp price. However, who has the willpower to actually sit through a
                         self-imposed MCSE training. who has the willpower to actually
                      </p>
-                     <div class="quote-wrapper">
+                     {{-- <div class="quote-wrapper">
                         <div class="quotes">
                            MCSE boot camps have its supporters and its detractors. Some people do not understand why you
                            should have to spend money on boot camp when you can get the MCSE study materials yourself at
                            a fraction of the camp price. However, who has the willpower to actually sit through a
                            self-imposed MCSE training.
                         </div>
-                     </div>
+                     </div> --}}
                      <p>
                         MCSE boot camps have its supporters and its detractors. Some people do not understand why you
                         should have to spend money on boot camp when you can get the MCSE study materials yourself at a
@@ -236,7 +236,7 @@
                   </form>
                </div>
             </div>
-            <div class="col-lg-4">
+            {{-- <div class="col-lg-4">
                <div class="blog_right_sidebar">
                   <aside class="single_sidebar_widget search_widget">
                      <form action="#">
@@ -409,7 +409,7 @@
                      </form>
                   </aside>
                </div>
-            </div>
+            </div> --}}
          </div>
       </div>
    </section>

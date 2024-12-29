@@ -4628,7 +4628,7 @@ h6 {
 
 /* line 10, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_blog.scss */
 .blog_area a {
-  color: #666666 !important;
+  /* color: #666666 !important; */
   text-decoration: none;
   -webkit-transition: 0.5s;
   transition: 0.5s;

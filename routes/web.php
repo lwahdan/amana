@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
     Route::post('/blogs/{blog}/comment', [BlogCommentController::class, 'store'])->name('blogs.comment');
     Route::post('/blogs/{blog}/like', [BlogController::class, 'like'])->name('blogs.like');
-    Route::post('/blogs/{blog}/favorite', [BlogController::class, 'favorite'])->name('blogs.favorite');
+    Route::post('/blogs/{blog}/favorites', [BlogController::class, 'toggleFavorite'])->name('blogs.toggleFavorite');
 });
 
 

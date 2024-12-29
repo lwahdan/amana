@@ -14,4 +14,17 @@ class Authenticate extends Middleware
     {
         return $request->expectsJson() ? null : route('login');
     }
+
+    /**
+     * Handle unauthenticated requests.
+     * Handles both AJAX and non-AJAX unauthenticated requests.
+     */
+    protected function unauthenticated($request, array $guards)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'You must log in to favorite a blog.'], 401);
+        }
+
+        parent::unauthenticated($request, $guards); // Redirects non-AJAX to login
+    }
 }

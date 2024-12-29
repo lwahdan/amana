@@ -84,4 +84,8 @@ class Provider extends Authenticatable
     {
         return $this->belongsToMany(City::class, 'city_provider', 'provider_id', 'city_id');
     }
+
+    public function blog(){
+        return $this->hasMany(Blog::class , 'writer_id');
+    }
 }

@@ -46,4 +46,8 @@ class Service extends Model
     return $this->hasMany(Meeting::class);
     }
 
+    public function blogs(){
+        return $this->hasMany(Blog::class);
+    }
+
 }
