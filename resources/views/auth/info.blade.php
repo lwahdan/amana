@@ -88,8 +88,8 @@
     <!-- Submit Button -->
     <button type="submit" class="btn-user">Update Info</button>
 </form>
-<form id="logout-form" action="{{ route('logout') }}" method="POST">
+{{-- <form id="logout-form" action="{{ route('logout') }}" method="POST">
     @csrf
     <button type="submit">user Logout</button>
-</form> 
+</form>  --}}
 @endsection

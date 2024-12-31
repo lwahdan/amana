@@ -17,7 +17,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::withCount('comments')->where('status', 'approved')->orderBy('created_at', 'desc')->paginate(10);
+        $blogs = Blog::withCount('comments')->where('status', 'approved')->orderBy('updated_at', 'desc')->paginate(10);
         $services = Service::all();
         return view('blogs.index', compact(['blogs', 'services']));
     }
@@ -98,25 +98,42 @@ class BlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Blog $blog)
     {
-        //
+        $services = Service::where('status', 1)->get();
+        return view('blogs.edit', compact(['blog', 'services']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Blog $blog)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'service_id' => 'required|exists:services,id',
+            'description' => 'required|string|max:500',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = $request->only(['title', 'service_id', 'description', 'content']);
+        $data['image'] = $request->hasFile('image') ? $request->file('image')->store('blogs', 'public') : null;
+        // Set status to 'pending' for admin approval
+        $data['status'] = 'pending';
+
+        $blog->update($data);
+
+        return redirect()->route('blogs.index')->with('success', 'Blog updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Blog $blog)
     {
-        //
+        $blog->delete();
+        return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully.');
     }
 
     public function like(Request $request, Blog $blog)
@@ -187,5 +204,4 @@ class BlogController extends Controller
 
         return view('blogs.index', compact('blogs', 'services', 'service'));
     }
-
 }

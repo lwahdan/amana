@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Blog;
+
 
 class UserDashboardController extends Controller
 {
@@ -52,26 +54,26 @@ class UserDashboardController extends Controller
         return redirect()->back()->with('success', 'Information updated successfully.');
     }
 
-     // show user's bookings
-     public function showbookings()
-     {
-         $user = Auth::guard('web')->user();
-         $bookings = Booking::with(['provider', 'service'])
-             ->where('user_id', $user->id)
-             ->orderBy('booking_date', 'desc')
-             ->get();
- 
-         return view('auth.bookings', compact('bookings'));
-     }
+    // show user's bookings
+    public function showbookings()
+    {
+        $user = Auth::guard('web')->user();
+        $bookings = Booking::with(['provider', 'service'])
+            ->where('user_id', $user->id)
+            ->orderBy('booking_date', 'desc')
+            ->get();
 
-     //show user's meetings
+        return view('auth.bookings', compact('bookings'));
+    }
+
+    //show user's meetings
     public function showmeetings()
     {
-        $user = Auth::guard('web')->user(); 
+        $user = Auth::guard('web')->user();
         $meetings = Meeting::with(['provider', 'service'])
-        ->where('user_id', $user->id)
-        ->orderBy('meeting_date', 'desc')
-        ->get();
+            ->where('user_id', $user->id)
+            ->orderBy('meeting_date', 'desc')
+            ->get();
 
         return view('auth.meetings', compact('meetings'));
     }
@@ -79,11 +81,26 @@ class UserDashboardController extends Controller
     //show user's reviews
     public function reviews()
     {
-        $user = Auth::guard('web')->user(); 
+        $user = Auth::guard('web')->user();
         $reviews = Review::with(['provider', 'service'])
-        ->where('user_id', $user->id)
-        ->get();
+            ->where('user_id', $user->id)
+            ->get();
 
         return view('auth.reviews', compact('reviews'));
+    }
+
+    //show user's favorites
+    public function showFavorites()
+    {
+        $favorites = Auth::user()->favorites()->with('writer')->get();
+        return view('auth.favorites', compact('favorites'));
+    }
+
+    //show user's blogs
+    public function showBlogs()
+    {
+        $user = Auth::guard('web')->user();
+        $blogs = Blog::where('writer_id', $user->id)->orderBy('created_at', 'desc')->get();
+        return view('auth.blogs', compact('blogs'));
     }
 }

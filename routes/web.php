@@ -51,6 +51,8 @@ Route::middleware('auth')->prefix('user')->group(function () {
     // Route::put('/provider/meetings/{id}/complete', [ProviderDashboardController::class, 'completemeeting'])->name('provider.meetings.complete');
     Route::get('/reviews', [UserDashboardController::class, 'reviews'])->name('user.reviews');
     //Route::get('/provider/bookings/{id}', [BookingController::class, 'show'])->name('provider.bookings.show');
+    Route::get('/favorites', [UserDashboardController::class, 'showFavorites'])->name('user.favorites');
+    Route::get('/blogs', [UserDashboardController::class, 'showBlogs'])->name('user.blogs');
 });
 
 //blog routes
@@ -62,6 +64,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/blogs/{blog}/like', [BlogController::class, 'like'])->name('blogs.like');
     Route::post('/blogs/{blog}/favorites', [BlogController::class, 'toggleFavorite'])->name('blogs.toggleFavorite');
     Route::post('/comments/{comment}/reply', [BlogCommentController::class, 'reply'])->name('comments.reply');
+    Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+    Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+    Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
 });
 // Public blog routes
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
