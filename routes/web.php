@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-// user protected Routes
+// user protected Routes (user dashboard)
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('/profile', [UserDashboardController::class, 'showInfo'])->name('user.info');
     Route::put('/profile', [UserDashboardController::class, 'updateInfo'])->name('user.info.update');
@@ -54,25 +54,25 @@ Route::middleware('auth')->prefix('user')->group(function () {
 });
 
 //blog routes
-// Public routes
-Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
-Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
-// Authenticated routes
+// Authenticated blog routes
 Route::middleware('auth')->group(function () {
     Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create');
     Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
     Route::post('/blogs/{blog}/comment', [BlogCommentController::class, 'store'])->name('blogs.comment');
     Route::post('/blogs/{blog}/like', [BlogController::class, 'like'])->name('blogs.like');
     Route::post('/blogs/{blog}/favorites', [BlogController::class, 'toggleFavorite'])->name('blogs.toggleFavorite');
+    Route::post('/comments/{comment}/reply', [BlogCommentController::class, 'reply'])->name('comments.reply');
 });
+// Public blog routes
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
+Route::get('/blogs/service/{service}', [BlogController::class, 'filterByService'])->name('blogs.filterByService');
 
 
 // public site routes(shared views)
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/services', [HomeController::class, 'service'])->name('services');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-// Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
-Route::get('/single-blog', [HomeController::class, 'single_blog'])->name('single-blog');
 Route::get('/team', [HomeController::class, 'team'])->name('team');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact_submit', [HomeController::class, 'contact_submit'])->name('contact_submit');
@@ -117,6 +117,9 @@ Route::middleware('provider')->prefix('provider')->group(function () {
     Route::put('/provider/meetings/{id}/complete', [ProviderDashboardController::class, 'completemeeting'])->name('provider.meetings.complete');
     Route::get('/reviews', [ProviderDashboardController::class, 'reviews'])->name('provider.reviews');
     //Route::get('/provider/bookings/{id}', [BookingController::class, 'show'])->name('provider.bookings.show');
+    // provider blog routes
+    Route::get('/blogs/create', [BlogController::class, 'create'])->name('provider.blogs.create');
+    Route::post('/blogs/store', [BlogController::class, 'store'])->name('provider.blogs.store');
 });
 //provider routes
 Route::prefix('provider')->group(function () {

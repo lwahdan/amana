@@ -248,7 +248,7 @@
             </div>
         </div>
     </div>
-    {{ $providers->links() }}
+    <div class="providers_pagination"> {{ $providers->links() }} </div>
     <!-- providers_area_end -->
 
     <!-- Emergency_contact start -->

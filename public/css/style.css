@@ -299,11 +299,11 @@ h3 {
   position: absolute;
   content: "";
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#5db2ff+0,7db9e8+100&1+24,0+96 */
-  background: -moz-linear-gradient(left, #5db2ff 0%, #65b4f9 24%, rgba(124, 185, 233, 0) 96%, rgba(125, 185, 232, 0) 100%);
+  background: -moz-linear-gradient(left, #5db2ff 0%, #65b4f9 24%, rgba(124, 185, 233, 0.3) 96%, rgba(125, 185, 232, 0.2) 100%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, #5db2ff 0%, #65b4f9 24%, rgba(124, 185, 233, 0) 96%, rgba(125, 185, 232, 0) 100%);
+  background: -webkit-linear-gradient(left, #5db2ff 0%, #65b4f9 24%, rgba(124, 185, 233, 0.3) 96%, rgba(125, 185, 232, 0.2) 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, #5db2ff 0%, #65b4f9 24%, rgba(124, 185, 233, 0) 96%, rgba(125, 185, 232, 0) 100%);
+  background: linear-gradient(to right, #5db2ff 0%, #65b4f9 24%, rgba(124, 185, 233, 0.3) 96%, rgba(125, 185, 232, 0.2) 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5db2ff', endColorstr='#007db9e8',GradientType=1 );
   /* IE6-9 */
@@ -317,7 +317,7 @@ h3 {
 
 /* line 212, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/theme-default.scss */
 .section-padding {
-  padding: 120px 100px;
+  padding: 60px 100px;
 }
 
 /* line 216, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/theme-default.scss */
@@ -404,7 +404,7 @@ h3 {
   background: #fff;
   color: #131313;
   display: inline-block;
-  padding: 18px 44px;
+  padding: 13px 44px;
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -415,6 +415,7 @@ h3 {
   color: #009DFF !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 /* line 17, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_btn.scss */
@@ -2261,6 +2262,7 @@ h3 {
   padding-top: 60px;
   padding-bottom: 25px;
   background: #1F1F1F;
+  padding-left: 20px;
 }
 
 @media (max-width: 767px) {
@@ -5831,13 +5833,14 @@ h6 {
 /* line 1332, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_blog.scss */
 .comments-area h5 {
   font-size: 16px;
-  margin-bottom: 0px;
+  margin-bottom: 5px;
+  font-weight: 500;
 }
 
 /* line 1341, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_blog.scss */
-.comments-area .comment-list {
+/* .comments-area .comment-list {
   padding-bottom: 48px;
-}
+} */
 
 /* line 1344, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_blog.scss */
 .comments-area .comment-list:last-child {
@@ -5891,14 +5894,14 @@ h6 {
 }
 
 /* line 1391, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_blog.scss */
-.comments-area .btn-reply {
+/* .comments-area .btn-reply {
   background-color: transparent;
   color: #888888;
   padding: 5px 18px;
   font-size: 14px;
   display: block;
   font-weight: 400;
-}
+} */
 
 /* line 1408, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_blog.scss */
 .comment-form {
@@ -5915,8 +5918,8 @@ h6 {
 
 /* line 1420, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_blog.scss */
 .comment-form h4 {
-  margin-bottom: 40px;
-  font-size: 18px;
+  margin-bottom: 30px;
+  font-size: 25px;
   line-height: 22px;
 }
 

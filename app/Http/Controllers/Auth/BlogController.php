@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Blog;
+use App\Models\Service;
+use App\Models\BlogComment;
 use App\Models\BlogFavorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,8 +17,9 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::withCount('comments')->where('status', 'approved')->paginate(10);
-        return view('blogs.index', compact('blogs'));
+        $blogs = Blog::withCount('comments')->where('status', 'approved')->orderBy('created_at', 'desc')->paginate(10);
+        $services = Service::all();
+        return view('blogs.index', compact(['blogs', 'services']));
     }
 
     /**
@@ -24,7 +27,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('blogs.create');
+        $services = Service::where('status', 1)->get();
+        return view('blogs.create', compact('services'));
     }
 
     /**
@@ -33,18 +37,31 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required|max:500',
-            'content' => 'required',
-            'service_id' => 'required',
+            'title' => 'required|string|max:255',
+            'service_id' => 'required|exists:services,id',
+            'description' => 'required|string|max:500',
+            'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        $data = $request->all();
-        $data['writer_id'] = auth()->id();
-        $data['writer_type'] = get_class(auth()->user());
-        $data['status'] = 'pending';
-        $data['image'] = $request->hasFile('image') ? $request->file('image')->store('blogs') : null;
 
+        $data = $request->all();
+
+        // Check if the user is logged in as a provider or user
+        if (auth('provider')->check()) {
+            $data['writer_id'] = auth('provider')->id();
+            $data['writer_type'] = get_class(auth('provider')->user());
+        } elseif (auth('web')->check()) {
+            $data['writer_id'] = auth('web')->id();
+            $data['writer_type'] = get_class(auth('web')->user());
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Set default status and handle image upload
+        $data['status'] = 'pending';
+        $data['image'] = $request->hasFile('image') ? $request->file('image')->store('blogs', 'public') : null;
+
+        // Create the blog
         Blog::create($data);
 
         return redirect()->route('blogs.index')->with('success', 'Blog submitted for approval.');
@@ -59,12 +76,23 @@ class BlogController extends Controller
         $blog->increment('views');
         // Reload with counts
         $blog = $blog->loadCount(['comments', 'favorites']);
+        // Paginate approved comments
+        $comments = $blog->comments()->where('status', 'approved')->whereNull('parent_id')->paginate(5);
         // Check the user's like and favorite state
         $user = auth()->user();
         $hasLiked = $user ? $blog->likes()->where('user_id', $user->id)->exists() : false;
         $isFavorited = $user ? $blog->favorites()->where('user_id', $user->id)->exists() : false;
 
-        return view('blogs.show', compact('blog', 'hasLiked', 'isFavorited'));
+        // Fetch the previous post (by ID, created_at, or another criteria)
+        $prevBlog = Blog::where('id', '<', $blog->id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $nxtBlog = Blog::where('id', '>', $blog->id)
+            ->orderBy('id', 'asc')
+            ->first();
+
+        return view('blogs.show', compact('blog', 'comments', 'hasLiked', 'isFavorited', 'prevBlog', 'nxtBlog'));
     }
 
     /**
@@ -144,4 +172,20 @@ class BlogController extends Controller
             'message' => $message,
         ]);
     }
+
+    // filter blogs by service
+    public function filterByService(Service $service)
+    {
+        // Fetch blogs associated with the selected service
+        $blogs = Blog::withCount('comments')
+            ->where('service_id', $service->id)
+            ->where('status', 'approved')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        $services = Service::all(); // Fetch all services for the category list
+
+        return view('blogs.index', compact('blogs', 'services', 'service'));
+    }
+
 }

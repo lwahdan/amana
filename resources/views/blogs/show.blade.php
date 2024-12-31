@@ -10,16 +10,19 @@
 
                     <div class="single-post">
                         <div class="feature-img d-flex justify-content-center mb-4">
-                            <img class="img-fluid" src="{{ asset($blog->image) }}" alt="{{ $blog->name }}">
+                            <img src="{{ asset('storage/' . $blog->image) }}" class="single-blog-img"
+                                alt="{{ $blog->title }}">
+                            {{-- <img class="img-fluid single-blog-img" src="{{ asset($blog->image) }}" alt="{{ $blog->name }}"> --}}
                         </div>
                         <div class="blog_details">
                             <h2>
                                 {{ $blog->title }}
                             </h2>
                             <ul class="blog-info-link mt-3 mb-4">
-                                <li><a href="#"><i class="fa fa-user"></i>{{ $blog->service->name }}</a></li>
+                                <li><a href="#"><i class="fa-solid fa-bars"></i>{{ $blog->service->name }}</a></li>
                                 <li><a href="#"><i class="fa fa-comments"></i> {{ $blog->comments_count }}
                                         Comments</a></li>
+                                <li><a href="#"><i class="fa fa-user"></i> By : {{ $blog->writer->name }}</a></li>
                             </ul>
                             <p class="excert">
                                 {{ $blog->content }}
@@ -36,7 +39,7 @@
                                         <i class="fa-solid fa-thumbs-up {{ $hasLiked ? 'text-primary' : '' }}"></i>
                                     </button>
                                 </span>
-                                <span id="likes-count">{{ $blog->likes }}</span> people like this
+                                <span id="likes-count">{{ $blog->likes }} people like this</span>
                             </p>
 
                             <div class="col-sm-4 text-center my-2 my-sm-0">
@@ -44,7 +47,8 @@
                                     <span class="align-middle" id="favorite-btn">
                                         <i class="fa-solid fa-heart {{ $isFavorited ? 'text-danger' : '' }}"></i>
                                     </span>
-                                    <span id="favorites-count">{{ $blog->favorites_count }} people added to favorites</span>
+                                    <span id="favorites-count">{{ $blog->favorites_count }} people added to
+                                        favorites</span>
                                 </p>
                             </div>
 
@@ -54,128 +58,96 @@
                                 <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
                             </ul>
                         </div>
+
                         <div class="navigation-area">
                             <div class="row">
                                 <div
                                     class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-                                    <div class="thumb">
-                                        <a href="#">
-                                            <img class="img-fluid" src="img/post/preview.png" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="arrow">
-                                        <a href="#">
-                                            <span class="lnr text-white ti-arrow-left"></span>
-                                        </a>
-                                    </div>
-                                    <div class="detials">
-                                        <p>Prev Post</p>
-                                        <a href="#">
-                                            <h4>Space The Final Frontier</h4>
-                                        </a>
-                                    </div>
+                                    @if ($prevBlog)
+                                        <div class="thumb">
+                                            <a href="{{ route('blogs.show', $prevBlog->id) }}">
+                                                <img src="{{ asset('storage/' . $prevBlog->image) }}" class="blog-prev-img"
+                                                    alt="{{ $prevBlog->title }}">
+                                                {{-- <img class="img-fluid blog-prev-img" src="{{ asset($prevBlog->image) }}" alt="{{ $prevBlog->title }}"> --}}
+                                            </a>
+                                        </div>
+                                        <div class="arrow">
+                                            <a href="{{ route('blogs.show', $prevBlog->id) }}">
+                                                <span class="lnr text-white ti-arrow-left"></span>
+                                            </a>
+                                        </div>
+                                        <div class="detials">
+                                            <p>Prev Blog</p>
+                                            <a href="{{ route('blogs.show', $prevBlog->id) }}">
+                                                <h4>{{ $prevBlog->title }}</h4>
+                                            </a>
+                                        </div>
+                                    @else
+                                        <p>No previous blog</p>
+                                    @endif
                                 </div>
+
                                 <div
                                     class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-                                    <div class="detials">
-                                        <p>Next Post</p>
-                                        <a href="#">
-                                            <h4>Telescopes 101</h4>
-                                        </a>
-                                    </div>
-                                    <div class="arrow">
-                                        <a href="#">
-                                            <span class="lnr text-white ti-arrow-right"></span>
-                                        </a>
-                                    </div>
-                                    <div class="thumb">
-                                        <a href="#">
-                                            <img class="img-fluid" src="img/post/next.png" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blog-author">
-                        <div class="media align-items-center">
-                            <img src="{{ $blog->writer->profile_picture ?? asset('img/blog/author.png') }}"
-                                alt="{{ $blog->writer->name }}">
-                            {{-- <img src="{{ $blog->writer_type === 'App\Models\Provider' ? $blog->writer->profile_picture : asset('img/blog/author.png') }}" 
-                    alt="{{ $blog->writer->name }}"> --}}
-                            <div class="media-body">
-                                <a href="#">
-                                    <h4>{{ $blog->writer->name }}</h4>
-                                </a>
-                                <p>{{ $blog->writer->email }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comments-area">
-                        <h4>05 Comments</h4>
-                        <div class="comment-list">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/comment/comment_1.png" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <p class="comment">
-                                            Multiply sea night grass fourth day sea lesser rule open subdue female fill
-                                            which them
-                                            Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
-                                        </p>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex align-items-center">
-                                                <h5>
-                                                    <a href="#">Emilly Blunt</a>
-                                                </h5>
-                                                <p class="date">December 4, 2017 at 3:12 pm </p>
-                                            </div>
-                                            <div class="reply-btn">
-                                                <a href="#" class="btn-reply text-uppercase">reply</a>
-                                            </div>
+                                    @if ($nxtBlog)
+                                        <div class="detials">
+                                            <p>Next Blog</p>
+                                            <a href="{{ route('blogs.show', $nxtBlog->id) }}">
+                                                <h4>{{ $nxtBlog->title }}</h4>
+                                            </a>
                                         </div>
-                                    </div>
+                                        <div class="arrow">
+                                            <a href="{{ route('blogs.show', $nxtBlog->id) }}">
+                                                <span class="lnr text-white ti-arrow-right"></span>
+                                            </a>
+                                        </div>
+                                        <div class="thumb">
+                                            <a href="{{ route('blogs.show', $nxtBlog->id) }}">
+                                                <img src="{{ asset('storage/' . $nxtBlog->image) }}" class="blog-prev-img"
+                                                    alt="{{ $nxtBlog->title }}">
+                                                {{-- <img class="img-fluid blog-prev-img" src="{{ asset($nxtBlog->image) }}" alt="{{ $nxtBlog->title }}"> --}}
+                                            </a>
+                                        </div>
+                                    @else
+                                        <p>No next blog</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="comments-area">
+                        <h4>{{ $comments->total() }} Comments</h4>
+                        @foreach ($comments as $comment)
+                            @include('blogs.partials.comment', ['comment' => $comment])
+                        @endforeach
+                        <!-- Pagination for Top-Level Comments -->
+                        <div class="mt-4">
+                            {{ $comments->links() }}
+                        </div>
+                    </div>
+
                     <div class="comment-form">
-                        <h4>Leave a Reply</h4>
-                        <form class="form-contact comment_form" action="#" id="commentForm">
+                        <h4>Leave a Comment</h4>
+                        <form class="form-contact comment_form" method="POST"
+                            action="{{ route('blogs.comment', $blog->id) }}" id="commentForm">
+                            @csrf
+                            <input type="hidden" name="blog_id" value="{{ $blog->id }}">
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-11">
                                     <div class="form-group">
-                                        <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
+                                        <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="1"
                                             placeholder="Write Comment"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="name" id="name" type="text"
-                                            placeholder="Name">
-                                    </div>
+                                <div class="form-group col-1">
+                                    <button type="submit" class="button button-contactForm btn_1 boxed-btn"><i
+                                            class="fa-solid fa-arrow-right"></i></button>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control" name="email" id="email" type="email"
-                                            placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="website" id="website" type="text"
-                                            placeholder="Website">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="button button-contactForm btn_1 boxed-btn">Send
-                                    Message</button>
                             </div>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -293,8 +265,8 @@
                     if (data.likes !== undefined) {
                         document.getElementById('likes-count').innerText = `${data.likes} people like this`;
 
-                         // Optional: Update the like icon or style dynamically
-                         const likeIcon = document.querySelector('#like-btn i');
+                        // Optional: Update the like icon or style dynamically
+                        const likeIcon = document.querySelector('#like-btn i');
                         if (data.message === 'You liked the blog') {
                             likeIcon.classList.add('text-primary'); // Highlight the heart
                         } else {
