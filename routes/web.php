@@ -83,6 +83,8 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact_submit', [HomeController::class, 'contact_submit'])->name('contact_submit');
 Route::get('/book', [HomeController::class, 'book'])->name('book');
 Route::get('/get-providers', [HomeController::class, 'getProviders'])->name('get.providers');
+Route::get('/provider/info/{id}', [HomeController::class, 'providerInfo'])->name('show.provider.info');
+
 
 // admin protected routes
 Route::middleware('admin')->prefix('admin')->group(function () {

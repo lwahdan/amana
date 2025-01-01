@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Providers;
 
+use App\Models\City;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
@@ -69,7 +70,8 @@ class ProviderController extends Controller
      */
     public function register()
     {
-        return view('provider.register');
+        $cities = City::all();
+        return view('provider.register', compact('cities'));
     }
 
     /**
@@ -78,14 +80,12 @@ class ProviderController extends Controller
     public function register_submit(request $request)
     {
         $skillsArray = array_map('trim', explode(',', $request->skills)); // Convert comma-separated string to an array
-        $workLocationsArray = array_map('trim', explode(',', $request->work_locations));
         $availabilityArray = array_map('trim', explode(',', $request->availability));
         $languagesSpokenArray = array_map('trim', explode(',', $request->languages_spoken));
 
         // Merge the processed arrays back into the request
         $request->merge([
             'skills' => $skillsArray,
-            'work_locations' => $workLocationsArray,
             'availability' => $availabilityArray,
             'languages_spoken' => $languagesSpokenArray,
         ]);
@@ -112,7 +112,7 @@ class ProviderController extends Controller
             'work_shifts' => ['required', 'array', 'min:1'],
             'work_shifts.*' => ['in:morning,night,stay-in'], // Validate each selected shift
             'work_locations' => ['required', 'array', 'min:1'], // Validate as an array
-            'work_locations.*' => ['string'], // Ensure each location is a string
+            'work_locations.*' => ['exists:cities,id'], // Ensure each location is a string
             'availability' => ['required', 'array', 'min:1'], // Validate as an array
             'availability.*' => ['string'], // Ensure each availability entry is a string
             //verification details
@@ -121,7 +121,7 @@ class ProviderController extends Controller
             'languages_spoken' => ['required', 'array', 'min:1'],
             'languages_spoken.*' => ['string', 'max:50'],
             'services' => ['required', 'array', 'min:1'], // Validate as an array with at least one service
-            'services.*' => ['integer', 'exists:services,id'], // Ensure each service ID exists in the `services` table
+            'services.*' => ['exists:services,id'], // Ensure each service ID exists in the `services` table
         ]);
 
         // Check if validation fails
@@ -153,7 +153,6 @@ class ProviderController extends Controller
                 'skills' => json_encode($request->skills),
                 'hourly_rate' => $request->hourly_rate,
                 'work_shifts' => json_encode($request->work_shifts), // Convert array to JSON
-                'work_locations' => json_encode($request->work_locations),
                 'availability' => json_encode($request->availability),
                 'bio' => $request->bio,
                 'background_checked' => $request->background_checked,
@@ -163,6 +162,8 @@ class ProviderController extends Controller
 
             // Attach selected services to the provider
             $provider->services()->attach($request->services);
+            $provider->cities()->attach($request->work_locations);
+
 
             // Log the provider in
             Auth::guard('provider')->login($provider);

@@ -38,7 +38,7 @@
                 <div class="form-group col-md-4">
                     <label for="date_of_birth">Date of Birth</label>
                     <input type="date" name="date_of_birth" id="date_of_birth" class="form-control"
-                        value="{{ old('date_of_birth', $provider->date_of_birth) }}">
+                        value="{{ old('date_of_birth', $provider->date_of_birth ? \Carbon\Carbon::parse($provider->date_of_birth)->format('Y-m-d') : '') }}">
                 </div>
                 <!-- Phone -->
                 <div class="form-group col-md-4">
@@ -64,7 +64,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-                
+
                 <!-- Password -->
                 <div class="col-md-4">
                     <label for="password" class="form-label">Password</label>
@@ -81,8 +81,7 @@
                 <div class="col-md-4">
                     <label for="password_confirmation" class="form-label">Confirm Password</label>
                     <input id="password_confirmation" type="password" name="password_confirmation"
-                        class="form-control @error('password_confirmation') is-invalid @enderror"
-                        required>
+                        class="form-control @error('password_confirmation') is-invalid @enderror" required>
                     @error('password_confirmation')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -142,7 +141,8 @@
                     <!-- Morning Shift -->
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="shift-morning" name="work_shifts[]"
-                            value="morning" {{ in_array('morning', old('work_shifts', json_decode($provider->work_shifts ?? '[]'))) ? 'checked' : '' }}>
+                            value="morning"
+                            {{ in_array('morning', old('work_shifts', json_decode($provider->work_shifts ?? '[]'))) ? 'checked' : '' }}>
                         <label class="form-check-label" for="shift-morning">
                             Morning (8:00 AM - 8:00 PM)
                         </label>
@@ -151,7 +151,8 @@
                     <!-- Night Shift -->
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="shift-night" name="work_shifts[]"
-                            value="night" {{ in_array('night', old('work_shifts', json_decode($provider->work_shifts ?? '[]'))) ? 'checked' : '' }}>
+                            value="night"
+                            {{ in_array('night', old('work_shifts', json_decode($provider->work_shifts ?? '[]'))) ? 'checked' : '' }}>
                         <label class="form-check-label" for="shift-night">
                             Night (8:00 PM - 8:00 AM)
                         </label>
@@ -160,7 +161,8 @@
                     <!-- Stay-in Shift -->
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="shift-stay-in" name="work_shifts[]"
-                            value="stay-in" {{ in_array('stay-in', old('work_shifts', json_decode($provider->work_shifts ?? '[]'))) ? 'checked' : '' }}>
+                            value="stay-in"
+                            {{ in_array('stay-in', old('work_shifts', json_decode($provider->work_shifts ?? '[]'))) ? 'checked' : '' }}>
                         <label class="form-check-label" for="shift-stay-in">
                             Stay-in (24 hours)
                         </label>
@@ -193,15 +195,25 @@
                     @enderror
                 </div>
                 <!-- Work Locations -->
-                <div class="col-md-6">
-                    <label for="work_locations" class="form-label">Work Locations</label>
-                    <textarea id="work_locations" name="work_locations" rows="3"
-                        class="form-control @error('work_locations') is-invalid @enderror" required
-                        placeholder="Enter locations separated by commas (e.g., Amman, Irbid, Aqaba).">{{ old('work_locations', implode(', ', json_decode($provider->work_locations ?? '[]'))) }}</textarea>
+                <div class="col-md-6" id="work-locations-container">
+                    <label class="form-label d-block">Work Locations</label>
+
+                    @foreach ($cities as $city)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="city-{{ $city->id }}"
+                                name="work_locations[]" value="{{ $city->id }}"
+                                {{ in_array($city->id, old('work_locations', $provider->cities->pluck('id')->toArray())) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="city-{{ $city->id }}">
+                                {{ $city->name }}
+                            </label>
+                        </div>
+                    @endforeach
+
                     @error('work_locations')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
+
             </div>
         </div>
 
@@ -256,5 +268,5 @@
     <form id="logout-form" action="{{ route('provider_logout') }}" method="GET">
         @csrf
         <button type="submit">Provider Logout</button>
-    </form> 
+    </form>
 @endsection

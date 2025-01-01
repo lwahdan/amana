@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Providers;
 
+use App\Models\City;
 use App\Models\Review;
 use App\Models\Booking;
 use App\Models\Meeting;
@@ -21,7 +22,8 @@ class ProviderDashboardController extends Controller
     {
         $provider = Auth::guard('provider')->user(); // Get the currently logged-in provider from session
         $allServices = Service::all();
-        return view('provider.info', compact('provider', 'allServices'));
+        $cities = City::all();
+        return view('provider.info', compact('provider', 'allServices', 'cities'));
     }
 
     // update provider's dashboard info
@@ -50,7 +52,8 @@ class ProviderDashboardController extends Controller
             'hourly_rate' => 'required|numeric',
             'work_shifts' => 'required|array', // Ensure 'work_shifts' is an array
             'work_shifts.*' => 'in:morning,night,stay-in', // Validate each selected value
-            'work_locations' => 'required|string',
+            'work_locations' => 'required|array',
+            'work_locations.*' => 'exists:cities,id',
             'phone' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|max:15',
             'address' => 'required|string|max:255',
             'services' => 'required|array', // Ensure 'services' is an array
@@ -60,14 +63,12 @@ class ProviderDashboardController extends Controller
         // Convert the comma-separated string into a JSON array
         $skills = array_map('trim', explode(',', $request->skills));
         $availability = array_map('trim', explode(',', $request->availability));
-        $worklocations = array_map('trim', explode(',', $request->work_locations));
         $languagesSpoken = array_map('trim', explode(',', $request->languages_spoken));
         $workShifts = json_encode($request->work_shifts ?? []);
         // Update the provider's record, including the JSON-encoded fields
         $provider->update(array_merge($validatedData, [
             'skills' => json_encode($skills),
             'availability' => json_encode($availability),
-            'work_locations' => json_encode($worklocations),
             'languages_spoken' => json_encode($languagesSpoken),
             'work_shifts' => $workShifts,
             //'password' => bcrypt($validatedData['password']),
@@ -75,6 +76,7 @@ class ProviderDashboardController extends Controller
         ]));
         // Sync the services in the pivot table
         $provider->services()->sync($request->services);
+        $provider->cities()->sync($request->work_locations);
         return redirect()->back()->with('success', 'Information updated successfully.');
     }
 
@@ -110,11 +112,11 @@ class ProviderDashboardController extends Controller
     //show provider's meetings
     public function showmeetings()
     {
-        $provider = Auth::guard('provider')->user(); 
+        $provider = Auth::guard('provider')->user();
         $meetings = Meeting::with(['user', 'service'])
-        ->where('provider_id', $provider->id)
-        ->orderBy('meeting_date', 'desc')
-        ->get();
+            ->where('provider_id', $provider->id)
+            ->orderBy('meeting_date', 'desc')
+            ->get();
 
         return view('provider.meetings', compact('meetings'));
     }
@@ -138,10 +140,10 @@ class ProviderDashboardController extends Controller
     //show provider's reviews
     public function reviews()
     {
-        $provider = Auth::guard('provider')->user(); 
+        $provider = Auth::guard('provider')->user();
         $reviews = Review::with('service')
-        ->where('provider_id', $provider->id)
-        ->get();
+            ->where('provider_id', $provider->id)
+            ->get();
 
         return view('provider.reviews', compact('reviews'));
     }

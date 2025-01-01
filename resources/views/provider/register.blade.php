@@ -25,7 +25,7 @@
         </div>
     </div>
     {{-- progress Timeline end --}}
-    
+
     <!-- Registration Form start -->
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -267,13 +267,24 @@
                                     <!-- Work Locations -->
                                     <div class="col-md-6">
                                         <label for="work_locations" class="form-label">Work Locations</label>
-                                        <textarea id="work_locations" name="work_locations" rows="3"
-                                            class="form-control @error('work_locations') is-invalid @enderror" required
-                                            placeholder="Enter locations separated by commas (e.g., Amman, Irbid, Aqaba).">{{ is_array(old('work_locations')) ? implode(', ', old('work_locations')) : old('work_locations') }}</textarea>
+                                        <div>
+                                            @foreach ($cities as $city)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        name="work_locations[]" value="{{ $city->id }}"
+                                                        id="city-{{ $city->id }}"
+                                                        {{ in_array($city->id, old('work_locations', [])) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="city-{{ $city->id }}">
+                                                        {{ $city->name }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                         @error('work_locations')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+
 
                                     <!-- Availability -->
                                     <div class="col-md-6">

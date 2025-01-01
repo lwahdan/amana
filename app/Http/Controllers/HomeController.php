@@ -158,6 +158,17 @@ class HomeController extends Controller
     
         return response()->json($providers);
     }
+
+    public function providerInfo($id)
+    {    
+        $provider = Provider::with('services')->find($id);
+    
+        if (!$provider) {
+            return abort(404, 'Provider not found');
+        }
+    
+        return view('provider', compact('provider'));
+    }
     
 
 }

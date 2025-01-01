@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
 
 /**
  * 
@@ -107,7 +108,6 @@ class Provider extends Authenticatable
         'skills',
         'hourly_rate',
         'work_shifts',
-        'work_locations',
         'availability',
         'bio',
         'background_checked',
@@ -117,6 +117,7 @@ class Provider extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'date_of_birth' => 'date',
     ];
 
     // public function user()

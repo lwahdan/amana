@@ -95,37 +95,35 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    //work locations validation
-    const workLocationsInput = document.getElementById("work_locations");
+    // //work locations validation
+    // const workLocationsInput = document.getElementById("work_locations");
+    // workLocationsInput.addEventListener("input", function () {
+    //     const locationsArray = workLocationsInput.value
+    //         .split(",")
+    //         .map((location) => location.trim());
+    //     if (
+    //         locationsArray.length === 0 ||
+    //         locationsArray.some((location) => location === "")
+    //     ) {
+    //         workLocationsInput.classList.add("is-invalid");
+    //     } else {
+    //         workLocationsInput.classList.remove("is-invalid");
+    //     }
+    // });
 
-    // Validate Work Locations Input on Change
-    workLocationsInput.addEventListener("input", function () {
-        const locationsArray = workLocationsInput.value
-            .split(",")
-            .map((location) => location.trim());
-        if (
-            locationsArray.length === 0 ||
-            locationsArray.some((location) => location === "")
-        ) {
-            workLocationsInput.classList.add("is-invalid");
-        } else {
-            workLocationsInput.classList.remove("is-invalid");
-        }
-    });
-
-    // Form Submission Validation for Work Locations
-    form.addEventListener("submit", function (e) {
-        const locationsArray = workLocationsInput.value
-            .split(",")
-            .map((location) => location.trim());
-        if (
-            locationsArray.length === 0 ||
-            locationsArray.some((location) => location === "")
-        ) {
-            e.preventDefault(); // Prevent form submission
-            workLocationsInput.classList.add("is-invalid");
-        }
-    });
+    // // Form Submission Validation for Work Locations
+    // form.addEventListener("submit", function (e) {
+    //     const locationsArray = workLocationsInput.value
+    //         .split(",")
+    //         .map((location) => location.trim());
+    //     if (
+    //         locationsArray.length === 0 ||
+    //         locationsArray.some((location) => location === "")
+    //     ) {
+    //         e.preventDefault(); // Prevent form submission
+    //         workLocationsInput.classList.add("is-invalid");
+    //     }
+    // });
 
     //availability validation
     const availabilityInput = document.getElementById("availability");
