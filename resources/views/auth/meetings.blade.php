@@ -9,7 +9,7 @@
             <tr>
                 <th>ID</th>
                 <th>Provider</th>
-                <th>Service</th>
+                <th>Meeting Link</th>
                 <th>Meeting Date</th>
                 <th>Status</th>
             </tr>
@@ -19,12 +19,13 @@
                 <tr>
                     <td>{{ $meeting->id }}</td>
                     <td>{{ $meeting->provider->name ?? 'N/A' }}</td>
-                    <td>{{ $meeting->service->name ?? 'N/A' }}</td>
-                    <td>{{ $meeting->meeting_date->format('Y-m-d H:i') ?? 'N/A' }}</td>
+                    <td>{{ $meeting->meeting_link ?? 'N/A' }}</td>
+                    <td>{{ $meeting->meeting_date ? $meeting->meeting_date->format('Y-m-d H:i') : 'N/A' }}</td>
                     <td>
                         <span class="badge 
                             @if ($meeting->status == 'requested') bg-warning 
-                            @elseif ($meeting->status == 'confirmed') bg-primary 
+                            @elseif ($meeting->status == 'confirmed') bg-primary
+                            @elseif ($meeting->status == 'completed') bg-success
                             @elseif ($meeting->status == 'cancelled') bg-danger 
                             @endif">
                             {{ ucfirst($meeting->status) }}

@@ -9,6 +9,7 @@ use App\Models\BlogFavorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -116,6 +117,19 @@ class BlogController extends Controller
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Get the authenticated user or provider
+        $user = Auth::guard('web')->user() ?? Auth::guard('provider')->user();
+
+        // Ensure the user is logged in
+        if (!$user) {
+            abort(403, 'You must be logged in to perform this action.');
+        }
+
+        // Ensure the user or provider owns the blog
+        if ($blog->writer_id !== $user->id || $blog->writer_type !== get_class($user)) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $data = $request->only(['title', 'service_id', 'description', 'content']);
         $data['image'] = $request->hasFile('image') ? $request->file('image')->store('blogs', 'public') : null;

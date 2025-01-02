@@ -9,7 +9,7 @@
             <div class="profile-sidebar">
                 <div class="profile-header text-center">
                     <div class="profile-image-container">
-                        <img src="{{ asset($provider->profile_picture ?? 'default-profile.png') }}"
+                        <img src="{{ asset('storage/' . $provider->profile_picture) }}"
                             alt="{{ $provider->name }}" class="profile-image">
                     </div>
                     <h2 class="profile-name">{{ $provider->name }}</h2>
@@ -31,7 +31,10 @@
                             <span class="rate-amount">{{ number_format($provider->hourly_rate, 2) }} JOD</span>
                         </div>
                     </div>
-                    <a href="#" class="btn-request-meeting">Request a Meeting</a>
+                    <form method="POST" action="{{ route('meetings.request', $provider->id) }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn-request-meeting">Request a Meeting</button>
+                    </form>
                 </div>
             </div>
 

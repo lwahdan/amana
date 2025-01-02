@@ -70,8 +70,9 @@ class UserDashboardController extends Controller
     public function showmeetings()
     {
         $user = Auth::guard('web')->user();
-        $meetings = Meeting::with(['provider', 'service'])
+        $meetings = Meeting::with('provider')
             ->where('user_id', $user->id)
+            ->withTrashed()
             ->orderBy('meeting_date', 'desc')
             ->get();
 

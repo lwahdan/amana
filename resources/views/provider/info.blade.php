@@ -1,7 +1,7 @@
 @extends('provider.dashboard')
 
 @section('dashboard-content')
-    <form class="container" action="{{ route('provider.info.update') }}" method="POST" novalidate>
+    <form class="container" action="{{ route('provider.info.update') }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
         @method('PUT')
         <div class="container section-1">
@@ -85,6 +85,16 @@
                     @error('password_confirmation')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label for="profile_picture">Image</label>
+                    <input type="file" name="profile_picture" id="profile_picture" class="form-control-file">
+                    @if ($provider->profile_picture)
+                        <img src="{{ asset('storage/' . $provider->profile_picture) }}" alt="{{ $provider->name }}" class="img-thumbnail mt-2" width="150">
+                    @endif
                 </div>
             </div>
         </div>
@@ -264,9 +274,5 @@
 
         <!-- Submit Button -->
         <button type="submit" class="btn btn-provider">Update Info</button>
-    </form>
-    <form id="logout-form" action="{{ route('provider_logout') }}" method="GET">
-        @csrf
-        <button type="submit">Provider Logout</button>
     </form>
 @endsection

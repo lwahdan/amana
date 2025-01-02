@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\BlogController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\MeetingController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Auth\BlogCommentController;
 use App\Http\Controllers\Admin\AdminReportController;
@@ -67,6 +68,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
     Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
     Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+    //request a meeting protected route
+    Route::post('/meetings/request/{provider}', [MeetingController::class, 'store'])->name('meetings.request');
 });
 // Public blog routes
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
@@ -115,24 +118,30 @@ Route::prefix('admin')->group(function () {
 
 // Provider protected Routes
 Route::middleware('provider')->prefix('provider')->group(function () {
-    // Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider_dashboard');
     Route::get('/profile', [ProviderDashboardController::class, 'showInfo'])->name('provider.info');
     Route::put('/profile', [ProviderDashboardController::class, 'updateInfo'])->name('provider.info.update');
     Route::get('/bookings', [ProviderDashboardController::class, 'showbookings'])->name('provider.bookings');
     Route::put('/provider/bookings/{id}/complete', [ProviderDashboardController::class, 'completebooking'])->name('provider.bookings.complete');
-    Route::get('/meetings', [ProviderDashboardController::class, 'showmeetings'])->name('provider.meetings');
-    Route::put('/provider/meetings/{id}/complete', [ProviderDashboardController::class, 'completemeeting'])->name('provider.meetings.complete');
-    Route::get('/reviews', [ProviderDashboardController::class, 'reviews'])->name('provider.reviews');
     //Route::get('/provider/bookings/{id}', [BookingController::class, 'show'])->name('provider.bookings.show');
+    Route::get('/meetings', [ProviderDashboardController::class, 'showmeetings'])->name('provider.meetings');
+    Route::put('/meetings/{id}/update', [ProviderDashboardController::class, 'updatmeeting'])->name('provider.meetings.update');
+    Route::put('/meetings/{id}/complete', [ProviderDashboardController::class, 'completeMeeting'])->name('provider.meetings.complete');
+    Route::delete('/meetings/{id}', [ProviderDashboardController::class, 'deleteMeeting'])->name('provider.meetings.delete');
+    Route::get('/reviews', [ProviderDashboardController::class, 'reviews'])->name('provider.reviews');
     // provider blog routes
     Route::get('/blogs/create', [BlogController::class, 'create'])->name('provider.blogs.create');
     Route::post('/blogs/store', [BlogController::class, 'store'])->name('provider.blogs.store');
+    Route::get('/blogs', [ProviderDashboardController::class, 'showBlogs'])->name('provider.blogs');
+    Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('provider.blogs.edit');
+    Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('provider.blogs.destroy');
+    Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('provider.blogs.update');
+
 });
 //provider routes
 Route::prefix('provider')->group(function () {
     Route::get('/login', [ProviderController::class, 'login'])->name('provider_login');
     Route::post('/login_submit', [ProviderController::class, 'login_submit'])->middleware('throttle:5,1')->name('provider_login_submit');
-    Route::get('/logout', [ProviderController::class, 'logout'])->name('provider_logout');
+    Route::post('/logout', [ProviderController::class, 'logout'])->name('provider_logout');
     Route::get('/register', [ProviderController::class, 'register'])->name('provider_register');
     Route::post('/register_submit', [ProviderController::class, 'register_submit'])->name('provider_register_submit');
 });

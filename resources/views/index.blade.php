@@ -238,7 +238,7 @@
                             <img src="{{ asset($provider->profile_picture) }}" alt="{{ $provider->name }}">
                         </div>
                         <div class="experts_name text-center">
-                            <h3>{{ $provider->name }}</h3>
+                            <h3><a href="{{ route('show.provider.info', $provider->id) }}">{{ $provider->name }}</a></h3>
                             @foreach ($provider->services as $service)
                                 <span>{{ $service->name }}</span>
                             @endforeach

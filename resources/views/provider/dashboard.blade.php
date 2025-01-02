@@ -12,6 +12,15 @@
                 </div>
             @endif
 
+           
+
+            @if ($errors->has('error'))
+    <div class="alert alert-danger">
+        {{ $errors->first('error') }}
+    </div>
+@endif
+
+
             <!-- Sidebar -->
             <div class="col-md-3">
                 <div class="dashboard-wrapper">

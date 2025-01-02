@@ -12,6 +12,18 @@
         <li class="sidebar-item {{ request()->routeIs('provider.reviews') ? 'active' : '' }}">
             <a href="{{ route('provider.reviews') }}"><i class="fa-solid fa-star"></i>Reviews</a>
         </li>
+        <li class="sidebar-item {{ request()->routeIs('provider.blogs') ? 'active' : '' }}">
+            <a href="{{ route('provider.blogs') }}"><i class="fa-brands fa-readme"></i>My Blogs</a>
+        </li>
+        <li class="sidebar-item {{ request()->routeIs('logout') ? 'active' : '' }}">
+            <a href="#" onclick="event.preventDefault(); document.getElementById('provider-logout-form').submit();">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+            </a>
+        </li>
+
+        <form id="provider-logout-form" action="{{ route('provider_logout') }}" method="POST"  style="display: none;">
+            @csrf
+        </form>
     </ul>
 </div>
 <script>

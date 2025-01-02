@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Providers;
 
+use App\Models\Blog;
 use App\Models\City;
 use App\Models\Review;
 use App\Models\Booking;
@@ -13,6 +14,7 @@ use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProviderDashboardController extends Controller
@@ -37,8 +39,8 @@ class ProviderDashboardController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:providers,email,' . $provider->id,
-            'bio' => 'nullable|string|max:500',
-            'certifications' => 'nullable|string',
+            'bio' => 'required|string|max:500',
+            'certifications' => 'required|string',
             'current_password' => 'nullable|string|current_password:provider',
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'gender' => 'required|in:male,female',
@@ -65,15 +67,30 @@ class ProviderDashboardController extends Controller
         $availability = array_map('trim', explode(',', $request->availability));
         $languagesSpoken = array_map('trim', explode(',', $request->languages_spoken));
         $workShifts = json_encode($request->work_shifts ?? []);
+
+        // Handle the profile picture upload
+        if ($request->hasFile('profile_picture')) {
+
+            // Store the uploaded file and get its path
+            $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+
+            // Include the path in the validated data
+            $validatedData['profile_picture'] = $profilePicturePath;
+
+            // Optionally, delete the old profile picture to save storage space
+            if ($provider->profile_picture) {
+                Storage::disk('public')->delete($provider->profile_picture);
+            }
+        }
         // Update the provider's record, including the JSON-encoded fields
         $provider->update(array_merge($validatedData, [
             'skills' => json_encode($skills),
             'availability' => json_encode($availability),
             'languages_spoken' => json_encode($languagesSpoken),
             'work_shifts' => $workShifts,
-            //'password' => bcrypt($validatedData['password']),
             'password' => $validatedData['password'] ? bcrypt($validatedData['password']) : $provider->password,
         ]));
+
         // Sync the services in the pivot table
         $provider->services()->sync($request->services);
         $provider->cities()->sync($request->work_locations);
@@ -110,19 +127,26 @@ class ProviderDashboardController extends Controller
 
 
     //show provider's meetings
-    public function showmeetings()
+    public function showmeetings(Request $request)
     {
         $provider = Auth::guard('provider')->user();
-        $meetings = Meeting::with(['user', 'service'])
+        // Get the status filter from the request
+        $status = $request->query('status');
+        $meetingsQuery = Meeting::with('user')
             ->where('provider_id', $provider->id)
-            ->orderBy('meeting_date', 'desc')
-            ->get();
+            ->withTrashed()
+            ->orderBy('meeting_date', 'desc');
+
+        if ($status) {
+            $meetingsQuery->where('status', $status);
+        }
+        $meetings = $meetingsQuery->paginate(10)->appends($request->query());
 
         return view('provider.meetings', compact('meetings'));
     }
 
-    // mark a meeting as completed (status update)
-    public function completemeeting($id)
+    // mark a meeting as completed-provider dashboard (status update)
+    public function completeMeeting($id)
     {
         $meeting = Meeting::findOrFail($id);
 
@@ -131,11 +155,63 @@ class ProviderDashboardController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        // Ensure the meeting date is in the past
+        if ($meeting->meeting_date && $meeting->meeting_date->isFuture()) {
+            return redirect()->route('provider.meetings')
+                ->withErrors(['error' => 'Meeting cannot be marked as completed before the scheduled date and time.']);
+        }
+
         // Update the meeting status to completed
         $meeting->update(['status' => 'completed']);
 
         return redirect()->route('provider.meetings')->with('success', 'Meeting marked as completed.');
     }
+
+    // mark a meeting as cancelled-provider dashboard (status update)
+    public function deleteMeeting($id)
+    {
+        $provider = Auth::guard('provider')->user();
+        $meeting = Meeting::findOrFail($id);
+
+        if ($meeting->provider_id != $provider->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $meeting->delete(); // Soft delete the meeting
+        $meeting->update(['status' => 'cancelled']);
+
+        return redirect()->route('provider.meetings')->with('success', 'Meeting deleted successfully.');
+    }
+
+
+    public function updatmeeting(Request $request, $id)
+    {
+        $provider = Auth::guard('provider')->user();
+
+        // Find the meeting
+        $meeting = Meeting::findOrFail($id);
+
+        // Ensure the provider is authorized to modify this meeting
+        if ($meeting->provider_id != $provider->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Validate the new meeting details
+        $validatedData = $request->validate([
+            'meeting_date' => 'nullable|date|after:now',
+            'meeting_link' => 'nullable|url',
+        ]);
+
+        // Update the meeting details
+        $meeting->update([
+            'meeting_date' => $validatedData['meeting_date'] ?? $meeting->meeting_date,
+            'meeting_link' => $validatedData['meeting_link'] ?? $meeting->meeting_link,
+            'status' => 'confirmed', // Update status to confirmed after details are set
+        ]);
+
+        return redirect()->route('provider.meetings')->with('success', 'Meeting updated successfully.');
+    }
+
 
     //show provider's reviews
     public function reviews()
@@ -146,5 +222,13 @@ class ProviderDashboardController extends Controller
             ->get();
 
         return view('provider.reviews', compact('reviews'));
+    }
+
+    //show provider's blogs
+    public function showBlogs()
+    {
+        $provider = Auth::guard('provider')->user();
+        $blogs = Blog::where('writer_id', $provider->id)->orderBy('created_at', 'desc')->get();
+        return view('provider.blogs', compact('blogs'));
     }
 }

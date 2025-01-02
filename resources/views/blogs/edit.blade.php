@@ -5,7 +5,7 @@
 @section('breadcrumb-subtitle', 'edit your blog')
 @section('content')
 <div class="container">
-    <form class="my-blog-form" method="POST" action="{{ route('blogs.update', $blog->id) }}" enctype="multipart/form-data">
+    <form class="my-blog-form" method="POST"  action="{{ auth('provider')->check() ? route('provider.blogs.update', $blog->id) : route('blogs.update', $blog->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">

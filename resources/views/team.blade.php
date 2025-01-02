@@ -19,10 +19,10 @@
                 @foreach ($providers as $provider)
                     <div class="single_expert col-xl-3 col-lg-3 col-md-6 mb-30">
                         <div class="expert_thumb">
-                            <img src="img/experts/1.png" alt="">
+                            <img src="{{ asset($provider->profile_picture) }}" alt="{{ $provider->name }}">
                         </div>
                         <div class="experts_name text-center">
-                            <h3>{{ $provider->name }}</h3>
+                            <h3><a href="{{ route('show.provider.info', $provider->id) }}">{{ $provider->name }}</a></h3>
                             @foreach ($provider->services as $service)
                                 <span>{{ $service->name }}</span>
                             @endforeach
