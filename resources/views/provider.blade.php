@@ -75,13 +75,21 @@
 
                     <h4 class="subsection-title mb-3">Certifications</h4>
                     <div class="certification-list">
-                        @foreach (json_decode($provider->certifications ?? '[]') as $certification)
+                        @php
+                            // Split certifications by comma and trim whitespace
+                            $certifications = array_filter(array_map('trim', explode(',', $provider->certifications ?? '')));
+                        @endphp
+                    
+                        @forelse ($certifications as $certification)
                             <div class="certification-item">
                                 <i class="fas fa-certificate"></i>
                                 <span>{{ $certification }}</span>
                             </div>
-                        @endforeach
+                        @empty
+                            <p>No certifications available.</p>
+                        @endforelse
                     </div>
+                    
                 </div>
 
                 <!-- Languages & Availability -->

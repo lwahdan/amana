@@ -998,3 +998,118 @@ select.form-control {
     margin-top: 2rem !important;
     margin-bottom: 1rem !important;
 }
+.team_pagination{
+    padding: 0px 100px;
+    margin-bottom: 3rem;
+}
+/* /team filter styling */
+.team-section {
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.team-header {
+    margin-bottom: 3rem;
+}
+
+.team-title {
+    text-align: center;
+    color: #2d3748;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.filter-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filter-form {
+    width: 100%;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: white;
+    color: #2d3748;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%234a5568' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+.filter-button {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-button:hover {
+    background-color: #3182ce;
+    transform: translateY(-1px);
+}
+
+.filter-button:active {
+    transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filter-controls {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-container {
+        margin: 0 1rem;
+        padding: 1rem;
+    }
+}

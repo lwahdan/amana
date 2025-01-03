@@ -21,6 +21,9 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
     
 
 </head>
@@ -75,7 +78,7 @@
                 </div> --}}
             </li>
             <li class="nav-item">
-                <a  href="{{ route('users.index') }}"  class="nav-link collapsed" 
+                <a  href="{{ route('providers.index') }}"  class="nav-link collapsed" 
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Providers</span>

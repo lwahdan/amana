@@ -13,7 +13,7 @@
         </select>
     </form>
     
-    <a href="{{ route('users.create') }}" class="btn btn-primary me-3 users_index">
+    <a href="{{ route('providers.create') }}" class="btn btn-primary me-3 users_index">
         <i class="fas fa-plus"></i> Add Provider
     </a>
     </div>
@@ -31,29 +31,29 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($users as $user)
+            @foreach ($providers as $provider)
             <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
+                <td>{{ $provider->id }}</td>
+                <td>{{ $provider->name }}</td>
+                <td>{{ $provider->email }}</td>
                 <td>
-                    @if ($user->trashed())
+                    @if ($provider->trashed())
                         <span class="text-danger">Deleted</span>
                     @else
                         <span class="text-success">Active</span>
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                    @if (!$user->trashed())
-                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                        <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display: inline;">
+                    <a href="{{ route('providers.show', $provider->id) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                    @if (!$provider->trashed())
+                        <a href="{{ route('providers.edit', $provider->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <form method="POST" action="{{ route('providers.destroy', $provider->id) }}" style="display: inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm"> <i class="fas fa-trash-alt"></i></button>
                         </form>
                     @else
-                        <form method="POST" action="{{ route('users.restore', $user->id) }}" style="display: inline;">
+                        <form method="POST" action="{{ route('providers.restore', $provider->id) }}" style="display: inline;">
                             @csrf
                             @method('PUT')
                             <button type="submit" class="btn btn-success btn-sm"> <i class="fas fa-undo"></i></button>
@@ -66,7 +66,9 @@
     </table>
 
     <!-- Pagination Links -->
-    {{ $users->appends(['status' => request('status')])->links() }}
+    <div class="admin_provider_pagination">
+    {{ $providers->appends(['status' => request('status')])->links() }}
+    </div>
 </div>
 @endsection
 

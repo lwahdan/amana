@@ -47,10 +47,30 @@ class HomeController extends Controller
     }
 
     //view team page
-    public function team()
+    public function team(Request $request)
     {
-        $providers = Provider::with('services')->paginate(20);
-        return view('team', compact('providers'));
+        $services = Service::all(); // Get all services for the filter
+        $genderOptions = ['male', 'female']; // Define gender options
+    
+        // Start building the query
+        $query = Provider::query();
+    
+        // Filter by service if provided
+        if ($request->has('service_id') && $request->service_id) {
+            $query->whereHas('services', function ($q) use ($request) {
+                $q->where('services.id', $request->service_id);
+            });
+        }
+    
+        // Filter by gender if provided
+        if ($request->has('gender') && $request->gender) {
+            $query->where('gender', $request->gender);
+        }
+    
+        // Get the filtered providers
+        $providers = $query->with('services')->paginate(20);
+    
+        return view('team', compact('providers', 'services', 'genderOptions'));
     }
 
     //view contact page
@@ -93,6 +113,7 @@ class HomeController extends Controller
         return view('book', compact('services', 'cities', 'providers'));
     }
 
+    //submit booking
     public function book_submit(Request $request)
     {
         // Check if the user is logged in
@@ -120,6 +141,7 @@ class HomeController extends Controller
         return redirect()->route('book')->with('success', 'Your booking has been successfully submitted.');
     }
 
+    // Calculate the total price based on the shift and provider
     private function calculatePrice($provider_id, $shift)
     {
         // Fetch the provider by ID
@@ -140,6 +162,7 @@ class HomeController extends Controller
         }
     }
 
+    // Get dynamically filtered providers based on selected service, city, and shift
     public function getProviders(Request $request)
     {
         $service_id = $request->service_id;
@@ -159,6 +182,7 @@ class HomeController extends Controller
         return response()->json($providers);
     }
 
+    //view provider info (profile)
     public function providerInfo($id)
     {    
         $provider = Provider::with('services')->find($id);

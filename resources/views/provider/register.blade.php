@@ -189,7 +189,7 @@
                                     <div class="col-md-6">
                                         <label for="certifications" class="form-label">Certifications (Optional)</label>
                                         <textarea id="certifications" name="certifications" rows="3"
-                                            class="form-control @error('certifications') is-invalid @enderror">{{ old('certifications') }}</textarea>
+                                        placeholder="Enter certifications separated by commas (e.g., First Aid, CPR Certified, Bachelor of Nursing)" class="form-control @error('certifications') is-invalid @enderror">{{ old('certifications') }} </textarea>
                                         @error('certifications')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

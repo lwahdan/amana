@@ -1,20 +1,56 @@
 @extends('layouts.app')
-@section('title','Our Team')
-@section('breadcrumb-title','our team')
-@section('breadcrumb-subtitle','our team')
+@section('title', 'Our Team')
+@section('breadcrumb-title', 'our team')
+@section('breadcrumb-subtitle', 'our team')
 @section('content')
 
+    <div class="team-section">
+        <div class="team-header">
+            <h4 class="team-title">Explore Your Trusted Partners in Care</h4>
+            <div class="filter-container">
+                <form method="GET" action="{{ route('team') }}" class="filter-form">
+                    <div class="filter-controls">
+                        <!-- Service Filter -->
+                        <div class="filter-group">
+                            <label for="service_id" class="filter-label">Service</label>
+                            <select name="service_id" id="service_id" class="filter-select">
+                                <option value="">All Services</option>
+                                @foreach ($services as $service)
+                                    <option value="{{ $service->id }}"
+                                        {{ request('service_id') == $service->id ? 'selected' : '' }}>
+                                        {{ $service->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Gender Filter -->
+                        <div class="filter-group">
+                            <label for="gender" class="filter-label">Gender</label>
+                            <select name="gender" id="gender" class="filter-select">
+                                <option value="">All Genders</option>
+                                @foreach ($genderOptions as $gender)
+                                    <option value="{{ $gender }}"
+                                        {{ request('gender') == $gender ? 'selected' : '' }}>
+                                        {{ ucfirst($gender) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Filter Button -->
+                        <div class="filter-group">
+                            <button type="submit" class="filter-button">Apply Filters</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- providers_area_start -->
     <div class="expert_doctors_area">
         <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="mb-55 section_title">
-                        <h3 class="user-secondary text-center">Our Talented Team</h3>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 @foreach ($providers as $provider)
                     <div class="single_expert col-xl-3 col-lg-3 col-md-6 mb-30">
@@ -32,7 +68,9 @@
             </div>
         </div>
     </div>
-    {{ $providers->links() }}
+    <div class="team_pagination">
+        {{ $providers->links() }}
+    </div>
     <!-- providers_area_end -->
 
     <!-- testmonial_area_start -->
@@ -49,7 +87,8 @@
                                 <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
                                     sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
                                     <br>
-                                    Fusce ac mattis nulla. Morbi eget ornare dui. </p>
+                                    Fusce ac mattis nulla. Morbi eget ornare dui.
+                                </p>
                                 <div class="testmonial_author">
                                     <h4>Asana Korim</h4>
                                 </div>
@@ -69,7 +108,8 @@
                                 <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
                                     sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
                                     <br>
-                                    Fusce ac mattis nulla. Morbi eget ornare dui. </p>
+                                    Fusce ac mattis nulla. Morbi eget ornare dui.
+                                </p>
                                 <div class="testmonial_author">
                                     <h4>Asana Korim</h4>
                                 </div>
@@ -89,7 +129,8 @@
                                 <p>Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor <br>
                                     sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
                                     <br>
-                                    Fusce ac mattis nulla. Morbi eget ornare dui. </p>
+                                    Fusce ac mattis nulla. Morbi eget ornare dui.
+                                </p>
                                 <div class="testmonial_author">
                                     <h4>Asana Korim</h4>
                                 </div>
@@ -107,7 +148,8 @@
         <div class="conatiner-fluid p-0">
             <div class="row no-gutters">
                 <div class="col-xl-6">
-                    <div class="single_emergency d-flex align-items-center justify-content-center emergency_bg_1 overlay_skyblue">
+                    <div
+                        class="single_emergency d-flex align-items-center justify-content-center emergency_bg_1 overlay_skyblue">
                         <div class="info">
                             <h3>For Any Emergency Contact</h3>
                             <p>Esteem spirit temper too say adieus.</p>
@@ -118,7 +160,8 @@
                     </div>
                 </div>
                 <div class="col-xl-6">
-                    <div class="single_emergency d-flex align-items-center justify-content-center emergency_bg_2 overlay_skyblue">
+                    <div
+                        class="single_emergency d-flex align-items-center justify-content-center emergency_bg_2 overlay_skyblue">
                         <div class="info">
                             <h3>Make an Online Appointment</h3>
                             <p>Esteem spirit temper too say adieus.</p>

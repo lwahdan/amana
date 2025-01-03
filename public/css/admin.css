@@ -296,3 +296,7 @@ body.dark-theme {
 @media screen and (max-width: 768px) {
     /* Mobile-specific styles remain the same as before */
 }
+.admin_provider_pagination svg{
+    width: 20px !important;
+    height: 20px !important;
+}

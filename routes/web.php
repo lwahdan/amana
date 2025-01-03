@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\BlogController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\MeetingController;
+use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Auth\BlogCommentController;
 use App\Http\Controllers\Admin\AdminReportController;
@@ -104,6 +105,14 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('/reviews', AdminReviewController::class);
     Route::put('/reviews/{id}/status', [AdminReviewController::class, 'updateStatus'])->name('reviews.updateStatus');
     Route::get('/reports', [AdminReportController::class, 'index'])->name('admin.reports');
+    //admin blogs routes 
+    Route::get('/blogs', [AdminBlogController::class, 'index'])->name('admin.blogs');
+    Route::get('/blogs/{blog}', [AdminBlogController::class, 'show'])->name('admin.blogs.show');
+    Route::get('/blogs/{blog}/edit', [AdminBlogController::class, 'edit'])->name('admin.blogs.edit');
+    Route::delete('/blogs/{blog}', [AdminBlogController::class, 'destroy'])->name('admin.blogs.destroy');
+    Route::put('/blogs/{blog}', [AdminBlogController::class, 'update'])->name('admin.blogs.update');
+    Route::get('/blogs/create', [AdminBlogController::class, 'create'])->name('admin.blogs.create');
+    Route::post('/blogs', [AdminBlogController::class, 'store'])->name('admin.blogs.store');
 });
 
 // admin routes

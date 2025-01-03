@@ -79,8 +79,13 @@
         </div>
     @endif
     @if (session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success mt-4 col-md-6">
             {{ session('success') }}
+        </div>
+    @endif
+    @if ($errors->has('error'))
+        <div class="alert alert-danger mt-4 ml-4 mr-4">
+            {{ $errors->first('error') }}
         </div>
     @endif
 

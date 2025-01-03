@@ -23,7 +23,7 @@ class AdminUserController extends Controller
     {
         $status = $request->get('status', 'all'); // Default to 'all'
         // Base query
-        $query = User::query();  
+        $query = User::query();
         // Apply status filter
         if ($status === 'active') {
             $query->whereNull('deleted_at'); // Active users (not soft-deleted)
@@ -31,12 +31,12 @@ class AdminUserController extends Controller
             $query->onlyTrashed(); // Soft-deleted users
         } else {
             $query->withTrashed(); // Include both active and deleted users
-        }  
+        }
         // Execute query and paginate results
-        $users = $query->orderBy('id', 'asc')->paginate(10);   
+        $users = $query->orderBy('id', 'asc')->paginate(10);
         return view('admin.users.index', compact('users', 'status'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -57,14 +57,14 @@ class AdminUserController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:15',
         ]);
-    
+
         User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'phone' => $validated['phone'],
         ]);
-    
+
         return redirect()->route('users.index')->with('success', 'User created successfully!');
     }
 
@@ -73,20 +73,19 @@ class AdminUserController extends Controller
      */
     public function show(string $id)
     {
-         // Fetch the user with related data
+        // Fetch the user with related data
         $user = User::with([
-        'bookings.service',
-        'bookings.provider', //provider relationship exists in the Booking model
-        'bookings.city',
-        'reviews.service',
-        'reviews.provider', //provider relationship exists in the Review model
-        'contactMessages',
-        'meetings.provider', //provider relationship exists in the Meeting model
+            'bookings.service',
+            'bookings.provider', //provider relationship exists in the Booking model
+            'bookings.city',
+            'reviews.service',
+            'reviews.provider', //provider relationship exists in the Review model
+            'contactMessages',
+            'meetings.provider', //provider relationship exists in the Meeting model
         ])->findOrFail($id);
 
-    // Return the user details to the show view
-    return view('admin.users.show', compact('user'));
-
+        // Return the user details to the show view
+        return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -105,10 +104,10 @@ class AdminUserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-        'phone' => 'nullable|string|max:15',
-        'role' => 'required|in:client,provider,admin',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'phone' => 'nullable|string|max:15',
+            'role' => 'required|in:client,provider,admin',
         ]));
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
@@ -126,22 +125,22 @@ class AdminUserController extends Controller
     // To restore a soft-deleted record
     public function restore($id)
     {
-    $user = User::withTrashed()->findOrFail($id);
-    $user->restore(); // Restore the soft-deleted user
-    return redirect()->route('users.index')->with('success', 'User restored successfully!');
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore(); // Restore the soft-deleted user
+        return redirect()->route('users.index')->with('success', 'User restored successfully!');
     }
 
     public function search(Request $request)
     {
-    $query = $request->input('query');
+        $query = $request->input('query');
 
-    $users = User::where('name', 'like', "%$query%")
-                 ->orWhere('email', 'like', "%$query%")
-                 ->paginate(10);
+        $users = User::where('name', 'like', "%$query%")
+            ->orWhere('email', 'like', "%$query%")
+            ->paginate(10);
 
-    return view('admin.users.index', compact('users'));
+        return view('admin.users.index', compact('users'));
     }
-    
+
     // public function data(Request $request)
     // {
     //     $query = User::query();
