@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use auth;
+use App\Models\Blog;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Review;
+use App\Models\Booking;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 use App\Models\ServiceProvider;
@@ -33,7 +36,7 @@ class AdminUserController extends Controller
             $query->withTrashed(); // Include both active and deleted users
         }
         // Execute query and paginate results
-        $users = $query->orderBy('id', 'asc')->paginate(10);
+        $users = $query->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.users.index', compact('users', 'status'));
     }
 
@@ -56,6 +59,7 @@ class AdminUserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string|max:255',
         ]);
 
         User::create([
@@ -63,6 +67,7 @@ class AdminUserController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'phone' => $validated['phone'],
+            'address' => $validated['address'],
         ]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully!');
@@ -75,17 +80,20 @@ class AdminUserController extends Controller
     {
         // Fetch the user with related data
         $user = User::with([
-            'bookings.service',
-            'bookings.provider', //provider relationship exists in the Booking model
-            'bookings.city',
-            'reviews.service',
-            'reviews.provider', //provider relationship exists in the Review model
             'contactMessages',
             'meetings.provider', //provider relationship exists in the Meeting model
         ])->findOrFail($id);
-
+        $bookings = Booking::with(['provider', 'service', 'city'])
+        ->where('user_id', $user->id)
+        ->orderBy('booking_date', 'desc')
+        ->paginate(5);
+        $reviews = Review::where('user_id', $user->id)
+        ->orderBy('created_at', 'desc')
+        ->withTrashed()
+        ->paginate(10);
+        $blogs = Blog::where('writer_id', $user->id)->orderBy('created_at', 'desc')->paginate(5);
         // Return the user details to the show view
-        return view('admin.users.show', compact('user'));
+        return view('admin.users.show', compact('user', 'bookings', 'reviews', 'blogs'));
     }
 
     /**
@@ -107,7 +115,7 @@ class AdminUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'phone' => 'nullable|string|max:15',
-            'role' => 'required|in:client,provider,admin',
+            'address' => 'nullable|string|max:255',
         ]));
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
@@ -140,19 +148,5 @@ class AdminUserController extends Controller
 
         return view('admin.users.index', compact('users'));
     }
-
-    // public function data(Request $request)
-    // {
-    //     $query = User::query();
-
-    //     if ($request->has('query')) {
-    //         $search = $request->input('query');
-    //         $query->where('name', 'like', "%$search%")
-    //               ->orWhere('email', 'like', "%$search%");
-    //     }
-
-    //     return DataTables::of($query)->toJson();
-    //}
-
 
 }

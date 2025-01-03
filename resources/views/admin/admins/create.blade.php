@@ -1,16 +1,16 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Add User')
+@section('title', 'Add Admin')
 
 @section('content')
+    <div class="container py-6">
 
-    <div class="containe py-6 px-4">
         <div class="flex justify-between items-center mb-6">
-            <a href="{{ route('users.index') }}" class="back-button mb-2">
+            <a href="{{ route('admins.index') }}" class="back-button mb-2">
                 <i class="fas fa-arrow-left mr-2"></i>
-                Back to Users List
+                Back to Admins List
             </a>
-            <h2 class="text-2xl font-semibold text-admin">Create User Profile</h2>
+            <h2 class="text-2xl font-semibold text-admin">Create Admin Profile</h2>
         </div>
 
         @if ($errors->any())
@@ -23,12 +23,12 @@
             </div>
         @endif
 
-        <form action="{{ route('users.store') }}" method="POST">
+        <form action="{{ route('admins.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="name">Namee</label>
+                    <label for="name">Name</label>
                     <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
                 </div>
 
@@ -56,13 +56,19 @@
                     <input type="text" name="phone" class="form-control" value="{{ old('phone') }}">
                 </div>
 
+                <!-- Profile Picture -->
                 <div class="form-group col-md-6">
-                    <label for="address">Address</label>
-                    <input type="text" name="address" class="form-control" value="{{ old('address') }}">
+                    <label for="profile_picture" class="form-label">Profile Picture</label>
+                    <input id="profile_picture" type="file" name="profile_picture"
+                        class="form-control @error('profile_picture') is-invalid @enderror"
+                        accept="image/jpeg,image/png,image/jpg">
+                    @error('profile_picture')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
-            <button type="submit" class="back-button">Create User</button>
+            <button type="submit" class="back-button">Create Admin</button>
         </form>
     </div>
 @endsection

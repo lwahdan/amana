@@ -14,10 +14,10 @@
     <input type="email" name="email" value="{{ $user->email }}" required>
 
     <label for="phone">Phone:</label>
-    <input type="text" name="phone" value="{{ $user->phone }}">
+    <input type="number" name="phone" value="{{ $user->phone }}">
 
-    <label for="phone">Address:</label>
-    <input type="text" name="phone" value="{{ $user->address }}">
+    <label for="address">Address:</label>
+    <input type="text" name="address" value="{{ $user->address }}">
 
     <button type="submit">Update</button>
 </form>

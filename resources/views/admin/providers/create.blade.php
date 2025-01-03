@@ -7,363 +7,354 @@
 
     <h2 class="add_new_provider">Add New Provider</h2>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-<div class="container">
-    <form id="registration-form" method="POST" action="{{ route('providers.store') }}" enctype="multipart/form-data"
-        novalidate>
-        @csrf
+    <div class="container">
+        <form id="registration-form" method="POST" action="{{ route('providers.store') }}" enctype="multipart/form-data"
+            novalidate>
+            @csrf
 
-        <!-- Section 1: Personal Information -->
-        <div class="form-section active" id="section-1">
-            <div class="row mb-3">
-                <!-- Name -->
-                <div class="mb-3 col-md-6">
-                    <label for="name" class="form-label">Name</label>
-                    <input id="name" type="text" name="name"
-                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
-                    @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Email -->
-                <div class="mb-3 col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input id="email" type="email" name="email"
-                        class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required
-                        placeholder="example@example.com">
-                    @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <!-- Password -->
-                <div class="col-md-6">
-                    <label for="password" class="form-label">Password</label>
-                    <input id="password" type="password" name="password"
-                        class="form-control @error('password') is-invalid @enderror" required
-                        pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}"
-                        title="Password must be at least 8 characters long, include a letter, a number, and a special character.">
-                    @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="col-md-6">
-                    <label for="password_confirmation" class="form-label">Confirm Password</label>
-                    <input id="password_confirmation" type="password" name="password_confirmation"
-                        class="form-control @error('password_confirmation') is-invalid @enderror" required>
-                    @error('password_confirmation')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <!-- Gender -->
-                <div class="mb-3 col-md-6">
-                    <label class="form-label">Gender</label>
-                    <select name="gender" class="form-select @error('gender') is-invalid @enderror" required>
-                        <option value="">Select Gender</option>
-                        <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male
-                        </option>
-                        <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female
-                        </option>
-                    </select>
-                    @error('gender')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Date of Birth -->
-                <div class="mb-3 col-md-6">
-                    <label for="date_of_birth" class="form-label">Date of Birth</label>
-                    <input id="date_of_birth" type="date" name="date_of_birth"
-                        class="form-control @error('date_of_birth') is-invalid @enderror"
-                        value="{{ old('date_of_birth') }}" max="{{ now()->toDateString() }}" required>
-                    @error('date_of_birth')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <!-- Phone -->
-                <div class="mb-3 col-md-6">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input id="phone" type="text" name="phone"
-                        class="form-control @error('phone') is-invalid @enderror" pattern="^[0-9\s\-\+\(\)]*$"
-                        title="Phone number can only contain numbers, spaces, +, -, and ()" value="{{ old('phone') }}"
-                        required>
-                    <div id="phone-error" class="text-danger"></div>
-                    @error('phone')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Profile Picture -->
-                <div class="mb-3 col-md-6">
-                    <label for="profile_picture" class="form-label">Profile Picture</label>
-                    <input id="profile_picture" type="file" name="profile_picture"
-                        class="form-control @error('profile_picture') is-invalid @enderror"
-                        accept="image/jpeg,image/png,image/jpg">
-                    @error('profile_picture')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <!-- Address -->
-            <div class="mb-3">
-                <label for="address" class="form-label">Address</label>
-                <input id="address" type="text" name="address"
-                    class="form-control @error('address') is-invalid @enderror" value="{{ old('address') }}" required>
-                @error('address')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-        <!-- Section 2: Professional Information -->
-        <div class="form-section" id="section-2">
-            <div class="row mb-3">
-                <!-- Years of Experience -->
-                <div class="col-md-6">
-                    <label for="years_of_experience" class="form-label">Years of Experience</label>
-                    <input id="years_of_experience" type="number" name="years_of_experience"
-                        class="form-control @error('years_of_experience') is-invalid @enderror"
-                        value="{{ old('years_of_experience') }}" min="0" required>
-                    @error('years_of_experience')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Education -->
-                <div class="col-md-6">
-                    <label for="education" class="form-label">Education</label>
-                    <input id="education" type="text" name="education"
-                        class="form-control @error('education') is-invalid @enderror" value="{{ old('education') }}"
-                        required>
-                    @error('education')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <!-- Certifications -->
-                <div class="col-md-6">
-                    <label for="certifications" class="form-label">Certifications (Optional)</label>
-                    <textarea id="certifications" name="certifications" rows="3"
-                        placeholder="Enter certifications separated by commas (e.g., First Aid, CPR Certified, Bachelor of Nursing)"
-                        class="form-control @error('certifications') is-invalid @enderror">{{ old('certifications') }} </textarea>
-                    @error('certifications')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Skills -->
-                <div class="col-md-6">
-                    <label for="skills" class="form-label">Skills (Comma-separated)</label>
-                    <input id="skills" type="text" name="skills"
-                        class="form-control @error('skills') is-invalid @enderror"
-                        value="{{ is_array(old('skills')) ? implode(', ', old('skills')) : old('skills') }}"
-                        placeholder="Enter skills separated by commas (e.g., Communication, Leadership)." required>
-                    @error('skills')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 3: Work Details -->
-        <div class="form-section" id="section-3">
-            <div class="row mb-3">
-                <!-- Hourly Rate -->
-                <div class="col-md-6">
-                    <label for="hourly_rate" class="form-label">Hourly Rate (in JOD)</label>
-                    <input id="hourly_rate" type="number" name="hourly_rate"
-                        class="form-control @error('hourly_rate') is-invalid @enderror" value="{{ old('hourly_rate') }}"
-                        min="0" step="0.01" required>
-                    @error('hourly_rate')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <!-- Work Shifts -->
-                <div class="col-md-6" id="work-shifts-container">
-                    <label class="form-label d-block">Work Shifts</label>
-
-                    <!-- Morning Shift -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="shift-morning" name="work_shifts[]"
-                            value="morning" {{ in_array('morning', old('work_shifts', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="shift-morning">
-                            Morning (8:00 AM - 8:00 PM)
-                        </label>
+            <!-- Section 1: Personal Information -->
+            <div class="form-section active" id="section-1">
+                <div class="row mb-3">
+                    <!-- Name -->
+                    <div class="mb-3 col-md-6">
+                        <label for="name" class="form-label">Name</label>
+                        <input id="name" type="text" name="name"
+                            class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <!-- Night Shift -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="shift-night" name="work_shifts[]"
-                            value="night" {{ in_array('night', old('work_shifts', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="shift-night">
-                            Night (8:00 PM - 8:00 AM)
-                        </label>
-                    </div>
-
-                    <!-- Stay-in Shift -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="shift-stay-in" name="work_shifts[]"
-                            value="stay-in" {{ in_array('stay-in', old('work_shifts', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="shift-stay-in">
-                            Stay-in (24 hours)
-                        </label>
-                    </div>
-                    @error('work_shifts')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <!-- Work Locations -->
-                <div class="col-md-6">
-                    <label for="work_locations" class="form-label">Work Locations</label>
-                    <div>
-                        @foreach ($cities as $city)
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="work_locations[]"
-                                    value="{{ $city->id }}" id="city-{{ $city->id }}"
-                                    {{ in_array($city->id, old('work_locations', [])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="city-{{ $city->id }}">
-                                    {{ $city->name }}
-                                </label>
-                            </div>
-                        @endforeach
-                    </div>
-                    @error('work_locations')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-
-                <!-- Availability -->
-                <div class="col-md-6">
-                    <label for="availability" class="form-label">Availability</label>
-                    <textarea id="availability" name="availability" rows="3"
-                        class="form-control @error('availability') is-invalid @enderror" required
-                        placeholder="Specify days you are available separated by commas (e.g., Mon-Fri).">{{ is_array(old('availability')) ? implode(', ', old('availability')) : old('availability') }}</textarea>
-                    @error('availability')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 4: Verification Details -->
-        <div class="form-section" id="section-4">
-            <!-- Bio -->
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <label for="bio" class="form-label">Bio</label>
-                    <textarea id="bio" name="bio" rows="4" class="form-control @error('bio') is-invalid @enderror"
-                        required>{{ old('bio') }}</textarea>
-                    <small class="text-muted">Provide a brief introduction about yourself (max 500
-                        characters).</small>
-                    @error('bio')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="row mb-3">
-
-                <!-- Services Provided -->
-                <div class="col-md-6" id="services-container">
-                    <label class="form-label d-block">Services You Provide</label>
-
-                    <!-- Babysitting -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="service-babysitting" name="services[]"
-                            value="1" {{ in_array('1', old('services', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="service-babysitting">
-                            Babysitting
-                        </label>
-                    </div>
-
-                    <!-- Nursing -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="service-nursing" name="services[]"
-                            value="2" {{ in_array('2', old('services', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="service-nursing">
-                            Nursing
-                        </label>
-                    </div>
-
-                    <!-- Elderly Care -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="service-elderlycare" name="services[]"
-                            value="3" {{ in_array('3', old('services', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="service-elderlycare">
-                            Elderly Care
-                        </label>
-                    </div>
-
-                    @error('services')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                    <!-- Error message container -->
-                    <div id="services-error" class="text-danger mt-2" style="display: none;">
-                        Please select at least one service.
+                    <!-- Email -->
+                    <div class="mb-3 col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="email" name="email"
+                            class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required
+                            placeholder="example@example.com">
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
-                <!-- Languages Spoken -->
-                <div class="col-md-6">
-                    <label for="languages_spoken" class="form-label">Languages Spoken</label>
-                    <textarea id="languages_spoken" name="languages_spoken" rows="3"
-                        class="form-control @error('languages_spoken') is-invalid @enderror" required
-                        placeholder="Enter languages separated by commas (e.g., English, Arabic, French).">{{ is_array(old('languages_spoken')) ? implode(', ', old('languages_spoken')) : old('languages_spoken') }}</textarea>
-                    @error('languages_spoken')
+                <div class="row mb-3">
+                    <!-- Password -->
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input id="password" type="password" name="password"
+                            class="form-control @error('password') is-invalid @enderror" required
+                            pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}"
+                            title="Password must be at least 8 characters long, include a letter, a number, and a special character.">
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="col-md-6">
+                        <label for="password_confirmation" class="form-label">Confirm Password</label>
+                        <input id="password_confirmation" type="password" name="password_confirmation"
+                            class="form-control @error('password_confirmation') is-invalid @enderror" required>
+                        @error('password_confirmation')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <!-- Gender -->
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label">Gender</label>
+                        <select name="gender" class="form-select @error('gender') is-invalid @enderror" required>
+                            <option value="">Select Gender</option>
+                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male
+                            </option>
+                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female
+                            </option>
+                        </select>
+                        @error('gender')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="mb-3 col-md-6">
+                        <label for="date_of_birth" class="form-label">Date of Birth</label>
+                        <input id="date_of_birth" type="date" name="date_of_birth"
+                            class="form-control @error('date_of_birth') is-invalid @enderror"
+                            value="{{ old('date_of_birth') }}" max="{{ now()->toDateString() }}" required>
+                        @error('date_of_birth')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <!-- Phone -->
+                    <div class="mb-3 col-md-6">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input id="phone" type="text" name="phone"
+                            class="form-control @error('phone') is-invalid @enderror" pattern="^[0-9\s\-\+\(\)]*$"
+                            title="Phone number can only contain numbers, spaces, +, -, and ()" value="{{ old('phone') }}"
+                            required>
+                        <div id="phone-error" class="text-danger"></div>
+                        @error('phone')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Profile Picture -->
+                    <div class="mb-3 col-md-6">
+                        <label for="profile_picture" class="form-label">Profile Picture</label>
+                        <input id="profile_picture" type="file" name="profile_picture"
+                            class="form-control @error('profile_picture') is-invalid @enderror"
+                            accept="image/jpeg,image/png,image/jpg">
+                        @error('profile_picture')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input id="address" type="text" name="address"
+                        class="form-control @error('address') is-invalid @enderror" value="{{ old('address') }}" required>
+                    @error('address')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
 
-            <!-- Background Check -->
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="background_checked"
-                            name="background_checked" value="1" required>
-                        <label class="form-check-label" for="background_checked">
-                            I agree on a background check.
-                        </label>
+            <!-- Section 2: Professional Information -->
+            <div class="form-section" id="section-2">
+                <div class="row mb-3">
+                    <!-- Years of Experience -->
+                    <div class="col-md-6">
+                        <label for="years_of_experience" class="form-label">Years of Experience</label>
+                        <input id="years_of_experience" type="number" name="years_of_experience"
+                            class="form-control @error('years_of_experience') is-invalid @enderror"
+                            value="{{ old('years_of_experience') }}" min="0" required>
+                        @error('years_of_experience')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('background_checked')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
+
+                    <!-- Education -->
+                    <div class="col-md-6">
+                        <label for="education" class="form-label">Education</label>
+                        <input id="education" type="text" name="education"
+                            class="form-control @error('education') is-invalid @enderror" value="{{ old('education') }}"
+                            required>
+                        @error('education')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <!-- Certifications -->
+                    <div class="col-md-6">
+                        <label for="certifications" class="form-label">Certifications (Optional)</label>
+                        <textarea id="certifications" name="certifications" rows="3"
+                            placeholder="Enter certifications separated by commas (e.g., First Aid, CPR Certified, Bachelor of Nursing)"
+                            class="form-control @error('certifications') is-invalid @enderror">{{ old('certifications') }} </textarea>
+                        @error('certifications')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="col-md-6">
+                        <label for="skills" class="form-label">Skills (Comma-separated)</label>
+                        <input id="skills" type="text" name="skills"
+                            class="form-control @error('skills') is-invalid @enderror"
+                            value="{{ is_array(old('skills')) ? implode(', ', old('skills')) : old('skills') }}"
+                            placeholder="Enter skills separated by commas (e.g., Communication, Leadership)." required>
+                        @error('skills')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
             </div>
 
-        </div>
+            <!-- Section 3: Work Details -->
+            <div class="form-section" id="section-3">
+                <div class="row mb-3">
+                    <!-- Hourly Rate -->
+                    <div class="col-md-6">
+                        <label for="hourly_rate" class="form-label">Hourly Rate (in JOD)</label>
+                        <input id="hourly_rate" type="number" name="hourly_rate"
+                            class="form-control @error('hourly_rate') is-invalid @enderror"
+                            value="{{ old('hourly_rate') }}" min="0" step="0.01" required>
+                        @error('hourly_rate')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-        <!-- Navigation Buttons -->
-        <div class="form-navigation">
-            <button type="submit" id="submit-btn" class="btn btn-success">Submit</button>
-        </div>
-    </form>
-</div>
+                    <!-- Work Shifts -->
+                    <div class="col-md-6" id="work-shifts-container">
+                        <label class="form-label d-block">Work Shifts</label>
+
+                        <!-- Morning Shift -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="shift-morning" name="work_shifts[]"
+                                value="morning" {{ in_array('morning', old('work_shifts', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="shift-morning">
+                                Morning (8:00 AM - 8:00 PM)
+                            </label>
+                        </div>
+
+                        <!-- Night Shift -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="shift-night" name="work_shifts[]"
+                                value="night" {{ in_array('night', old('work_shifts', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="shift-night">
+                                Night (8:00 PM - 8:00 AM)
+                            </label>
+                        </div>
+
+                        <!-- Stay-in Shift -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="shift-stay-in" name="work_shifts[]"
+                                value="stay-in" {{ in_array('stay-in', old('work_shifts', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="shift-stay-in">
+                                Stay-in (24 hours)
+                            </label>
+                        </div>
+                        @error('work_shifts')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <!-- Work Locations -->
+                    <div class="col-md-6">
+                        <label for="work_locations" class="form-label">Work Locations</label>
+                        <div>
+                            @foreach ($cities as $city)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="work_locations[]"
+                                        value="{{ $city->id }}" id="city-{{ $city->id }}"
+                                        {{ in_array($city->id, old('work_locations', [])) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="city-{{ $city->id }}">
+                                        {{ $city->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        @error('work_locations')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+
+                    <!-- Availability -->
+                    <div class="col-md-6">
+                        <label for="availability" class="form-label">Availability</label>
+                        <textarea id="availability" name="availability" rows="3"
+                            class="form-control @error('availability') is-invalid @enderror" required
+                            placeholder="Specify days you are available separated by commas (e.g., Mon-Fri).">{{ is_array(old('availability')) ? implode(', ', old('availability')) : old('availability') }}</textarea>
+                        @error('availability')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Verification Details -->
+            <div class="form-section" id="section-4">
+                <!-- Bio -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="bio" class="form-label">Bio</label>
+                        <textarea id="bio" name="bio" rows="4" class="form-control @error('bio') is-invalid @enderror"
+                            required>{{ old('bio') }}</textarea>
+                        <small class="text-muted">Provide a brief introduction about yourself (max 500
+                            characters).</small>
+                        @error('bio')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+
+                    <!-- Services Provided -->
+                    <div class="col-md-6" id="services-container">
+                        <label class="form-label d-block">Services You Provide</label>
+
+                        <!-- Babysitting -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="service-babysitting" name="services[]"
+                                value="1" {{ in_array('1', old('services', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="service-babysitting">
+                                Babysitting
+                            </label>
+                        </div>
+
+                        <!-- Nursing -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="service-nursing" name="services[]"
+                                value="2" {{ in_array('2', old('services', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="service-nursing">
+                                Nursing
+                            </label>
+                        </div>
+
+                        <!-- Elderly Care -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="service-elderlycare" name="services[]"
+                                value="3" {{ in_array('3', old('services', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="service-elderlycare">
+                                Elderly Care
+                            </label>
+                        </div>
+
+                        @error('services')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                        <!-- Error message container -->
+                        <div id="services-error" class="text-danger mt-2" style="display: none;">
+                            Please select at least one service.
+                        </div>
+                    </div>
+
+                    <!-- Languages Spoken -->
+                    <div class="col-md-6">
+                        <label for="languages_spoken" class="form-label">Languages Spoken</label>
+                        <textarea id="languages_spoken" name="languages_spoken" rows="3"
+                            class="form-control @error('languages_spoken') is-invalid @enderror" required
+                            placeholder="Enter languages separated by commas (e.g., English, Arabic, French).">{{ is_array(old('languages_spoken')) ? implode(', ', old('languages_spoken')) : old('languages_spoken') }}</textarea>
+                        @error('languages_spoken')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Background Check -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="background_checked"
+                                name="background_checked" value="1" required>
+                            <label class="form-check-label" for="background_checked">
+                                I agree on a background check.
+                            </label>
+                        </div>
+                        @error('background_checked')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-navigation">
+                <button type="submit" id="submit-btn" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
 @endsection

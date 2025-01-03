@@ -37,7 +37,7 @@ class AdminProviderController extends Controller
             $query->withTrashed(); // Include both active and deleted users
         }  
         // Execute query and paginate results
-        $providers = $query->orderBy('id', 'asc')->paginate(10);   
+        $providers = $query->orderBy('created_at', 'desc')->paginate(10);   
         return view('admin.providers.index', compact('providers', 'status'));
     }
 
@@ -166,6 +166,8 @@ class AdminProviderController extends Controller
             ->orderBy('meeting_date', 'desc')
             ->paginate(5);
         $reviews = Review::where('provider_id', $provider->id)
+            ->orderBy('created_at', 'desc')
+            ->withTrashed()
             ->paginate(10);
         $blogs = Blog::where('writer_id', $provider->id)->orderBy('created_at', 'desc')->paginate(5);
         // Return the provider details to the show view
@@ -188,16 +190,13 @@ class AdminProviderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $provider = Provider::find(Auth::guard('provider')->id());
-        if (!$provider instanceof \App\Models\Provider) {
-            return redirect()->back()->withErrors(['error' => 'Provider not found or invalid instance']);
-        }
+        $provider = Provider::findOrFail($id);
         // Validate the form input
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:providers,email,' . $provider->id,
             'bio' => 'required|string|max:500',
-            'certifications' => 'required|string',
+            'certifications' => 'nullable|string',
             'current_password' => 'nullable|string|current_password:provider',
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'gender' => 'required|in:male,female',

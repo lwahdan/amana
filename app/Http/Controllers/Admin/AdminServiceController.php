@@ -6,6 +6,7 @@ use App\Models\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class AdminServiceController extends Controller
 {
@@ -14,7 +15,7 @@ class AdminServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::paginate(10); // Fetch services with pagination
+        $services = Service::withTrashed()->paginate(10); // Fetch services with pagination
         return view('admin.services.index', compact('services'));
     }
 
@@ -33,13 +34,27 @@ class AdminServiceController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'category_id' => 'nullable|exists:categories,id', // Ensure category exists
+            'name' => 'required|string|max:255|unique:services,name',
+            'category_id' => 'required|exists:categories,id', // Ensure category exists
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+
         ]);
-    
-        Service::create($validated);
-    
+
+        if ($request->hasFile('image')) {
+            $serviceImagePath = $request->file('image')->store('services', 'public');
+            $validated['image'] = $serviceImagePath;
+        } else {
+            $validated['image'] = $service->image ?? null; 
+        }
+
+        Service::create([
+            'name' => $validated['name'],
+            'category_id' => $validated['category_id'],
+            'description' => $validated['description'],
+            'image' => $validated['image'],
+        ]);
+        
         return redirect()->route('services.index')->with('success', 'Service created successfully!');
     }
 
@@ -48,9 +63,11 @@ class AdminServiceController extends Controller
      */
     public function show(string $id)
     {
-        $service = Service::with('providers')->findOrFail($id);
-
-        return view('admin.services.show', compact('service'));
+        $service = Service::findOrFail($id);
+        // Paginate providers related to this service
+        $providers = $service->providers()->paginate(20);
+    
+        return view('admin.services.show', compact('service', 'providers'));
     }
 
     /**
@@ -72,7 +89,20 @@ class AdminServiceController extends Controller
             'name' => 'required|string|max:255',
             'category_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+    
+        if ($request->hasFile('image')) {
+            $serviceImagePath = $request->file('image')->store('services', 'public');
+            $validated['image'] = $serviceImagePath;
+        }
+    
+        if (isset($validated['image'])) {
+            $service = Service::findOrFail($id);
+            if ($service->image) {
+                Storage::disk('public')->delete($service->image);
+            }
+        }
     
         $service = Service::findOrFail($id);
         $service->update($validated);
@@ -89,5 +119,13 @@ class AdminServiceController extends Controller
         $service->delete();
 
         return redirect()->route('services.index')->with('success', 'Service deleted successfully!');
+    }
+
+    // To restore a soft-deleted record
+    public function restore($id)
+    {
+        $service = Service::withTrashed()->findOrFail($id);
+        $service->restore(); // Restore the soft-deleted user
+        return redirect()->route('services.index')->with('success', 'Service restored successfully!');
     }
 }

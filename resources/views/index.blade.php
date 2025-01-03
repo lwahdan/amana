@@ -136,7 +136,7 @@
                     <div class="col-xl-4 col-md-6 col-lg-4">
                         <div class="single_department">
                             <div class="department_thumb">
-                                <img src="{{ asset($service->image) }}" alt="{{ $service->name }}">
+                                <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->name }}">
                             </div>
                             <div class="department_content">
                                 <h3><a href="#" class="text-decoration-none">{{ $service->name }}</a></h3>

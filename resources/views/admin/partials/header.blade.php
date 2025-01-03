@@ -22,8 +22,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+ {{-- book --}}
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     
 
 </head>
@@ -37,9 +44,9 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                <div class="sidebar-brand-icon">
+                   <img src="{{ asset('img/amanah/logo2.png') }}" alt="Logo" style="width: 60px; height: 50px">
                 </div>
                 <div class="sidebar-brand-text mx-3">AMANAH</div>
             </a>
@@ -64,9 +71,16 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
+                <a  href="{{ route('admins.index') }}"  class="nav-link collapsed" 
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-user-cog"></i>
+                    <span>Admins</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a  href="{{ route('users.index') }}"  class="nav-link collapsed" 
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-user"></i>
                     <span>Users</span>
                 </a>
                 {{-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -80,7 +94,7 @@
             <li class="nav-item">
                 <a  href="{{ route('providers.index') }}"  class="nav-link collapsed" 
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-user-nurse"></i>
                     <span>Providers</span>
                 </a>
             </li>
@@ -89,7 +103,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('categories.index') }}" 
                     aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-th-large"></i>
                     <span>Categories</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
@@ -116,7 +130,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('services.index') }}" 
                     aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-hands-helping"></i>
                     <span>Services</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -136,15 +150,21 @@
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('bookings.index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-calendar-check"></i>
                     <span>Bookings</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('reviews.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-star"></i>
                     <span>Reviews</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('reviews.index') }}">
+                    <i class="fa-brands fa-readme"></i>
+                    <span>Blogs</span></a>
             </li>
 
             {{-- <li class="nav-item">

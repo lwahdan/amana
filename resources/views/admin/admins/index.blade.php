@@ -1,11 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="container py-6">
+    <div class="container">
 
         <div class="d-flex justify-content-end align-items-center mb-4 ">
             <!-- Filter Form -->
-            <form method="GET" action="{{ route('users.index') }}" class="d-flex align-items-center">
+            <form method="GET" action="{{ route('admins.index') }}" class="d-flex align-items-center">
                 <select name="status" id="status" class="custom-select me-3" onchange="this.form.submit()">
                     <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>All</option>
                     <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
@@ -13,8 +13,8 @@
                 </select>
             </form>
 
-            <a href="{{ route('users.create') }}" class="btn btn-primary me-3 users_index">
-                <i class="fas fa-plus"></i> Add User
+            <a href="{{ route('admins.create') }}" class="btn btn-primary me-3 users_index">
+                <i class="fas fa-plus"></i> Add an Admin
             </a>
         </div>
 
@@ -31,25 +31,26 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($admins as $admin)
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
+                        <td>{{ $admin->id }}</td>
+                        <td>{{ $admin->name }}</td>
+                        <td>{{ $admin->email }}</td>
                         <td>
-                            @if ($user->trashed())
+                            @if ($admin->trashed())
                                 <span class="text-danger">Inactive</span>
                             @else
                                 <span class="text-success">Active</span>
                             @endif
                         </td>
                         <td>
-                            @if (!$user->trashed())
-                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm"><i
+                            @if (!$admin->trashed())
+                                <a href="{{ route('admins.show', $admin->id) }}" class="btn btn-info btn-sm"><i
                                         class="fas fa-eye"></i></a>
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm"><i
+
+                                <a href="{{ route('admins.edit', $admin->id) }}" class="btn btn-warning btn-sm"><i
                                         class="fas fa-edit"></i></a>
-                                <form method="POST" action="{{ route('users.destroy', $user->id) }}"
+                                <form method="POST" action="{{ route('admins.destroy', $admin->id) }}"
                                     style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -57,7 +58,7 @@
                                             class="fas fa-trash-alt"></i></button>
                                 </form>
                             @else
-                                <form method="POST" action="{{ route('users.restore', $user->id) }}"
+                                <form method="POST" action="{{ route('admins.restore', $admin->id) }}"
                                     style="display: inline;">
                                     @csrf
                                     @method('PUT')
@@ -72,8 +73,6 @@
         </table>
 
         <!-- Pagination Links -->
-        <div class="admin_provider_pagination">
-        {{ $users->appends(['status' => request('status')])->links() }}
-        </div>
+        {{ $admins->appends(['status' => request('status')])->links() }}
     </div>
 @endsection
