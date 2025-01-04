@@ -12,7 +12,6 @@
                         <div class="feature-img d-flex justify-content-center mb-4">
                             <img src="{{ asset('storage/' . $blog->image) }}" class="single-blog-img"
                                 alt="{{ $blog->title }}">
-                            {{-- <img class="img-fluid single-blog-img" src="{{ asset($blog->image) }}" alt="{{ $blog->name }}"> --}}
                         </div>
                         <div class="blog_details">
                             <h2>

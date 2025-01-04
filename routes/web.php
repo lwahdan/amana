@@ -13,6 +13,8 @@ use App\Http\Controllers\Auth\BlogCommentController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminBookingController;
+use App\Http\Controllers\Admin\AdminCommentController;
+use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AdminServiceController;
 use App\Http\Controllers\Auth\UserDashboardController;
 use App\Http\Controllers\Providers\ProviderController;
@@ -106,8 +108,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('/services', AdminServiceController::class);
     Route::put('/services/{id}/restore', [AdminServiceController::class, 'restore'])->name('services.restore');
     Route::resource('/bookings', AdminBookingController::class);
+    Route::put('/bookings/{id}/restore', [AdminBookingController::class, 'restore'])->name('bookings.restore');
     Route::resource('/reviews', AdminReviewController::class);
-    Route::put('/reviews/{id}/status', [AdminReviewController::class, 'updateStatus'])->name('reviews.updateStatus');
+    Route::put('/reviews/{id}/restore', [AdminReviewController::class, 'restore'])->name('reviews.restore');
     Route::get('/reports', [AdminReportController::class, 'index'])->name('admin.reports');
     //admin blogs routes 
     Route::get('/blogs', [AdminBlogController::class, 'index'])->name('admin.blogs');
@@ -117,12 +120,15 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::put('/blogs/{blog}', [AdminBlogController::class, 'update'])->name('admin.blogs.update');
     Route::get('/blogs/create', [AdminBlogController::class, 'create'])->name('admin.blogs.create');
     Route::post('/blogs', [AdminBlogController::class, 'store'])->name('admin.blogs.store');
+    Route::put('/blogs/{blog}/restore', [AdminBlogController::class, 'restore'])->name('admin.blogs.restore');
+    Route::resource('/contacts', AdminContactController::class);
+    Route::resource('/comments', AdminCommentController::class);
 });
 
-// admin routes
-Route::middleware('admin')->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
-});
+// Route::middleware('admin')->prefix('admin')->group(function () {
+//     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin_dashboard');
+// });
+// admin public routes
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminController::class, 'login'])->name('admin_login');
     Route::post('/login_submit', [AdminController::class, 'login_submit'])->middleware('throttle:5,1')->name('admin_login_submit');

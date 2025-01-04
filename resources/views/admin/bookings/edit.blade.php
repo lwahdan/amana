@@ -3,7 +3,24 @@
 @section('title', 'Edit Booking')
 
 @section('content')
-    <h1>Edit Booking</h1>
+<div class="containe py-6 px-4">
+    <div class="flex justify-between items-center mb-6">
+        <a href="{{ route('bookings.index') }}" class="back-button mb-2">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Bookings List
+        </a>
+        <h2 class="text-2xl font-semibold text-admin">Edit Booking</h2>
+    </div>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <form method="POST" action="{{ route('bookings.update', $booking->id) }}">
         @csrf
         @method('PUT')
@@ -31,8 +48,8 @@
         </div>
 
         <div class="form-group">
-            <label for="service_provider_id">Service Provider</label>
-            <select name="service_provider_id" id="service_provider_id" class="form-control">
+            <label for="provider_id">Provider</label>
+            <select name="provider_id" id="provider_id" class="form-control">
                 <option value="">Not Assigned</option>
                 @foreach ($providers as $provider)
                     <option value="{{ $provider->id }}" {{ $booking->provider_id == $provider->id ? 'selected' : '' }}>
@@ -50,6 +67,15 @@
                         {{ $city->name }}
                     </option>
                 @endforeach
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="shift">Shift</label>
+            <select name="shift" id="shift" class="form-control">
+                <option value="morning" {{ $booking->shift == 'morning' ? 'selected' : '' }}>Morning</option>
+                <option value="night" {{ $booking->shift == 'night' ? 'selected' : '' }}>Night</option>
+                <option value="stayin" {{ $booking->shift == 'stayin' ? 'selected' : '' }}>Stay-In</option>
             </select>
         </div>
 
@@ -75,6 +101,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-success">Update Booking</button>
+        <button type="submit" class="back-button">Update Booking</button>
     </form>
+</div>
 @endsection

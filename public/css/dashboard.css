@@ -174,4 +174,12 @@
 .text-admin{
     color : #476dda !important;
 }
-/* admin edit  */
+/* admin blog  */
+.blog-info-link{
+    color: #476dda;
+}
+.blog-info-link li{
+    color: #476dda;
+    list-style-type: none; /* Removes the bullet */
+
+}

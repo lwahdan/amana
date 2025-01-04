@@ -7,17 +7,25 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminBlogController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $blogs = Blog::withCount('comments')->where('status', 'approved')->orderBy('updated_at', 'desc')->paginate(10);
-        $services = Service::all();
-        return view('admin.blogs.index', compact(['blogs', 'services']));
+        $status = $request->get('status', 'all'); // Get the status filter from the request, default to 'all'
+        $query = Blog::query();
+
+        if ($status !== 'all') {
+            $query->where('status', $status); // Apply status filter if not 'all'
+        }
+
+        $blogs = $query->orderBy('updated_at', 'desc')->withTrashed()->paginate(10);
+
+        return view('admin.blogs.index', compact('blogs', 'status'));
     }
 
     /**
@@ -25,8 +33,7 @@ class AdminBlogController extends Controller
      */
     public function create()
     {
-        $services = Service::where('status', 1)->get();
-        return view('admin.blogs.create', compact('services'));
+        return view('admin.blogs.create');
     }
 
     /**
@@ -104,19 +111,25 @@ class AdminBlogController extends Controller
             abort(403, 'You must be logged in to perform this action.');
         }
 
-        // Ensure the user or provider owns the blog
-        if ($blog->writer_id !== $user->id || $blog->writer_type !== get_class($user)) {
-            abort(403, 'Unauthorized action.');
-        }
-
         $data = $request->only(['title', 'service_id', 'description', 'content']);
-        $data['image'] = $request->hasFile('image') ? $request->file('image')->store('blogs', 'public') : null;
+        if ($request->hasFile('image')) {
+            // Delete old image
+            if ($blog->image) {
+                Storage::disk('public')->delete($blog->image);
+            }
+    
+            // Store new image
+            $data['image'] = $request->file('image')->store('blogs', 'public');
+        } else {
+            // Keep old image
+            $data['image'] = $blog->image;
+        }
         // Set status to 'pending' for admin approval
         $data['status'] = 'pending';
 
         $blog->update($data);
 
-        return redirect()->route('admin.blogs.index')->with('success', 'Blog updated successfully.');
+        return redirect()->route('admin.blogs')->with('success', 'Blog updated successfully.');
     }
 
     /**
@@ -124,7 +137,18 @@ class AdminBlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
+        $blog = Blog::findOrFail($blog->id);
+        // Update the status to 'cancelled' before soft-deleting
+        $blog->update(['status' => 'rejected']);
         $blog->delete();
-        return redirect()->route('admin.blogs.index')->with('success', 'Blog deleted successfully.');
+        return redirect()->route('admin.blogs')->with('success', 'Blog deleted successfully.');
+    }
+
+    public function restore($id)
+    {
+        $blog = Blog::withTrashed()->findOrFail($id);
+        $blog->update(['status' => 'approved']);
+        $blog->restore(); // Restore the soft-deleted user
+        return redirect()->route('admin.blogs')->with('success', 'Blog restored successfully!');
     }
 }

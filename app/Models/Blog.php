@@ -50,7 +50,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Blog extends Model
 {
-    use HasFactory , SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['service_id', 'writer_id', 'writer_type', 'title', 'description', 'image', 'content', 'status', 'views', 'likes'];
 
@@ -74,8 +74,18 @@ class Blog extends Model
         return $this->belongsTo(Service::class);
     }
 
-    public function likes(){
+    public function likes()
+    {
         return $this->hasMany(BlogLike::class);
     }
 
+    public function getWriterTypeNameAttribute()
+    {
+        return match (class_basename($this->writer_type)) {
+            'User' => 'User',
+            'Provider' => 'Provider',
+            'Admin' => 'Administrator',
+            default => 'Unknown',
+        };
+    }
 }

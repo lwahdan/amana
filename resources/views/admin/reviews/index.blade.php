@@ -1,21 +1,25 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <h1>Manage Reviews</h1>
+<div class="container py-6">
 
-    <!-- Filter Dropdown -->
-    <form method="GET" action="{{ route('reviews.index') }}" class="mb-3">
-        <select name="status" onchange="this.form.submit()" class="form-control w-25">
-            <option value="">All</option>
-            <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
-            <option value="disapproved" {{ request('status') == 'disapproved' ? 'selected' : '' }}>Disapproved</option>
-            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>pending</option>
+    <div class="d-flex justify-content-end align-items-center mb-4 ">
+        <!-- Filter Form -->
+        <form method="GET" action="{{ route('reviews.index') }}" class="d-flex align-items-center">
+            <select name="status" id="status" class="custom-select me-3" onchange="this.form.submit()">
+                <option value="">All</option>
+                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                <option value="disapproved" {{ request('status') == 'disapproved' ? 'selected' : '' }}>Disapproved</option>
+                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>pending</option>
+            </select>
+        </form>
 
-        </select>
-    </form>
-
-    <!-- Reviews Table -->
-    <table class="table">
+        <a href="{{ route('reviews.create') }}" class="btn btn-primary me-3 users_index">
+            <i class="fas fa-plus"></i> Add a Review
+        </a>
+    </div>
+<div class="table-responsive">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
@@ -37,30 +41,46 @@
                     <td>{{ $review->service->name ?? 'N/A'}}</td>
                     <td>{{ $review->rating }}</td>
                     <td>{{ $review->review}}</td>
-                    <td>{{ ucfirst($review->status) }}</td>
-                    <td>
-                        @if ($review->status !== 'approved')
-                            <form method="POST" action="{{ route('reviews.updateStatus', $review->id) }}" class="d-inline">
+                    <td> 
+                        <span
+                            class="badge badge-color
+                            @if ($review->status == 'pending') bg-warning 
+                            @elseif ($review->status == 'approved') bg-primary 
+                            @elseif ($review->status == 'disapproved') bg-danger @endif">
+                            {{ ucfirst($review->status) }}
+                        </span>
+                    </td>
+                    <td class="d-flex gap-2">
+                        @if (!$review->trashed())
+                            <a href="{{ route('reviews.show', $review->id) }}" class="btn btn-info btn-sm"><i
+                                    class="fas fa-eye"></i></a>
+                            <a href="{{ route('reviews.edit', $review->id) }}" class="btn btn-warning btn-sm"><i
+                                    class="fas fa-edit"></i></a>
+                            <form method="POST" action="{{ route('reviews.destroy', $review->id) }}"
+                                style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm"> <i
+                                        class="fas fa-trash-alt"></i></button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('reviews.restore', $review->id) }}"
+                                style="display: inline;">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" name="status" value="approved">
-                                <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                <button type="submit" class="btn btn-success btn-sm"> <i
+                                        class="fas fa-undo"></i></button>
                             </form>
                         @endif
-                        @if ($review->status !== 'disapproved')
-                            <form method="POST" action="{{ route('reviews.updateStatus', $review->id) }}" class="d-inline">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="status" value="disapproved">
-                                <button type="submit" class="btn btn-danger btn-sm">Disapprove</button>
-                            </form>
-                        @endif
-                        <a href="{{ route('reviews.show', $review->id) }}" class="btn btn-info btn-sm">View</a>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
+</div>
+<div class="admin_provider_pagination">
     {{ $reviews->links() }} <!-- Pagination Links -->
+</div>
+</div>
+
 @endsection

@@ -56,6 +56,14 @@
                             </td>
                             <td>{{ $booking->booking_date->format('d-m-Y H:i') }}</td>
                             <td>
+                                @if ($booking->status == 'cancelled')
+                                    <form method="POST" action="{{ route('bookings.restore', $booking->id) }}"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-undo"></i></button>
+                                    </form>
+                                @else
                                 <a href="{{ route('bookings.show', $booking->id) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                 <a href="{{ route('bookings.edit', $booking->id) }}"
                                     class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
@@ -65,6 +73,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                                 </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

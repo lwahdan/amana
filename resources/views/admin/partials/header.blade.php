@@ -162,9 +162,21 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('reviews.index') }}">
+                <a class="nav-link" href="{{ route('admin.blogs') }}">
                     <i class="fa-brands fa-readme"></i>
-                    <span>Blogs</span></a>
+                    <span>Blog</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('contacts.index') }}">
+                    <i class="fa-solid fa-message"></i>
+                    <span>Contact Messages</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('comments.index') }}">
+                    <i class="fa-regular fa-comment"></i>
+                    <span>Blog Comments</span></a>
             </li>
 
             {{-- <li class="nav-item">

@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <p>admin blogs create</p>
+<p>why</p>
 @endsection

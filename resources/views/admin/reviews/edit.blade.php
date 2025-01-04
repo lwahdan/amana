@@ -7,8 +7,18 @@
                 <i class="fas fa-arrow-left mr-2"></i>
                 Back to Reviews List
             </a>
-            <h2 class="text-2xl font-semibold text-admin">View Review</h2>
+            <h2 class="text-2xl font-semibold text-admin">Edit Review</h2>
         </div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
@@ -21,7 +31,7 @@
                 </tr>
                 <tr>
                     <th>User:</th>
-                    <td>{{ $review->user->name ?? 'N/A'}}</td>
+                    <td>{{ $review->user->name ?? 'N/A' }}</td>
                 </tr>
                 <tr>
                     <th>User Email:</th>
@@ -45,19 +55,6 @@
                     <td>{{ $review->rating }} / 5</td>
                 </tr>
                 <tr>
-                    <th>Status:</th>
-                    <td>
-                        <span
-                            class="badge badge-color
-                @if ($review->status == 'pending') bg-warning 
-                @elseif ($review->status == 'approved') bg-primary 
-                @elseif ($review->status == 'disapproved') bg-danger @endif">
-                            {{ ucfirst($review->status) }}
-                        </span>
-                    </td>
-                </tr>
-
-                <tr>
                     <th>Submitted At:</th>
                     <td>{{ $review->created_at->format('d-m-Y H:i') }}</td>
                 </tr>
@@ -67,6 +64,27 @@
                         <td>{{ $review->deleted_at->format('d-m-Y H:i') }}</td>
                     </tr>
                 @endisset
+                <tr>
+                    <th>Status:</th>
+                    <td>
+                        <form action="{{ route('reviews.update', $review->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div>
+                                <label for="status">Status:</label>
+                                <select name="status" id="status">
+                                    <option value="pending" {{ $review->status == 'pending' ? 'selected' : '' }}>Pending
+                                    </option>
+                                    <option value="approved" {{ $review->status == 'approved' ? 'selected' : '' }}>Approved
+                                    </option>
+                                    <option value="disapproved" {{ $review->status == 'disapproved' ? 'selected' : '' }}>
+                                        Disapproved</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="back-button">Update Review</button>
+                        </form>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
