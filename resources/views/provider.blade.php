@@ -9,8 +9,8 @@
             <div class="profile-sidebar">
                 <div class="profile-header text-center">
                     <div class="profile-image-container">
-                        <img src="{{ asset('storage/' . $provider->profile_picture) }}"
-                            alt="{{ $provider->name }}" class="profile-image">
+                        <img src="{{ asset('storage/' . $provider->profile_picture) }}" alt="{{ $provider->name }}"
+                            class="profile-image">
                     </div>
                     <h2 class="profile-name">{{ $provider->name }}</h2>
                     <div class="my-profile-services">
@@ -77,9 +77,11 @@
                     <div class="certification-list">
                         @php
                             // Split certifications by comma and trim whitespace
-                            $certifications = array_filter(array_map('trim', explode(',', $provider->certifications ?? '')));
+                            $certifications = array_filter(
+                                array_map('trim', explode(',', $provider->certifications ?? '')),
+                            );
                         @endphp
-                    
+
                         @forelse ($certifications as $certification)
                             <div class="certification-item">
                                 <i class="fas fa-certificate"></i>
@@ -89,7 +91,7 @@
                             <p>No certifications available.</p>
                         @endforelse
                     </div>
-                    
+
                 </div>
 
                 <!-- Languages & Availability -->
@@ -143,5 +145,10 @@
                 </div>
             </div>
         </div>
+
+
+        {{-- reviews section --}}
+        @include('reviews', ['reviews' => $provider->reviews->where('status', 'approved')])
+
     </div>
 @endsection

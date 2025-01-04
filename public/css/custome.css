@@ -1113,3 +1113,10 @@ select.form-control {
         padding: 1rem;
     }
 }
+/* reviews */
+.last\:border-b-0:last-child {
+    border-bottom-width: 0;
+}
+.last\:pb-0:last-child {
+    padding-bottom: 0;
+}

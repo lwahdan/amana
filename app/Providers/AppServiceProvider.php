@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\ContactMessage;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -29,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
                 ->numbers()
                 ->symbols()
                 ->uncompromised();
+        });
+
+        View::composer('*', function ($view) {
+            $view->with('contactsCount', ContactMessage::count());
         });
     }
 }

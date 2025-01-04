@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Review;
 use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Provider;

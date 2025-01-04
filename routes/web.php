@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\BlogController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\ReviewController;
 use App\Http\Controllers\Auth\MeetingController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminUserController;
@@ -74,6 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
     //request a meeting protected route
     Route::post('/meetings/request/{provider}', [MeetingController::class, 'store'])->name('meetings.request');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('user.reviews.store');
 });
 // Public blog routes
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
