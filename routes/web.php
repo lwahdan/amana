@@ -93,6 +93,7 @@ Route::post('/contact_submit', [HomeController::class, 'contact_submit'])->name(
 Route::get('/book', [HomeController::class, 'book'])->name('book');
 Route::get('/get-providers', [HomeController::class, 'getProviders'])->name('get.providers');
 Route::get('/provider/info/{id}', [HomeController::class, 'providerInfo'])->name('show.provider.info');
+Route::get('/thanks', [HomeController::class, 'thanks'])->name('thankyou');
 
 
 // admin protected routes

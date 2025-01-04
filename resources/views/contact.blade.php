@@ -102,4 +102,6 @@
         </div>
     </section>
     <!-- ================ contact section end ================= -->
+    @include('shared.emergency')
+
 @endsection

@@ -102,18 +102,23 @@ class AdminBookingController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $booking = Booking::findOrFail($id);
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'service_id' => 'required|exists:services,id',
             'provider_id' => 'required|exists:providers,id',
             'city_id' => 'required|exists:cities,id',
-            'booking_date' => 'required|date|after:today',
+            'booking_date' => 'required|date',
             'shift' => 'required|in:morning,night,stayin',
-            'status' => 'required|in:pending,confirmed,completed,canceled',
+            'status' => 'required|in:pending,confirmed,completed,cancelled',
             'total_price' => 'required|numeric',
         ]);
 
-        $booking = Booking::findOrFail($id);
+        if ($validated['status'] == 'cancelled') {
+            if (!$booking->trashed()) {
+                $booking->delete();
+            }
+        }
         $booking->update($validated);
 
         return redirect()->route('bookings.index')->with('success', 'Booking updated successfully!');

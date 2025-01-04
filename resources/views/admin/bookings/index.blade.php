@@ -56,7 +56,7 @@
                             </td>
                             <td>{{ $booking->booking_date->format('d-m-Y H:i') }}</td>
                             <td>
-                                @if ($booking->status == 'cancelled')
+                                @if ($booking->trashed())
                                     <form method="POST" action="{{ route('bookings.restore', $booking->id) }}"
                                         style="display:inline;">
                                         @csrf

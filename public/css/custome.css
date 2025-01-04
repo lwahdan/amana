@@ -1120,3 +1120,38 @@ select.form-control {
 .last\:pb-0:last-child {
     padding-bottom: 0;
 }
+.about_img{
+    height: 300px;
+    width: 420px !important;
+    border-radius: 10%;
+}
+.about_content{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.nav-link {
+    color: #6B7280;
+}
+
+.nav-link.active {
+    color: rgb(37, 99, 235);
+    border-color: rgb(37, 99, 235);
+}
+
+.nav-link:hover {
+    color: rgb(37, 99, 235);
+}
+
+.from-\[rgb\(45\,145\,245\)\] {
+    --tw-gradient-from: rgb(45,145,245);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(45 145 245 / 0));
+}
+
+.to-\[rgb\(93\,178\,255\)\] {
+    --tw-gradient-to: rgb(93,178,255);
+}
+.provider_image{
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 250px;
+}

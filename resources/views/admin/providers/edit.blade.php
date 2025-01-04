@@ -272,9 +272,19 @@
                 @enderror
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select name="status" id="status" class="form-control">
+                <option value="pending" {{ $provider->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="active" {{ $provider->status == 'active' ? 'selected' : '' }}>Approve</option>
+                <option value="inactive" {{ $provider->status == 'inactive' ? 'selected' : '' }}>Disapprove</option>
+            </select>
+        </div>
+
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" class="btn btn-provider">Update Info</button>
+    <button type="submit" class="back-button">Update Info</button>
 </form>
 @endsection

@@ -79,9 +79,19 @@
         </div>
     @endif
     @if (session('success'))
-        <div class="alert alert-success mt-4 col-md-6">
+        <div class="alert alert-success mt-4 col-md-6" id="success-alert">
             {{ session('success') }}
         </div>
+
+        <script>
+            // Wait for 5 seconds (5000 milliseconds) and then hide the alert
+            setTimeout(() => {
+                const alert = document.getElementById('success-alert');
+                if (alert) {
+                    alert.style.display = 'none'; // Hide the alert
+                }
+            }, 5000);
+        </script>
     @endif
     @if ($errors->has('error'))
         <div class="alert alert-danger mt-4 ml-4 mr-4">

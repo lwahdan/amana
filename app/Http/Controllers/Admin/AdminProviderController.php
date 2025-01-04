@@ -27,17 +27,17 @@ class AdminProviderController extends Controller
     {
         $status = $request->get('status', 'all'); // Default to 'all'
         // Base query
-        $query = Provider::query();  
+        $query = Provider::query();
         // Apply status filter
-        if ($status === 'active') {
-            $query->whereNull('deleted_at'); // Active users (not soft-deleted)
-        } elseif ($status === 'deleted') {
-            $query->onlyTrashed(); // Soft-deleted users
-        } else {
-            $query->withTrashed(); // Include both active and deleted users
-        }  
+        if ($status === 'pending') {
+            $query->where('status', 'pending'); // Pending users
+        } elseif ($status === 'active') {
+            $query->where('status', 'active'); // Active users (not soft-deleted
+        } elseif ($status === 'inactive') {
+            $query->where('status', 'inactive'); // Inactive users (not soft-deleted
+        }
         // Execute query and paginate results
-        $providers = $query->orderBy('created_at', 'desc')->paginate(10);   
+        $providers = $query->orderBy('created_at', 'desc')->withTrashed()->paginate(10);
         return view('admin.providers.index', compact('providers', 'status'));
     }
 
@@ -47,7 +47,7 @@ class AdminProviderController extends Controller
     public function create()
     {
         $cities = City::all();
-        return view('admin.providers.create' , compact('cities'));
+        return view('admin.providers.create', compact('cities'));
     }
 
     /**
@@ -158,9 +158,9 @@ class AdminProviderController extends Controller
             return abort(404, 'Provider not found');
         }
         $bookings = Booking::with(['user', 'service', 'city'])
-        ->where('provider_id', $provider->id)
-        ->orderBy('booking_date', 'desc')
-        ->paginate(5);
+            ->where('provider_id', $provider->id)
+            ->orderBy('booking_date', 'desc')
+            ->paginate(5);
         $meetings = Meeting::with('user')
             ->where('provider_id', $provider->id)
             ->orderBy('meeting_date', 'desc')
@@ -182,7 +182,7 @@ class AdminProviderController extends Controller
         $provider = Provider::findOrFail($id);
         $cities = City::all();
         $allServices = Service::all();
-        return view('admin.providers.edit', compact('provider','cities', 'allServices'));
+        return view('admin.providers.edit', compact('provider', 'cities', 'allServices'));
     }
 
     /**
@@ -216,7 +216,21 @@ class AdminProviderController extends Controller
             'address' => 'required|string|max:255',
             'services' => 'required|array', // Ensure 'services' is an array
             'services.*' => 'exists:services,id', // Validate each selected service ID exists in the 'services' table
+            'status' => 'required|in:pending,active,inactive',
         ]);
+
+        // Handle the `status` logic for `deleted_at`
+        if ($validatedData['status'] === 'inactive') {
+            // Populate `deleted_at` to soft delete
+            if (!$provider->trashed()) {
+                $provider->delete();
+            }
+        } elseif ($validatedData['status'] === 'approved') {
+            // Restore the provider if previously soft-deleted
+            if ($provider->trashed()) {
+                $provider->restore();
+            }
+        }
 
         // Convert the comma-separated string into a JSON array
         $skills = array_map('trim', explode(',', $request->skills));
@@ -252,7 +266,7 @@ class AdminProviderController extends Controller
         $provider->cities()->sync($request->work_locations);
 
         return redirect()->route('providers.index')->with('success', 'Provider updated successfully.');
-  }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -260,15 +274,17 @@ class AdminProviderController extends Controller
     public function destroy(string $id)
     {
         $provider = Provider::findOrFail($id);
+        $provider->update(['status' => 'inactive']);
         $provider->delete(); // Soft delete
         return redirect()->route('providers.index')->with('success', 'Provider deleted successfully.');
     }
 
-     // To restore a soft-deleted record
-     public function restore($id)
-     {
-         $provider = Provider::withTrashed()->findOrFail($id);
-         $provider->restore(); // Restore the soft-deleted user
-         return redirect()->route('providers.index')->with('success', 'Provider restored successfully!');
-     }
+    // To restore a soft-deleted record
+    public function restore($id)
+    {
+        $provider = Provider::withTrashed()->findOrFail($id);
+        $provider->update(['status' => 'active']);
+        $provider->restore(); // Restore the soft-deleted user
+        return redirect()->route('providers.index')->with('success', 'Provider restored successfully!');
+    }
 }

@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function index()
     {
         $services = Service::where('status', 1)->get();
-        $providers = Provider::with('services')->paginate(8);
+        $providers = Provider::with('services')->orderBy('created_at', 'desc')->paginate(8);
         return view('index', compact(['services', 'providers']));
     }
 
@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function service()
     {
         $services = Service::where('status', 1)->get();
-        $providers = Provider::with('services')->paginate(8);
+        $providers = Provider::with('services')->orderBy('created_at', 'desc')->paginate(8);
         return view('services', compact(['services', 'providers']));
     }
 
@@ -69,7 +69,9 @@ class HomeController extends Controller
         }
     
         // Get the filtered providers
-        $providers = $query->with('services')->paginate(20);
+        $providers = $query->with('services')
+        ->orderBy('created_at', 'desc')
+        ->paginate(20);
     
         return view('team', compact('providers', 'services', 'genderOptions'));
     }
@@ -195,5 +197,9 @@ class HomeController extends Controller
         return view('provider', compact('provider'));
     }
     
+    public function thanks()
+    {
+        return view('thanks');
+    }
 
 }

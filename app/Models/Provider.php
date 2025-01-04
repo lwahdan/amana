@@ -112,6 +112,7 @@ class Provider extends Authenticatable
         'bio',
         'background_checked',
         'languages_spoken',
+        'status',
     ];
     protected $hidden = ['password', 'remember_token'];
     protected $casts = [

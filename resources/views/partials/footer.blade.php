@@ -14,26 +14,6 @@
                             We are dedicated to providing top-notch services tailored to your needs
                             our trusted team ensures your loved ones are in safe hands
                         </p>
-                        <div class="socail_links">
-                            <ul>
-                                <li>
-                                    <a href="#" class="text-decoration-none">
-                                        <i class="ti-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-decoration-none">
-                                        <i class="ti-twitter-alt"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-decoration-none">
-                                        <i class="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
                 <div class="col-xl-2 offset-xl-1 col-md-6 col-lg-3">
@@ -42,9 +22,9 @@
                             Services
                         </h3>
                         <ul>
-                            <li><a href="#" class="text-decoration-none">Babysitting</a></li>
-                            <li><a href="#" class="text-decoration-none">Nursing</a></li>
-                            <li><a href="#" class="text-decoration-none">Eldercare</a></li>
+                            <li><a href="{{ route('team', ['service_id' => 1 , 'gender' => '']) }}" class="text-decoration-none">Babysitting</a></li>
+                            <li><a href="{{ route('team', ['service_id' => 2 , 'gender' => '']) }}" class="text-decoration-none">Nursing</a></li>
+                            <li><a href="{{ route('team', ['service_id' => 3 , 'gender' => '']) }}" class="text-decoration-none">Eldercare</a></li>
                         </ul>
 
                     </div>
@@ -58,7 +38,7 @@
                             <li><a href="{{route('about')}}" class="text-decoration-none">About</a></li>
                             <li><a href="{{route('blogs.index')}}" class="text-decoration-none">Blogs</a></li>
                             <li><a href="{{route('contact')}}" class="text-decoration-none"> Contact</a></li>
-                            <li><a href="#" class="text-decoration-none">Appointment</a></li>
+                            <li><a href="{{route('book')}}" class="text-decoration-none">Book</a></li>
                         </ul>
                     </div>
                 </div>

@@ -157,6 +157,7 @@ class ProviderController extends Controller
                 'bio' => $request->bio,
                 'background_checked' => $request->background_checked,
                 'languages_spoken' => json_encode($request->languages_spoken),
+                'status' => 'pending',
 
             ]);
 
@@ -169,7 +170,7 @@ class ProviderController extends Controller
             Auth::guard('provider')->login($provider);
 
             // Redirect to the provider dashboard with a success message
-            return redirect()->route('provider.info')->with('success', 'Registration successful! Welcome to your dashboard.');
+            return redirect()->route('thankyou')->with('success', 'Your registration was successful! Please wait for admin approval.');
         } catch (\Exception $e) {
             // Handle unexpected errors (e.g., database issues)
             return redirect()->route('provider_register')->with('error', 'Registration failed! Please try again.');
