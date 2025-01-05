@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function index()
     {
         $services = Service::where('status', 1)->get();
-        $providers = Provider::with('services')->orderBy('created_at', 'desc')->paginate(8);
+        $providers = Provider::with('services')->orderBy('created_at', 'desc')->where('status', 'active')->paginate(8);
         return view('index', compact(['services', 'providers']));
     }
 
@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function service()
     {
         $services = Service::where('status', 1)->get();
-        $providers = Provider::with('services')->orderBy('created_at', 'desc')->paginate(8);
+        $providers = Provider::with('services')->orderBy('created_at', 'desc')->where('status', 'active')->paginate(8);
         return view('services', compact(['services', 'providers']));
     }
 
@@ -34,12 +34,6 @@ class HomeController extends Controller
     {
         return view('about');
     }
-
-    //view blog page
-    // public function blog()
-    // {
-    //     return view('blog');
-    // }
 
     //view single blog page
     public function single_blog()
@@ -52,27 +46,28 @@ class HomeController extends Controller
     {
         $services = Service::all(); // Get all services for the filter
         $genderOptions = ['male', 'female']; // Define gender options
-    
+
         // Start building the query
         $query = Provider::query();
-    
+
         // Filter by service if provided
         if ($request->has('service_id') && $request->service_id) {
             $query->whereHas('services', function ($q) use ($request) {
                 $q->where('services.id', $request->service_id);
             });
         }
-    
+
         // Filter by gender if provided
         if ($request->has('gender') && $request->gender) {
             $query->where('gender', $request->gender);
         }
-    
+
         // Get the filtered providers
         $providers = $query->with('services')
-        ->orderBy('created_at', 'desc')
-        ->paginate(20);
-    
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'active')
+            ->paginate(20);
+
         return view('team', compact('providers', 'services', 'genderOptions'));
     }
 
@@ -171,35 +166,44 @@ class HomeController extends Controller
         $service_id = $request->service_id;
         $city_id = $request->city_id;
         $shift = $request->shift;
-    
+
         // Fetch providers based on the selected criteria
         $providers = Provider::whereHas('services', function ($query) use ($service_id) {
-                $query->where('services.id', $service_id);
-            })
+            $query->where('services.id', $service_id);
+        })
             ->whereHas('cities', function ($query) use ($city_id) {
                 $query->where('cities.id', $city_id);
             })
             ->whereJsonContains('work_shifts', $shift) // Ensure providers support the selected shift
             ->get(['id', 'name']); // Fetch only id and name
-    
+
         return response()->json($providers);
     }
 
     //view provider info (profile)
     public function providerInfo($id)
-    {    
+    {
         $provider = Provider::with('services')->find($id);
-    
+
         if (!$provider) {
             return abort(404, 'Provider not found');
         }
-    
-        return view('provider', compact('provider'));
+
+        // Fetch providers offering the same services
+        $relatedProviders = Provider::whereHas('services', function ($query) use ($provider) {
+            $query->whereIn('services.id', $provider->services->pluck('id'));
+        })
+            ->where('id', '!=', $provider->id) // Exclude the current provider
+            ->distinct() // Ensure no duplicates
+            ->with('services') // Eager load services
+            ->limit(10) // Optional: Limit the number of related providers
+            ->get();
+
+        return view('provider', compact('provider', 'relatedProviders'));
     }
-    
+
     public function thanks()
     {
         return view('thanks');
     }
-
 }

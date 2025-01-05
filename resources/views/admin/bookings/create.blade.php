@@ -9,7 +9,15 @@
             </a>
             <h2 class="text-2xl font-semibold text-admin">Add New Booking</h2>
         </div>
-
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <form id="booking-form" method="POST" action="{{ route('bookings.store') }}" novalidate>
             @csrf
 

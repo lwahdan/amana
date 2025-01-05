@@ -36,6 +36,17 @@
                             @enderror
                         </div>
 
+                        <!-- Address -->
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input id="address" type="text" name="address"
+                                class="form-control @error('address') is-invalid @enderror"
+                                value="{{ old('address') }}" required>
+                            @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <!-- Phone -->
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone</label>

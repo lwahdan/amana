@@ -101,6 +101,7 @@ class AdminBlogController extends Controller
             'description' => 'required|string|max:500',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:pending,approved,rejected',
         ]);
 
         // Get the authenticated admin
@@ -111,7 +112,13 @@ class AdminBlogController extends Controller
             abort(403, 'You must be logged in to perform this action.');
         }
 
-        $data = $request->only(['title', 'service_id', 'description', 'content']);
+        if ($request['status'] == 'rejected') {
+            if (!$blog->trashed()) {
+                $blog->delete();
+            }
+        }
+
+        $data = $request->only(['title', 'service_id', 'description', 'content', 'status']);
         if ($request->hasFile('image')) {
             // Delete old image
             if ($blog->image) {
@@ -125,7 +132,6 @@ class AdminBlogController extends Controller
             $data['image'] = $blog->image;
         }
         // Set status to 'pending' for admin approval
-        $data['status'] = 'pending';
 
         $blog->update($data);
 

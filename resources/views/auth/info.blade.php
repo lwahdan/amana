@@ -70,26 +70,9 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-        </div>
-
-{{-- move pp later --}}
-        <div class="form-group col-md-6">
-            <label for="profile_picture">Profile Picture</label>
-            <input type="file" name="profile_picture" id="profile_picture" class="form-control">
-        </div>
-
-{{-- <a href="{{ route('logout') }}"
-   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-   Log out
-</a> --}}
-
-        
+        </div>      
     </div>
     <!-- Submit Button -->
     <button type="submit" class="btn-user">Update Info</button>
 </form>
-{{-- <form id="logout-form" action="{{ route('logout') }}" method="POST">
-    @csrf
-    <button type="submit">user Logout</button>
-</form>  --}}
 @endsection

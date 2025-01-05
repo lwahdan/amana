@@ -79,6 +79,9 @@
                     </form>
                 </div>
                 <div class="col-lg-3 offset-lg-1">
+                    <div class="contact_image_container">
+                        <img class="contact_img" src="{{ asset('img/amanah/contact.png') }}" alt="contact image">
+                    </div>
                     <div class="media contact-info">
                         <span class="contact-info__icon"><i class="ti-home"></i></span>
                         <div class="media-body">

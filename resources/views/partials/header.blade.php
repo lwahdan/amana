@@ -29,18 +29,46 @@
                     <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                         <div class="Appointment">
                             <div class="book_btn d-none d-lg-block">
-                                @if (Route::has('login'))
-                                    @auth
-                                        <a class="text-decoration-none" href="{{ route('user.info') }}">Dashboard</a>
-                                    @else
-                                        <!-- Trigger Modal -->
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
-                                            class="text-decoration-none">
-                                            Log in
-                                    </a> @endauth
-                                @endif
+                                @auth('web') <!-- Check if the user (web-default guard) is logged in -->
+                                    <div class="dropdown">
+                                        <a href="#" class="text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown"
+                                           aria-expanded="false">
+                                            <i class="fas fa-user"></i> <!-- User Icon -->
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                            <li><a class="dropdown-item text-center" href="{{ route('user.info') }}">Dashboard</a></li>
+                                            <li>
+                                                <form method="POST" action="{{ route('logout') }}">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item" id="headerlogout">Logout</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                @elseif (auth('provider')->check()) <!-- Check if the provider is logged in -->
+                                    <div class="dropdown">
+                                        <a href="#" class="text-decoration-none dropdown-toggle" id="providerDropdown" data-bs-toggle="dropdown"
+                                           aria-expanded="false">
+                                            <i class="fas fa-user"></i> <!-- Provider Icon -->
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="providerDropdown">
+                                            <li><a class="dropdown-item" href="{{ route('provider.info') }}">Dashboard</a></li>
+                                            <li>
+                                                <form method="POST" action="{{ route('provider_logout') }}">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item" id="headerlogout">Logout</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                @else
+                                    <!-- Trigger Login Modal -->
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" class="text-decoration-none">
+                                        Log in
+                                    </a>
+                                @endauth
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                     </div>
 

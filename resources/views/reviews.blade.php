@@ -2,16 +2,15 @@
     <div class="bg-white rounded-lg shadow">
         <div class="p-6">
             <h3 class="text-2xl font-bold mb-6">Customer Reviews</h3>
-
             @forelse ($reviews as $review)
                 <div class="mb-6 border-b pb-6 last:border-b-0 last:pb-0">
                     <div class="flex items-center mb-3">
                         <div
                             class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold">
-                            {{ strtoupper(substr($review->user->name, 0, 1)) }}
+                            {{ $review->user?->name ? strtoupper(substr($review->user->name, 0, 1)) : 'Inactive' }}
                         </div>
                         <div class="ml-4">
-                            <h4 class="font-semibold text-gray-800">{{ $review->user->name }}</h4>
+                            <h4 class="font-semibold text-gray-800">{{ $review->user?->name ? $review->user->name : 'Inactive' }}</h4>
                             <div class="flex items-center mt-1">
                                 <div class="flex text-yellow-400">
                                     @for ($i = 1; $i <= 5; $i++)

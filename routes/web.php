@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminCommentController;
 use App\Http\Controllers\Admin\AdminContactController;
+use App\Http\Controllers\Admin\AdminMeetingController;
 use App\Http\Controllers\Admin\AdminServiceController;
 use App\Http\Controllers\Auth\UserDashboardController;
 use App\Http\Controllers\Providers\ProviderController;
@@ -126,6 +127,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::put('/blogs/{blog}/restore', [AdminBlogController::class, 'restore'])->name('admin.blogs.restore');
     Route::resource('/contacts', AdminContactController::class);
     Route::resource('/comments', AdminCommentController::class);
+    Route::resource('/meetings', AdminMeetingController::class);
+    Route::put('/meetings/{id}/restore', [AdminMeetingController::class, 'restore'])->name('meetings.restore');
 });
 
 // Route::middleware('admin')->prefix('admin')->group(function () {

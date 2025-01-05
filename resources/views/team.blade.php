@@ -72,8 +72,6 @@
         {{ $providers->links() }}
     </div>
     <!-- providers_area_end -->
-
-    @include('shared.testimonials')
     @include('shared.emergency')
 
 @endsection

@@ -146,9 +146,48 @@
             </div>
         </div>
 
-
         {{-- reviews section --}}
         @include('reviews', ['reviews' => $provider->reviews->where('status', 'approved')])
 
+        <div class="related-providers mt-5">            
+            @if($relatedProviders->count() > 0)
+                <div class="providers-scroll">
+                    <div class="providers-row">
+                        @foreach ($relatedProviders as $relatedProvider)
+                            <div class="provider-card">
+                                <div class="provider-image">
+                                    @if($relatedProvider->profile_picture)
+                                        <img src="{{ asset('storage/' . $relatedProvider->profile_picture) }}" 
+                                             alt="{{ $relatedProvider->name }}"
+                                             class="profile-pic">
+                                    @else
+                                        <div class="profile-placeholder">
+                                            {{ strtoupper(substr($relatedProvider->name, 0, 1)) }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="provider-info">
+                                    <h4>{{ $relatedProvider->name }}</h4>
+                                    <div class="services-list">
+                                        @foreach ($relatedProvider->services->take(3) as $service)
+                                            <span class="service-tag">{{ $service->name }}</span>
+                                        @endforeach
+                                        @if($relatedProvider->services->count() > 3)
+                                            <span class="service-tag more">+{{ $relatedProvider->services->count() - 3 }}</span>
+                                        @endif
+                                    </div>
+                                    <a href="{{ route('show.provider.info', $relatedProvider->id) }}" class="view-profile">
+                                        View Profile
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @else
+                <p class="no-providers">No related providers found.</p>
+            @endif
+        </div>
+        
     </div>
 @endsection

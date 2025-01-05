@@ -55,6 +55,15 @@
                     <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="img-thumbnail mt-2" width="150">
                 @endif
             </div>
+
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="pending" {{ $blog->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="approved" {{ $blog->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                    <option value="rejected" {{ $blog->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                </select>
+            </div>
     
             <button type="submit" class="back-button mt-3">Update Blog</button>
         </form>

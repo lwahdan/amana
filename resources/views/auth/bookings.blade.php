@@ -20,10 +20,10 @@
             @forelse ($bookings as $booking)
                 <tr>
                     <td>{{ $booking->id }}</td>
-                    <td>{{ $booking->provider->name }}</td>
-                    <td>{{ $booking->service->name }}</td>
-                    <td>{{ $booking->booking_date->format('Y-m-d H:i') }}</td>
-                    <td>{{ number_format($booking->total_price, 2) }}</td>
+                    <td>{{ $booking->provider->name ?? 'N/A' }}</td>
+                    <td>{{ $booking->service->name ?? 'N/A' }}</td>
+                    <td>{{ $booking->booking_date->format('Y-m-d H:i') ?? 'N/A' }}</td>
+                    <td>{{ number_format($booking->total_price, 2) ?? 'N/A' }}</td>
                     <td>
                         <span class="badge 
                             @if ($booking->status == 'pending') bg-warning 
