@@ -103,6 +103,7 @@ class ProviderDashboardController extends Controller
         $provider = Auth::guard('provider')->user();
         $bookings = Booking::with(['user', 'service', 'city'])
             ->where('provider_id', $provider->id)
+            ->withTrashed()
             ->orderBy('booking_date', 'desc')
             ->get();
 
@@ -230,5 +231,34 @@ class ProviderDashboardController extends Controller
         $provider = Auth::guard('provider')->user();
         $blogs = Blog::where('writer_id', $provider->id)->orderBy('created_at', 'desc')->get();
         return view('provider.blogs', compact('blogs'));
+    }
+
+    public function updatebookingStatus(Request $request, $id)
+    {
+        // Validate the request
+        $validatedData = $request->validate([
+            'status' => 'required|in:pending,confirmed,completed,cancelled',
+        ]);
+
+        // Find the item by ID, including soft-deleted ones
+        $booking =  Booking::withTrashed()->findOrFail($id);
+
+        // Update the status and handle the deleted_at logic
+        $booking->status = $validatedData['status'];
+
+        if ($validatedData['status'] === 'cancelled') {
+            if (!$booking->trashed()) {
+                $booking->delete(); // Soft delete the item
+            }
+        } else {
+            if ($booking->trashed()) {
+                $booking->restore(); // Restore the item if it was soft-deleted
+            }
+            $booking->deleted_at = null; // Ensure deleted_at is null
+        }
+
+        $booking->save();
+
+        return back()->with('success', 'Status updated successfully.');
     }
 }

@@ -160,7 +160,7 @@ Route::middleware('provider')->prefix('provider')->group(function () {
     Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('provider.blogs.edit');
     Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('provider.blogs.destroy');
     Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('provider.blogs.update');
-
+    Route::put('/update-status/{id}', [ProviderDashboardController::class, 'updatebookingStatus'])->name('update.provider.booking.status');
 });
 //provider routes
 Route::prefix('provider')->group(function () {

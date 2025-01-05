@@ -11,12 +11,6 @@
     <!-- ================ contact section start ================= -->
     <section class="contact-section">
         <div class="container">
-            @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
             <div class="row">
                 <div class="col-12">
                     <h2 class="contact-title">Get in Touch</h2>

@@ -35,6 +35,7 @@
                         @csrf
                         <button type="submit" class="btn-request-meeting">Request a Meeting</button>
                     </form>
+                    <a href="{{ route('book', ['provider_id' => $provider->id , 'service_id' => $provider->services->first()->id ]) }}" class="btn-request-meeting mt-4">Book Now</a>
                 </div>
             </div>
 

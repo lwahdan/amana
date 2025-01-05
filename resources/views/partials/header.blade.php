@@ -17,6 +17,7 @@
                                 <ul id="navigation" class="nav">
                                     <li><a class="text-decoration-none {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">home</a></li>
                                     <li><a class="text-decoration-none {{ request()->routeIs('services') ? 'active' : '' }}" href="{{ route('services') }}">Services</a></li>
+                                    <li><a class="text-decoration-none {{ request()->routeIs('book') ? 'active' : '' }}" href="{{ route('book') }}">Book</a></li>
                                     <li><a class="text-decoration-none {{ request()->routeIs('blogs.index') ? 'active' : '' }}" href="{{ route('blogs.index') }}">Blogs</a></li>
                                     <li><a class="text-decoration-none {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a></li>
                                     <li><a class="text-decoration-none {{ request()->routeIs('team') ? 'active' : '' }}" href="{{ route('team') }}">Our Team</a></li>

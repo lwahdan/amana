@@ -37,18 +37,17 @@
                         </span>
                     </td>
                     <td>
-                        <!-- View Button -->
-                        {{-- <a href="{{ route('provider.bookings.show', $booking->id) }}" class="btn btn-info btn-sm">View</a> --}}
-
-                        <!-- Mark as Done Button -->
-                        @if ($booking->status != 'completed' && $booking->status != 'cancelled')
-                            <form action="{{ route('provider.bookings.complete', $booking->id) }}" method="POST" style="display: inline-block;">
-                                @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn btn-success btn-sm">Set as Complete</button>
-                            </form>
-                        @endif
-                    </td>
+                        <form action="{{ route('update.provider.booking.status', $booking->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <select name="status" class="form-control" onchange="this.form.submit()">
+                                <option value="pending" {{ $booking->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="confirmed" {{ $booking->status === 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                <option value="completed" {{ $booking->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="cancelled" {{ $booking->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                            </select>
+                        </form>
+                    </td> 
                 </tr>
             @empty
                 <tr>
