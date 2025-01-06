@@ -38,7 +38,7 @@
                     @forelse ($blogs as $blog)
                         <tr>
                             <td>{{ $blog->id }}</td>
-                            <td>{{ $blog->writer->name }}</td>
+                            <td>{{ $blog->writer->name ?? 'N/A' }}</td>
                             <td>{{ $blog->service->name }}</td>
                             <td>{{ Str::limit($blog->title, 10) }}{{ strlen($blog->title) > 10 ? '...' : '' }}</td>
                             <td>
